@@ -11,21 +11,17 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Models
     public class CostCalculationGarment : StandardEntity, IValidatableObject
     {
         public string Code { get; set; }
-        public int RO_SerialNumber { get; set; }
-        public string RO { get; set; }
+        public string RO_Number { get; set; }
+        //public string RO { get; set; }
         public string Article { get; set; }
-        public int LineId { get; set; }
-        public string LineCode { get; set; }
-        public string LineName { get; set; }
         public string Commodity { get; set; }
         public double FabricAllowance { get; set; }
         public double AccessoriesAllowance { get; set; }
         public string Section { get; set; }
         public int Quantity { get; set; }
-        public int SizeRangeId { get; set; }
-        public string SizeRangeName { get; set; }
-        public DateTime DeliveryDate { get; set; }
-        public DateTime ConfirmDate { get; set; }
+        public string SizeRange { get; set; }
+        public DateTimeOffset DeliveryDate { get; set; }
+        public DateTimeOffset ConfirmDate { get; set; }
         public int LeadTime { get; set; }
         public double SMV_Cutting { get; set; }
         public double SMV_Sewing { get; set; }
@@ -62,7 +58,10 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Models
         public string Description { get; set; }
         public string ImageFile { get; set; }
         public string ImagePath { get; set; }
-        public int? RO_GarmentId  { get; set; }
+        public int? RO_GarmentId { get; set; }
+        public string Convection { get; set; }
+
+        public int AutoIncrementNumber { get; set; }
         //public virtual RO_Garment RO_Garment { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

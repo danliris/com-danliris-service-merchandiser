@@ -26,7 +26,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib
         {
             base.OnModelCreating(modelBuilder);
 
-
             modelBuilder.ApplyConfiguration(new SizeConfig());
             modelBuilder.ApplyConfiguration(new RateConfig());
 

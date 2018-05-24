@@ -32,6 +32,8 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
                     b.Property<string>("Article")
                         .HasMaxLength(500);
 
+                    b.Property<int>("AutoIncrementNumber");
+
                     b.Property<int>("BuyerId");
 
                     b.Property<string>("BuyerName")
@@ -47,11 +49,14 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
                     b.Property<string>("Commodity")
                         .HasMaxLength(500);
 
-                    b.Property<DateTime>("ConfirmDate");
+                    b.Property<DateTimeOffset>("ConfirmDate");
 
                     b.Property<double>("ConfirmPrice");
 
-                    b.Property<DateTime>("DeliveryDate");
+                    b.Property<string>("Convection")
+                        .HasMaxLength(500);
+
+                    b.Property<DateTimeOffset>("DeliveryDate");
 
                     b.Property<string>("Description")
                         .HasMaxLength(3000);
@@ -74,12 +79,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
 
                     b.Property<int>("LeadTime");
 
-                    b.Property<int>("LineId")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("LineName")
-                        .HasMaxLength(500);
-
                     b.Property<double>("NETFOB");
 
                     b.Property<double>("NETFOBP");
@@ -100,12 +99,10 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
 
                     b.Property<int>("Quantity");
 
-                    b.Property<string>("RO")
-                        .HasMaxLength(100);
-
                     b.Property<int?>("RO_GarmentId");
 
-                    b.Property<int>("RO_SerialNumber");
+                    b.Property<string>("RO_Number")
+                        .HasMaxLength(100);
 
                     b.Property<int>("RateId");
 
@@ -124,9 +121,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
                     b.Property<string>("Section")
                         .HasMaxLength(500);
 
-                    b.Property<int>("SizeRangeId");
-
-                    b.Property<string>("SizeRangeName")
+                    b.Property<string>("SizeRange")
                         .HasMaxLength(500);
 
                     b.Property<int>("THRId");

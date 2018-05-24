@@ -73,7 +73,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             cell_detail1.Phrase = new Phrase("SIZE RANGE", normal_font);
             table_detail1.AddCell(cell_detail1);
             table_detail1.AddCell(cell_colon);
-            cell_detail1.Phrase = new Phrase($"{viewModel.SizeRange.Name}", normal_font);
+            cell_detail1.Phrase = new Phrase($"{viewModel.SizeRange}", normal_font);
             table_detail1.AddCell(cell_detail1);
             cell_detail1.Phrase = new Phrase("LEAD TIME", normal_font);
             table_detail1.AddCell(cell_detail1);
@@ -116,7 +116,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             cell_detail1.Phrase = new Phrase("LINE", normal_font);
             table_detail1.AddCell(cell_detail1);
             table_detail1.AddCell(cell_colon);
-            cell_detail1.Phrase = new Phrase($"{viewModel.Line.Name}", normal_font);
+            //cell_detail1.Phrase = new Phrase($"{viewModel.Line.Name}", normal_font);
             table_detail1.AddCell(cell_detail1);
             cell_detail1.Phrase = new Phrase("", normal_font);
             table_detail1.AddCell(cell_detail1);

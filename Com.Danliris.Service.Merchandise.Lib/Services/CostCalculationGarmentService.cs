@@ -13,6 +13,7 @@ using Com.Danliris.Service.Merchandiser.Lib.Interfaces;
 using Com.Danliris.Service.Merchandiser.Lib.ViewModels;
 using Com.Danliris.Service.Merchandiser.Lib.Services.AzureStorage;
 using Com.Danliris.Service.Merchandiser.Lib.Exceptions;
+using Com.Moonlay.NetCore.Lib.Service;
 
 namespace Com.Danliris.Service.Merchandiser.Lib.Services
 {
@@ -59,10 +60,9 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
                 {
                     Id = ccg.Id,
                     Code = ccg.Code,
-                    RO = ccg.RO,
+                    RO_Number = ccg.RO_Number,
                     Article = ccg.Article,
-                    LineId = ccg.LineId,
-                    LineName = ccg.LineName,
+                    Convection = ccg.Convection,
                     Quantity = ccg.Quantity,
                     ConfirmPrice = ccg.ConfirmPrice
                 });
@@ -77,21 +77,80 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             return Tuple.Create(Data, TotalData, OrderDictionary, SelectedFields);
         }
 
+        public async Task<CostCalculationGarment> CustomCodeGenerator(CostCalculationGarment Model)
+        {
+            List<string> convectionOption = new List<string> { "K2A", "K2B", "K2C", "K1A", "K1B" };
+            int convectionCode = convectionOption.IndexOf(Model.Convection) + 1;
+
+            var lastData = await this.DbSet.Where(w => w._IsDeleted == false).OrderByDescending(o => o._CreatedUtc).FirstOrDefaultAsync();
+
+            DateTime Now = DateTime.Now;
+            string Year = Now.ToString("yy");
+
+            if (lastData == null)
+            {
+                Model.AutoIncrementNumber = 1;
+                string Number = Model.AutoIncrementNumber.ToString().PadLeft(4, '0');
+                Model.RO_Number = $"{Year}{convectionCode.ToString()}{Number}";
+            }
+            else
+            {
+                if (lastData._CreatedUtc.Year < Now.Year)
+                {
+                    Model.AutoIncrementNumber = 1;
+                    string Number = Model.AutoIncrementNumber.ToString().PadLeft(4, '0');
+                    Model.RO_Number = $"{Year}{convectionCode.ToString()}{Number}";
+                }
+                else
+                {
+                    Model.AutoIncrementNumber = lastData.AutoIncrementNumber + 1;
+                    string Number = Model.AutoIncrementNumber.ToString().PadLeft(4, '0');
+                    Model.RO_Number = $"{Year}{convectionCode.ToString()}{Number}";
+                }
+            }
+
+            return Model;
+        }
+
         public override async Task<int> CreateModel(CostCalculationGarment Model)
         {
-            int latestSN = this.DbSet
-                .Where(d => d.LineId.Equals(Model.LineId))
-                .DefaultIfEmpty()
-                .Max(d => d.RO_SerialNumber);
-            Model.RO_SerialNumber = latestSN != 0 ? latestSN + 1 : 1;
-            Model.RO = String.Format("{0}{1:D4}", Model.LineCode, Model.RO_SerialNumber);
-            int created = await this.CreateAsync(Model);
-            
-            Model.ImagePath = await this.AzureImageService.UploadImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImageFile);
+            //int latestSN = this.DbSet
+            //    .Where(d => d.LineId.Equals(Model.LineId))
+            //    .DefaultIfEmpty()
+            //    .Max(d => d.RO_SerialNumber);
+            //Model.RO_SerialNumber = latestSN != 0 ? latestSN + 1 : 1;
+            //Model.RO = String.Format("{0}{1:D4}", Model.LineCode, Model.RO_SerialNumber);
+            //int created = await this.CreateAsync(Model);
 
-            await this.UpdateAsync(Model.Id, Model);
+            //Model.ImagePath = await this.AzureImageService.UploadImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImageFile);
 
-            return created;
+            //await this.UpdateAsync(Model.Id, Model);
+
+            //return created;
+
+            int Created = 0;
+            using (var transaction = this.DbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    Model = await this.CustomCodeGenerator(Model);
+                    Created = await this.CreateAsync(Model);
+                    Model.ImagePath = await this.AzureImageService.UploadImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImageFile);
+
+                    await this.UpdateAsync(Model.Id, Model);
+                    transaction.Commit();
+                }
+                catch (ServiceValidationExeption e)
+                {
+                    throw new ServiceValidationExeption(e.ValidationContext, e.ValidationResults);
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    throw new Exception(e.Message);
+                }
+            }
+            return Created;
         }
 
         public override async Task<CostCalculationGarment> ReadModelById(int id)
@@ -102,7 +161,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
                 .FirstOrDefaultAsync();
 
             read.ImageFile = await this.AzureImageService.DownloadImage(read.GetType().Name, read.ImagePath);
-            
+
             return read;
         }
 
@@ -161,10 +220,10 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
                 {
                     await this.CostCalculationGarment_MaterialService.DeleteModel(CostCalculationGarment_Material);
                 }
-                
+
                 await this.AzureImageService.RemoveImage(deleted.GetType().Name, deleted.ImagePath);
             }
-            
+
             return await this.DeleteAsync(Id);
         }
 
@@ -173,7 +232,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             HashSet<int> CostCalculationGarment_Materials = new HashSet<int>(this.CostCalculationGarment_MaterialService.DbSet
                     .Where(p => p.CostCalculationGarmentId.Equals(Id))
                     .Select(p => p.Id));
-            foreach(int id in CostCalculationGarment_Materials)
+            foreach (int id in CostCalculationGarment_Materials)
             {
                 CostCalculationGarment_Material model = await CostCalculationGarment_MaterialService.ReadModelById(id);
                 if (model.PO_SerialNumber == null || model.PO_SerialNumber == 0)
@@ -193,7 +252,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
             if (model.CostCalculationGarment_Materials.Count > 0)
             {
-                
+
                 foreach (CostCalculationGarment_Material CostCalculationGarment_Material in model.CostCalculationGarment_Materials)
                 {
                     this.CostCalculationGarment_MaterialService.OnCreating(CostCalculationGarment_Material);
@@ -208,16 +267,14 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             CostCalculationGarmentViewModel viewModel = new CostCalculationGarmentViewModel();
             PropertyCopier<CostCalculationGarment, CostCalculationGarmentViewModel>.Copy(model, viewModel);
 
-            viewModel.Line = new LineViewModel();
-            viewModel.Line.Id = model.LineId;
-            viewModel.Line.Name = model.LineName;
+            //viewModel.Line = new LineViewModel();
+            //viewModel.Line.Id = model.LineId;
+            viewModel.Convection = model.Convection;
 
             viewModel.FabricAllowance = Percentage.ToPercent(model.FabricAllowance);
             viewModel.AccessoriesAllowance = Percentage.ToPercent(model.AccessoriesAllowance);
 
-            viewModel.SizeRange = new SizeRangeViewModel();
-            viewModel.SizeRange.Id = model.SizeRangeId;
-            viewModel.SizeRange.Name = model.SizeRangeName;
+            viewModel.SizeRange = model.SizeRange;
 
             viewModel.Buyer = new BuyerViewModel();
             viewModel.Buyer.Id = model.BuyerId;
@@ -313,15 +370,14 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             CostCalculationGarment model = new CostCalculationGarment();
             PropertyCopier<CostCalculationGarmentViewModel, CostCalculationGarment>.Copy(viewModel, model);
 
-            model.LineId = viewModel.Line.Id;
-            model.LineCode = viewModel.Line.Code;
-            model.LineName = viewModel.Line.Name;
+            //model.LineId = viewModel.Line.Id;
+            //model.LineCode = viewModel.Line.Code;
+            model.Convection = viewModel.Convection;
 
             model.FabricAllowance = Percentage.ToFraction(viewModel.FabricAllowance);
             model.AccessoriesAllowance = Percentage.ToFraction(viewModel.AccessoriesAllowance);
 
-            model.SizeRangeId = viewModel.SizeRange.Id;
-            model.SizeRangeName = viewModel.SizeRange.Name;
+            model.SizeRange = viewModel.SizeRange;
 
             model.BuyerId = viewModel.Buyer.Id;
             model.BuyerName = viewModel.Buyer.Name;
