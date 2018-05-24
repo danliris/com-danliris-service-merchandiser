@@ -12,15 +12,15 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
         public int RO_SerialNumber { get; set; }
         public string RO { get; set; }
         public string Article { get; set; }
-        public LineViewModel Line { get; set; }
+        //public LineViewModel Line { get; set; }
         public string Commodity { get; set; }
         public double? FabricAllowance { get; set; }
         public double? AccessoriesAllowance { get; set; }
         public string Section { get; set; }
         public int? Quantity { get; set; }
-        public SizeRangeViewModel SizeRange { get; set; }
-        public DateTime DeliveryDate { get; set; }
-        public DateTime ConfirmDate { get; set; }
+        public string SizeRange { get; set; }
+        public DateTimeOffset DeliveryDate { get; set; }
+        public DateTimeOffset ConfirmDate { get; set; }
         public int? LeadTime { get; set; }
         public double? SMV_Cutting { get; set; }
         public double? SMV_Sewing { get; set; }
@@ -48,22 +48,36 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
         public string Description { get; set; }
         public string ImageFile { get; set; }
         public string ImagePath { get; set; }
-
+        public string Convection { get; set; }
         public int? RO_RetailId { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (string.IsNullOrWhiteSpace(this.Article))
                 yield return new ValidationResult("Nama Artikel harus diisi", new List<string> { "Article" });
-            if (this.Line == null || this.Line.Id == 0)
+            if (string.IsNullOrWhiteSpace(this.Convection))
                 yield return new ValidationResult("Konveksi harus diisi", new List<string> { "Convection" });
+            if (string.IsNullOrWhiteSpace(this.Commodity))
+                yield return new ValidationResult("Komoditi harus diisi", new List<string> { "Commodity" });
+
+            if (this.FabricAllowance.Equals(0))
+                yield return new ValidationResult("Fabric harus lebih dari 0", new List<string> { "FabricAllowance" });
+            else if (this.FabricAllowance <= 0)
+                yield return new ValidationResult("Fabric harus lebih besar dari 0", new List<string> { "FabricAllowance" });
+
+            if (this.AccessoriesAllowance.Equals(0))
+                yield return new ValidationResult("Access harus lebih dari 0", new List<string> { "AccessoriesAllowance" });
+            else if (this.AccessoriesAllowance <= 0)
+                yield return new ValidationResult("Access harus lebih besar dari 0", new List<string> { "AccessoriesAllowance" });
+
             if (this.Quantity == null)
                 yield return new ValidationResult("Kuantitas harus diisi", new List<string> { "Quantity" });
             else if (this.Quantity <= 0)
                 yield return new ValidationResult("Kuantitas harus lebih besar dari 0", new List<string> { "Quantity" });
+
             else if (this.Efficiency == null || this.Efficiency.Id == 0)
                 yield return new ValidationResult("Tidak ditemukan Efisiensi pada kuantitas ini", new List<string> { "Quantity" });
-            if (this.SizeRange == null || this.SizeRange.Id == 0)
+            if (string.IsNullOrWhiteSpace(this.SizeRange))
                 yield return new ValidationResult("Size Range harus diisi", new List<string> { "SizeRange" });
             if (this.DeliveryDate == null || this.DeliveryDate == DateTime.MinValue)
                 yield return new ValidationResult("Delivery Date harus diisi", new List<string> { "DeliveryDate" });

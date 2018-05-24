@@ -12,14 +12,12 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Configs
         public void Configure(EntityTypeBuilder<CostCalculationGarment> builder)
         {
             builder.Property(c => c.Code).HasMaxLength(100);
-            builder.Property(c => c.RO).HasMaxLength(100);
+            builder.Property(c => c.RO_Number).HasMaxLength(100);
             builder.Property(c => c.Article).HasMaxLength(500);
-            builder.Property(c => c.LineId).HasMaxLength(100);
-            builder.Ignore(c => c.LineCode);
-            builder.Property(c => c.LineName).HasMaxLength(500);
+            builder.Property(c => c.Convection).HasMaxLength(500);
             builder.Property(c => c.Commodity).HasMaxLength(500);
             builder.Property(c => c.Section).HasMaxLength(500);
-            builder.Property(c => c.SizeRangeName).HasMaxLength(500);
+            builder.Property(c => c.SizeRange).HasMaxLength(500);
             builder.Property(c => c.BuyerName).HasMaxLength(500);
             builder.Property(c => c.Description).HasMaxLength(3000);
             builder.Ignore(c => c.ImageFile);
