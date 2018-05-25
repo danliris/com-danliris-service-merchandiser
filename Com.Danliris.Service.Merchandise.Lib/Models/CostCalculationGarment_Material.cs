@@ -13,8 +13,14 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Models
         public string PO { get; set; }
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
-        public int MaterialId { get; set; }
-        public string MaterialName { get; set; }
+        //public int MaterialId { get; set; }
+        //public string MaterialName { get; set; }
+        public string ProductId { get; set; }
+        public string ProductCode { get; set; }
+        public string Composition { set; get; }
+        public string Construction { set; get; }
+        public string Yarn { set; get; }
+        public string Width { set; get; }
         public string Description { get; set; }
         public double Quantity { get; set; }
         public int UOMQuantityId { get; set; }
