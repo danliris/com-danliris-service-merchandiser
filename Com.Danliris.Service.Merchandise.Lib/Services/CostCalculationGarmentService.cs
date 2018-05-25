@@ -44,7 +44,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
             List<string> SearchAttributes = new List<string>()
                 {
-                    "RO", "Article"
+                    "RO_Number","Article"
                 };
             Query = ConfigureSearch(Query, SearchAttributes, Keyword);
 
@@ -53,7 +53,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
             List<string> SelectedFields = new List<string>()
                 {
-                    "Id", "Code", "RO", "Article", "Line", "Quantity", "ConfirmPrice"
+                    "Id", "Code", "RO_Number", "Quantity", "ConfirmPrice"
                 };
             Query = Query
                 .Select(ccg => new CostCalculationGarment
@@ -267,8 +267,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             CostCalculationGarmentViewModel viewModel = new CostCalculationGarmentViewModel();
             PropertyCopier<CostCalculationGarment, CostCalculationGarmentViewModel>.Copy(model, viewModel);
 
-            //viewModel.Line = new LineViewModel();
-            //viewModel.Line.Id = model.LineId;
             viewModel.Convection = model.Convection;
 
             viewModel.FabricAllowance = Percentage.ToPercent(model.FabricAllowance);
@@ -320,12 +318,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
                     }
                     CostCalculationGarment_MaterialVM.Category = categoryVM;
 
-                    MaterialViewModel materialVM = new MaterialViewModel()
-                    {
-                        Id = CostCalculationGarment_Material.MaterialId,
-                        Name = CostCalculationGarment_Material.MaterialName
-                    };
-                    CostCalculationGarment_MaterialVM.Material = materialVM;
+                    //CostCalculationGarment_Material.ProductId = new GarmentProductViewModel();
 
                     UOMViewModel uomQuantityVM = new UOMViewModel()
                     {
@@ -342,6 +335,30 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
                     CostCalculationGarment_MaterialVM.UOMPrice = uomPriceVM;
 
                     CostCalculationGarment_MaterialVM.ShippingFeePortion = Percentage.ToPercent(CostCalculationGarment_Material.ShippingFeePortion);
+
+                    CostCalculationGarment_MaterialVM.Product = new GarmentProductViewModel();
+                    CostCalculationGarment_MaterialVM.Product._id = CostCalculationGarment_Material.ProductId;
+                    CostCalculationGarment_MaterialVM.Product.code = CostCalculationGarment_Material.ProductCode;
+
+                    CostCalculationGarment_MaterialVM.Yarn = new GarmentProductViewModel();
+                    CostCalculationGarment_MaterialVM.Yarn._id = CostCalculationGarment_Material.ProductId;
+                    CostCalculationGarment_MaterialVM.Yarn.code = CostCalculationGarment_Material.ProductCode;
+                    CostCalculationGarment_MaterialVM.Yarn.yarn = CostCalculationGarment_Material.Yarn;
+
+                    CostCalculationGarment_MaterialVM.Width = new GarmentProductViewModel();
+                    CostCalculationGarment_MaterialVM.Width._id = CostCalculationGarment_Material.ProductId;
+                    CostCalculationGarment_MaterialVM.Width.code = CostCalculationGarment_Material.ProductCode;
+                    CostCalculationGarment_MaterialVM.Width.width = CostCalculationGarment_Material.Width;
+
+                    CostCalculationGarment_MaterialVM.Composition = new GarmentProductViewModel();
+                    CostCalculationGarment_MaterialVM.Composition._id = CostCalculationGarment_Material.ProductId;
+                    CostCalculationGarment_MaterialVM.Composition.code = CostCalculationGarment_Material.ProductCode;
+                    CostCalculationGarment_MaterialVM.Composition.composition = CostCalculationGarment_Material.Composition;
+
+                    CostCalculationGarment_MaterialVM.Construction = new GarmentProductViewModel();
+                    CostCalculationGarment_MaterialVM.Construction._id = CostCalculationGarment_Material.ProductId;
+                    CostCalculationGarment_MaterialVM.Construction.code = CostCalculationGarment_Material.ProductCode;
+                    CostCalculationGarment_MaterialVM.Construction.construction = CostCalculationGarment_Material.Construction;
 
                     viewModel.CostCalculationGarment_Materials.Add(CostCalculationGarment_MaterialVM);
                 }
@@ -370,8 +387,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             CostCalculationGarment model = new CostCalculationGarment();
             PropertyCopier<CostCalculationGarmentViewModel, CostCalculationGarment>.Copy(viewModel, model);
 
-            //model.LineId = viewModel.Line.Id;
-            //model.LineCode = viewModel.Line.Code;
             model.Convection = viewModel.Convection;
 
             model.FabricAllowance = Percentage.ToFraction(viewModel.FabricAllowance);
@@ -400,11 +415,14 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             {
                 CostCalculationGarment_Material CostCalculationGarment_Material = new CostCalculationGarment_Material();
                 PropertyCopier<CostCalculationGarment_MaterialViewModel, CostCalculationGarment_Material>.Copy(CostCalculationGarment_MaterialVM, CostCalculationGarment_Material);
-
+                CostCalculationGarment_Material.ProductId = CostCalculationGarment_MaterialVM.Product._id;
+                CostCalculationGarment_Material.ProductCode = CostCalculationGarment_MaterialVM.Product.code;
+                CostCalculationGarment_Material.Construction = CostCalculationGarment_MaterialVM.Construction.construction;
+                CostCalculationGarment_Material.Yarn = CostCalculationGarment_MaterialVM.Yarn.yarn;
+                CostCalculationGarment_Material.Width = CostCalculationGarment_MaterialVM.Width.width;
+                CostCalculationGarment_Material.Composition = CostCalculationGarment_MaterialVM.Composition.composition;
                 CostCalculationGarment_Material.CategoryId = CostCalculationGarment_MaterialVM.Category.Id;
                 CostCalculationGarment_Material.CategoryName = CostCalculationGarment_MaterialVM.Category.SubCategory != null ? CostCalculationGarment_MaterialVM.Category.Name + " - " + CostCalculationGarment_MaterialVM.Category.SubCategory : CostCalculationGarment_MaterialVM.Category.Name;
-                CostCalculationGarment_Material.MaterialId = CostCalculationGarment_MaterialVM.Material.Id;
-                CostCalculationGarment_Material.MaterialName = CostCalculationGarment_MaterialVM.Material.Name;
                 CostCalculationGarment_Material.UOMQuantityId = CostCalculationGarment_MaterialVM.UOMQuantity.Id;
                 CostCalculationGarment_Material.UOMQuantityName = CostCalculationGarment_MaterialVM.UOMQuantity.Name;
                 CostCalculationGarment_Material.UOMPriceId = CostCalculationGarment_MaterialVM.UOMPrice.Id;
