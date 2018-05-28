@@ -15,6 +15,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Models
         //public string RO { get; set; }
         public string Article { get; set; }
         public string Commodity { get; set; }
+        public string CommodityDescription { get; set; }
         public double FabricAllowance { get; set; }
         public double AccessoriesAllowance { get; set; }
         public string Section { get; set; }

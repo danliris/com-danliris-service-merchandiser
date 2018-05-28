@@ -50,6 +50,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
         public string ImagePath { get; set; }
         public string Convection { get; set; }
         public int? RO_RetailId { get; set; }
+        public string ComodityDescription { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
