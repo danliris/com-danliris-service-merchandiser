@@ -11,9 +11,10 @@ using System;
 namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
 {
     [DbContext(typeof(MerchandiserDbContext))]
-    partial class MerchandiserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180530074810_ADD_RO_GARMENT")]
+    partial class ADD_RO_GARMENT
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,9 +99,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
 
                     b.Property<string>("Commodity")
                         .HasMaxLength(500);
-
-                    b.Property<string>("CommodityDescription")
-                        .HasMaxLength(3000);
 
                     b.Property<DateTimeOffset>("ConfirmDate");
 
@@ -245,10 +243,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
                     b.Property<string>("Code")
                         .HasMaxLength(100);
 
-                    b.Property<string>("Composition");
-
-                    b.Property<string>("Construction");
-
                     b.Property<double>("Conversion");
 
                     b.Property<int>("CostCalculationGarmentId");
@@ -259,16 +253,17 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
                     b.Property<string>("Information")
                         .HasMaxLength(500);
 
+                    b.Property<int>("MaterialId");
+
+                    b.Property<string>("MaterialName")
+                        .HasMaxLength(500);
+
                     b.Property<string>("PO")
                         .HasMaxLength(100);
 
                     b.Property<int?>("PO_SerialNumber");
 
                     b.Property<double>("Price");
-
-                    b.Property<string>("ProductCode");
-
-                    b.Property<string>("ProductId");
 
                     b.Property<double>("Quantity");
 
@@ -287,10 +282,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
 
                     b.Property<string>("UOMQuantityName")
                         .HasMaxLength(500);
-
-                    b.Property<string>("Width");
-
-                    b.Property<string>("Yarn");
 
                     b.Property<string>("_CreatedAgent")
                         .IsRequired()
