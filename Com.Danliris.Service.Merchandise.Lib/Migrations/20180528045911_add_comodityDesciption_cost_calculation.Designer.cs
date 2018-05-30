@@ -11,64 +11,15 @@ using System;
 namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
 {
     [DbContext(typeof(MerchandiserDbContext))]
-    partial class MerchandiserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180528045911_add_comodityDesciption_cost_calculation")]
+    partial class add_comodityDesciption_cost_calculation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Com.Danliris.Service.Merchandiser.Lib.Models.ArticleColor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Active");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(4000);
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_CreatedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_CreatedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_CreatedUtc");
-
-                    b.Property<string>("_DeletedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_DeletedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_DeletedUtc");
-
-                    b.Property<bool>("_IsDeleted");
-
-                    b.Property<string>("_LastModifiedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_LastModifiedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_LastModifiedUtc");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ArticleColors");
-                });
 
             modelBuilder.Entity("Com.Danliris.Service.Merchandiser.Lib.Models.CostCalculationGarment", b =>
                 {
@@ -218,10 +169,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
                     b.Property<DateTime>("_LastModifiedUtc");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RO_GarmentId")
-                        .IsUnique()
-                        .HasFilter("[RO_GarmentId] IS NOT NULL");
 
                     b.ToTable("CostCalculationGarments");
                 });
@@ -546,182 +493,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
                     b.ToTable("RelatedSizes");
                 });
 
-            modelBuilder.Entity("Com.Danliris.Service.Merchandiser.Lib.Models.RO_Garment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Active");
-
-                    b.Property<string>("Code")
-                        .HasMaxLength(100);
-
-                    b.Property<int>("CostCalculationGarmentId");
-
-                    b.Property<string>("ImagesName");
-
-                    b.Property<string>("ImagesPath");
-
-                    b.Property<string>("Instruction")
-                        .HasMaxLength(3000);
-
-                    b.Property<int>("Total");
-
-                    b.Property<string>("_CreatedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_CreatedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_CreatedUtc");
-
-                    b.Property<string>("_DeletedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_DeletedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_DeletedUtc");
-
-                    b.Property<bool>("_IsDeleted");
-
-                    b.Property<string>("_LastModifiedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_LastModifiedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_LastModifiedUtc");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RO_Garments");
-                });
-
-            modelBuilder.Entity("Com.Danliris.Service.Merchandiser.Lib.Models.RO_Garment_SizeBreakdown", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Active");
-
-                    b.Property<string>("Code")
-                        .HasMaxLength(100);
-
-                    b.Property<int>("ColorId")
-                        .HasMaxLength(500);
-
-                    b.Property<string>("ColorName")
-                        .HasMaxLength(500);
-
-                    b.Property<int>("RO_GarmentId");
-
-                    b.Property<int>("Total");
-
-                    b.Property<string>("_CreatedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_CreatedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_CreatedUtc");
-
-                    b.Property<string>("_DeletedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_DeletedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_DeletedUtc");
-
-                    b.Property<bool>("_IsDeleted");
-
-                    b.Property<string>("_LastModifiedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_LastModifiedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_LastModifiedUtc");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RO_GarmentId");
-
-                    b.ToTable("RO_Garment_SizeBreakdowns");
-                });
-
-            modelBuilder.Entity("Com.Danliris.Service.Merchandiser.Lib.Models.RO_Garment_SizeBreakdown_Detail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Active");
-
-                    b.Property<string>("Code")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Information")
-                        .HasMaxLength(3000);
-
-                    b.Property<int>("Quantity");
-
-                    b.Property<int>("RO_Garment_SizeBreakdownId");
-
-                    b.Property<string>("Size")
-                        .HasMaxLength(500);
-
-                    b.Property<string>("_CreatedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_CreatedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_CreatedUtc");
-
-                    b.Property<string>("_DeletedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_DeletedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_DeletedUtc");
-
-                    b.Property<bool>("_IsDeleted");
-
-                    b.Property<string>("_LastModifiedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_LastModifiedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_LastModifiedUtc");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RO_Garment_SizeBreakdownId");
-
-                    b.ToTable("RO_Garment_SizeBreakdown_Details");
-                });
-
             modelBuilder.Entity("Com.Danliris.Service.Merchandiser.Lib.Models.Size", b =>
                 {
                     b.Property<int>("Id")
@@ -822,13 +593,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
                     b.ToTable("SizeRanges");
                 });
 
-            modelBuilder.Entity("Com.Danliris.Service.Merchandiser.Lib.Models.CostCalculationGarment", b =>
-                {
-                    b.HasOne("Com.Danliris.Service.Merchandiser.Lib.Models.RO_Garment", "RO_Garment")
-                        .WithOne("CostCalculationGarment")
-                        .HasForeignKey("Com.Danliris.Service.Merchandiser.Lib.Models.CostCalculationGarment", "RO_GarmentId");
-                });
-
             modelBuilder.Entity("Com.Danliris.Service.Merchandiser.Lib.Models.CostCalculationGarment_Material", b =>
                 {
                     b.HasOne("Com.Danliris.Service.Merchandiser.Lib.Models.CostCalculationGarment", "CostCalculationGarment")
@@ -847,22 +611,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
                     b.HasOne("Com.Danliris.Service.Merchandiser.Lib.Models.SizeRange", "SizeRange")
                         .WithMany("RelatedSizes")
                         .HasForeignKey("SizeRangeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Com.Danliris.Service.Merchandiser.Lib.Models.RO_Garment_SizeBreakdown", b =>
-                {
-                    b.HasOne("Com.Danliris.Service.Merchandiser.Lib.Models.RO_Garment", "RO_Garment")
-                        .WithMany("RO_Garment_SizeBreakdowns")
-                        .HasForeignKey("RO_GarmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Com.Danliris.Service.Merchandiser.Lib.Models.RO_Garment_SizeBreakdown_Detail", b =>
-                {
-                    b.HasOne("Com.Danliris.Service.Merchandiser.Lib.Models.RO_Garment_SizeBreakdown", "RO_Garment_SizeBreakdown")
-                        .WithMany("RO_Garment_SizeBreakdown_Details")
-                        .HasForeignKey("RO_Garment_SizeBreakdownId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

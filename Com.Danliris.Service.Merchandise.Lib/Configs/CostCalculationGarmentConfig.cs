@@ -20,6 +20,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Configs
             builder.Property(c => c.SizeRange).HasMaxLength(500);
             builder.Property(c => c.BuyerName).HasMaxLength(500);
             builder.Property(c => c.Description).HasMaxLength(3000);
+            builder.Property(c => c.CommodityDescription).HasMaxLength(3000);
             builder.Ignore(c => c.ImageFile);
             builder
                 .HasMany(c => c.CostCalculationGarment_Materials)

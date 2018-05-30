@@ -38,7 +38,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.v1.BasicControlle
 
                 return new FileStreamResult(stream, "application/pdf")
                 {
-                    FileDownloadName = "Cost Calculation Penjualan Umum " + viewModel.RO + ".pdf"
+                    FileDownloadName = "Cost Calculation Penjualan Umum " + viewModel.RO_Number + ".pdf"
                 };
             }
             catch (Exception e)
@@ -67,7 +67,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.v1.BasicControlle
 
                 return new FileStreamResult(stream, "application/pdf")
                 {
-                    FileDownloadName = "CostCalculationGarmentBudget_" + viewModel.RO + ".pdf"
+                    FileDownloadName = "CostCalculationGarmentBudget_" + viewModel.RO_Number + ".pdf"
                 };
             }
             catch (Exception e)

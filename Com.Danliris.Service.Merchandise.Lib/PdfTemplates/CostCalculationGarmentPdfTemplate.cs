@@ -68,7 +68,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             cell_detail1.Phrase = new Phrase("RO", normal_font);
             table_detail1.AddCell(cell_detail1);
             table_detail1.AddCell(cell_colon);
-            cell_detail1.Phrase = new Phrase($"{viewModel.RO}", normal_font);
+            //cell_detail1.Phrase = new Phrase($"{viewModel.RO}", normal_font);
             table_detail1.AddCell(cell_detail1);
             cell_detail1.Phrase = new Phrase("SIZE RANGE", normal_font);
             table_detail1.AddCell(cell_detail1);
@@ -469,8 +469,8 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
                 cell_ccm_left.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Category.SubCategory != null ? String.Format("{0} - {1}", viewModel.CostCalculationGarment_Materials[i].Category.Name, viewModel.CostCalculationGarment_Materials[i].Category.SubCategory) : viewModel.CostCalculationGarment_Materials[i].Category.Name, normal_font);
                 table_ccm.AddCell(cell_ccm_left);
 
-                cell_ccm_left.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Material.Name, normal_font);
-                table_ccm.AddCell(cell_ccm_left);
+                //cell_ccm_left.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Material.Name, normal_font);
+                //table_ccm.AddCell(cell_ccm_left);
 
                 cell_ccm_left.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Description, normal_font);
                 table_ccm.AddCell(cell_ccm_left);

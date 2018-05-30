@@ -9,8 +9,8 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
     public class CostCalculationGarmentViewModel : BasicViewModel, IValidatableObject
     {
         public string Code { get; set; }
-        public int RO_SerialNumber { get; set; }
-        public string RO { get; set; }
+        public int RO_Number { get; set; }
+        //public string RO { get; set; }
         public string Article { get; set; }
         // public LineViewModel Line { get; set; }
         public string Commodity { get; set; }
@@ -50,6 +50,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
         public string ImagePath { get; set; }
         public string Convection { get; set; }
         public int? RO_RetailId { get; set; }
+        public string ComodityDescription { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -119,11 +120,11 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
                     }
                     else
                     {
-                        if (costCalculation_Material.Material == null || costCalculation_Material.Material.Id == 0)
-                        {
-                            Count++;
-                            costCalculationGarment_MaterialsError += "Material: 'Material harus diisi', ";
-                        }
+                        //if (costCalculation_Material.Material == null || costCalculation_Material.Material.Id == 0)
+                        //{
+                        //    Count++;
+                        //    costCalculationGarment_MaterialsError += "Material: 'Material harus diisi', ";
+                        //}
 
                         if (costCalculation_Material.Quantity == null)
                         {
