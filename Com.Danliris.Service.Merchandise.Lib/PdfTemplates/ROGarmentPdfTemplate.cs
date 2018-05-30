@@ -81,7 +81,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             cell_top.Phrase = new Phrase("NO RO", normal_font);
             table_top.AddCell(cell_top);
             table_top.AddCell(cell_colon);
-            cell_top.Phrase = new Phrase($"{viewModel.CostCalculationGarment.RO}", normal_font);
+            cell_top.Phrase = new Phrase($"{viewModel.CostCalculationGarment.RO_Number}", normal_font);
             table_top.AddCell(cell_top);
             cell_top.Phrase = new Phrase("SECTION", normal_font);
             table_top.AddCell(cell_top);
@@ -181,10 +181,10 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             table_fabric_top.WriteSelectedRows(0, -1, 10, rowYTittleFab, cb);
 
             //Main fabric table
-            PdfPTable table_fabric = new PdfPTable(5);
+            PdfPTable table_fabric = new PdfPTable(8);
             table_fabric.TotalWidth = 570f;
 
-            float[] fabric_widths = new float[] { 5f, 5f, 5f, 5f, 5f };
+            float[] fabric_widths = new float[] { 5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f };
             table_fabric.SetWidths(fabric_widths);
 
             PdfPCell cell_fabric_center = new PdfPCell()
@@ -206,10 +206,22 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             float rowYFab = rowYTittleFab - table_fabric_top.TotalHeight - 5;
             float allowedRow2HeightFab = rowYFab - printedOnHeight - margin;
 
-            cell_fabric_center.Phrase = new Phrase("FABRIC", bold_font);
+            //cell_fabric_center.Phrase = new Phrase("FABRIC", bold_font);
+            //table_fabric.AddCell(cell_fabric_center);
+
+            cell_fabric_center.Phrase = new Phrase("PRODUCT CODE", bold_font);
             table_fabric.AddCell(cell_fabric_center);
 
-            cell_fabric_center.Phrase = new Phrase("NAME", bold_font);
+            cell_fabric_center.Phrase = new Phrase("COMPOSITION", bold_font);
+            table_fabric.AddCell(cell_fabric_center);
+
+            cell_fabric_center.Phrase = new Phrase("CONSTRUCTION", bold_font);
+            table_fabric.AddCell(cell_fabric_center);
+
+            cell_fabric_center.Phrase = new Phrase("YARN", bold_font);
+            table_fabric.AddCell(cell_fabric_center);
+
+            cell_fabric_center.Phrase = new Phrase("WIDTH", bold_font);
             table_fabric.AddCell(cell_fabric_center);
 
             cell_fabric_center.Phrase = new Phrase("DESCRIPTION", bold_font);
@@ -225,10 +237,22 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             {
                 if (materialModel.Category.Name == "FAB")
                 {
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Category.SubCategory != null ? materialModel.Category.SubCategory : "", normal_font);
+                    //cell_fabric_left.Phrase = new Phrase(materialModel.Category.SubCategory != null ? materialModel.Category.SubCategory : "", normal_font);
+                    //table_fabric.AddCell(cell_fabric_left);
+
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.code, normal_font);
                     table_fabric.AddCell(cell_fabric_left);
 
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Material.Name != null ? materialModel.Material.Name : "", normal_font);
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.composition, normal_font);
+                    table_fabric.AddCell(cell_fabric_left);
+
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.construction, normal_font);
+                    table_fabric.AddCell(cell_fabric_left);
+
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.yarn, normal_font);
+                    table_fabric.AddCell(cell_fabric_left);
+
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.width, normal_font);
                     table_fabric.AddCell(cell_fabric_left);
 
                     cell_fabric_left.Phrase = new Phrase(materialModel.Description != null ? materialModel.Description : "", normal_font);
@@ -270,10 +294,10 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             table_acc_top.WriteSelectedRows(0, -1, 10, rowYTittleAcc, cb);
 
             //Main Accessories Table
-            PdfPTable table_accessories = new PdfPTable(5);
+            PdfPTable table_accessories = new PdfPTable(8);
             table_accessories.TotalWidth = 570f;
 
-            float[] accessories_widths = new float[] { 5f, 5f, 5f, 5f, 5f };
+            float[] accessories_widths = new float[] { 5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f };
             table_accessories.SetWidths(accessories_widths);
 
             PdfPCell cell_acc_center = new PdfPCell()
@@ -295,11 +319,23 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             float rowYAcc = rowYTittleAcc - table_fabric_top.TotalHeight - 5;
             float allowedRow2HeightAcc = rowYAcc - printedOnHeight - margin;
 
-            cell_acc_center.Phrase = new Phrase("ACCESSORIES", bold_font);
-            table_accessories.AddCell(cell_acc_center);
+            //cell_acc_center.Phrase = new Phrase("ACCESSORIES", bold_font);
+            //table_accessories.AddCell(cell_acc_center);
 
-            cell_acc_center.Phrase = new Phrase("NAME", bold_font);
-            table_accessories.AddCell(cell_acc_center);
+            cell_fabric_center.Phrase = new Phrase("PRODUCT CODE", bold_font);
+            table_fabric.AddCell(cell_fabric_center);
+
+            cell_fabric_center.Phrase = new Phrase("COMPOSITION", bold_font);
+            table_fabric.AddCell(cell_fabric_center);
+
+            cell_fabric_center.Phrase = new Phrase("CONSTRUCTION", bold_font);
+            table_fabric.AddCell(cell_fabric_center);
+
+            cell_fabric_center.Phrase = new Phrase("YARN", bold_font);
+            table_fabric.AddCell(cell_fabric_center);
+
+            cell_fabric_center.Phrase = new Phrase("WIDTH", bold_font);
+            table_fabric.AddCell(cell_fabric_center);
 
             cell_acc_center.Phrase = new Phrase("DESCRIPTION", bold_font);
             table_accessories.AddCell(cell_acc_center);
@@ -314,11 +350,23 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             {
                 if (materialModel.Category.Name == "ACC")
                 {
-                    cell_acc_left.Phrase = new Phrase(materialModel.Category.SubCategory != null ? materialModel.Category.SubCategory : "", normal_font);
-                    table_accessories.AddCell(cell_acc_left);
+                    //cell_acc_left.Phrase = new Phrase(materialModel.Category.SubCategory != null ? materialModel.Category.SubCategory : "", normal_font);
+                    //table_accessories.AddCell(cell_acc_left);
 
-                    cell_acc_left.Phrase = new Phrase(materialModel.Material.Name != null ? materialModel.Material.Name : "", normal_font);
-                    table_accessories.AddCell(cell_acc_left);
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.code, normal_font);
+                    table_fabric.AddCell(cell_fabric_left);
+
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.composition, normal_font);
+                    table_fabric.AddCell(cell_fabric_left);
+
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.construction, normal_font);
+                    table_fabric.AddCell(cell_fabric_left);
+
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.yarn, normal_font);
+                    table_fabric.AddCell(cell_fabric_left);
+
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.width, normal_font);
+                    table_fabric.AddCell(cell_fabric_left);
 
                     cell_acc_left.Phrase = new Phrase(materialModel.Description != null ? materialModel.Description : "", normal_font);
                     table_accessories.AddCell(cell_acc_left);
@@ -359,10 +407,10 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
 
 
             //Main Table Ongkos
-            PdfPTable table_budget = new PdfPTable(5);
+            PdfPTable table_budget = new PdfPTable(8);
             table_budget.TotalWidth = 570f;
 
-            float[] budget_widths = new float[] { 5f, 5f, 5f, 5f, 5f };
+            float[] budget_widths = new float[] { 5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f };
             table_budget.SetWidths(budget_widths);
             var ongIndex = 0;
 
@@ -385,11 +433,23 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             float rowYBudget = rowYTittleOng - table_ong_top.TotalHeight - 5;
             float allowedRow2HeightBudget = rowYBudget - printedOnHeight - margin;
 
-            cell_budget_center.Phrase = new Phrase("ONGKOS", bold_font);
-            table_budget.AddCell(cell_budget_center);
+            //cell_budget_center.Phrase = new Phrase("ONGKOS", bold_font);
+            //table_budget.AddCell(cell_budget_center);
 
-            cell_budget_center.Phrase = new Phrase("NAME", bold_font);
-            table_budget.AddCell(cell_budget_center);
+            cell_fabric_center.Phrase = new Phrase("PRODUCT CODE", bold_font);
+            table_fabric.AddCell(cell_fabric_center);
+
+            cell_fabric_center.Phrase = new Phrase("COMPOSITION", bold_font);
+            table_fabric.AddCell(cell_fabric_center);
+
+            cell_fabric_center.Phrase = new Phrase("CONSTRUCTION", bold_font);
+            table_fabric.AddCell(cell_fabric_center);
+
+            cell_fabric_center.Phrase = new Phrase("YARN", bold_font);
+            table_fabric.AddCell(cell_fabric_center);
+
+            cell_fabric_center.Phrase = new Phrase("WIDTH", bold_font);
+            table_fabric.AddCell(cell_fabric_center);
 
             cell_budget_center.Phrase = new Phrase("DESCRIPTION", bold_font);
             table_budget.AddCell(cell_budget_center);
@@ -404,11 +464,23 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             {
                 if (materialModel.Category.Name == "ONG")
                 {
-                    cell_budget_left.Phrase = new Phrase(materialModel.Category.SubCategory != null ? materialModel.Category.SubCategory : "", normal_font);
-                    table_budget.AddCell(cell_budget_left);
+                    //cell_budget_left.Phrase = new Phrase(materialModel.Category.SubCategory != null ? materialModel.Category.SubCategory : "", normal_font);
+                    //table_budget.AddCell(cell_budget_left);
 
-                    cell_budget_left.Phrase = new Phrase(materialModel.Material.Name != null ? materialModel.Material.Name : "", normal_font);
-                    table_budget.AddCell(cell_budget_left);
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.code, normal_font);
+                    table_fabric.AddCell(cell_fabric_left);
+
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.composition, normal_font);
+                    table_fabric.AddCell(cell_fabric_left);
+
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.construction, normal_font);
+                    table_fabric.AddCell(cell_fabric_left);
+
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.yarn, normal_font);
+                    table_fabric.AddCell(cell_fabric_left);
+
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.width, normal_font);
+                    table_fabric.AddCell(cell_fabric_left);
 
                     cell_budget_left.Phrase = new Phrase(materialModel.Description != null ? materialModel.Description : "", normal_font);
                     table_budget.AddCell(cell_budget_left);
