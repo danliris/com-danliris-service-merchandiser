@@ -39,7 +39,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.BasicControllers.
 
                 return new FileStreamResult(stream, "application/pdf")
                 {
-                    FileDownloadName = "RO Penjualan Umum " + viewModel.CostCalculationGarment.RO + ".pdf"
+                    FileDownloadName = "RO Penjualan Umum " + viewModel.CostCalculationGarment.RO_Number + ".pdf"
                 };
             }
             catch (System.Exception e)
