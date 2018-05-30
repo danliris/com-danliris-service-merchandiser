@@ -243,16 +243,16 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
                     cell_fabric_left.Phrase = new Phrase(materialModel.Product.code, normal_font);
                     table_fabric.AddCell(cell_fabric_left);
 
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.composition, normal_font);
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Composition.composition, normal_font);
                     table_fabric.AddCell(cell_fabric_left);
 
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.construction, normal_font);
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Construction.construction, normal_font);
                     table_fabric.AddCell(cell_fabric_left);
 
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.yarn, normal_font);
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Yarn.yarn, normal_font);
                     table_fabric.AddCell(cell_fabric_left);
 
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.width, normal_font);
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Width.width, normal_font);
                     table_fabric.AddCell(cell_fabric_left);
 
                     cell_fabric_left.Phrase = new Phrase(materialModel.Description != null ? materialModel.Description : "", normal_font);
@@ -323,19 +323,19 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             //table_accessories.AddCell(cell_acc_center);
 
             cell_fabric_center.Phrase = new Phrase("PRODUCT CODE", bold_font);
-            table_fabric.AddCell(cell_fabric_center);
+            table_accessories.AddCell(cell_fabric_center);
 
             cell_fabric_center.Phrase = new Phrase("COMPOSITION", bold_font);
-            table_fabric.AddCell(cell_fabric_center);
+            table_accessories.AddCell(cell_fabric_center);
 
             cell_fabric_center.Phrase = new Phrase("CONSTRUCTION", bold_font);
-            table_fabric.AddCell(cell_fabric_center);
+            table_accessories.AddCell(cell_fabric_center);
 
             cell_fabric_center.Phrase = new Phrase("YARN", bold_font);
-            table_fabric.AddCell(cell_fabric_center);
+            table_accessories.AddCell(cell_fabric_center);
 
             cell_fabric_center.Phrase = new Phrase("WIDTH", bold_font);
-            table_fabric.AddCell(cell_fabric_center);
+            table_accessories.AddCell(cell_fabric_center);
 
             cell_acc_center.Phrase = new Phrase("DESCRIPTION", bold_font);
             table_accessories.AddCell(cell_acc_center);
@@ -353,20 +353,20 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
                     //cell_acc_left.Phrase = new Phrase(materialModel.Category.SubCategory != null ? materialModel.Category.SubCategory : "", normal_font);
                     //table_accessories.AddCell(cell_acc_left);
 
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.code, normal_font);
-                    table_fabric.AddCell(cell_fabric_left);
+                    cell_acc_left.Phrase = new Phrase(materialModel.Product.code, normal_font);
+                    table_accessories.AddCell(cell_acc_left);
 
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.composition, normal_font);
-                    table_fabric.AddCell(cell_fabric_left);
+                    cell_acc_left.Phrase = new Phrase(materialModel.Composition.composition, normal_font);
+                    table_accessories.AddCell(cell_acc_left);
 
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.construction, normal_font);
-                    table_fabric.AddCell(cell_fabric_left);
+                    cell_acc_left.Phrase = new Phrase(materialModel.Construction.construction, normal_font);
+                    table_accessories.AddCell(cell_acc_left);
 
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.yarn, normal_font);
-                    table_fabric.AddCell(cell_fabric_left);
+                    cell_acc_left.Phrase = new Phrase(materialModel.Yarn.yarn, normal_font);
+                    table_accessories.AddCell(cell_acc_left);
 
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.width, normal_font);
-                    table_fabric.AddCell(cell_fabric_left);
+                    cell_acc_left.Phrase = new Phrase(materialModel.Width.width, normal_font);
+                    table_accessories.AddCell(cell_acc_left);
 
                     cell_acc_left.Phrase = new Phrase(materialModel.Description != null ? materialModel.Description : "", normal_font);
                     table_accessories.AddCell(cell_acc_left);
@@ -437,19 +437,19 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             //table_budget.AddCell(cell_budget_center);
 
             cell_fabric_center.Phrase = new Phrase("PRODUCT CODE", bold_font);
-            table_fabric.AddCell(cell_fabric_center);
+            table_budget.AddCell(cell_fabric_center);
 
             cell_fabric_center.Phrase = new Phrase("COMPOSITION", bold_font);
-            table_fabric.AddCell(cell_fabric_center);
+            table_budget.AddCell(cell_fabric_center);
 
             cell_fabric_center.Phrase = new Phrase("CONSTRUCTION", bold_font);
-            table_fabric.AddCell(cell_fabric_center);
+            table_budget.AddCell(cell_fabric_center);
 
             cell_fabric_center.Phrase = new Phrase("YARN", bold_font);
-            table_fabric.AddCell(cell_fabric_center);
+            table_budget.AddCell(cell_fabric_center);
 
             cell_fabric_center.Phrase = new Phrase("WIDTH", bold_font);
-            table_fabric.AddCell(cell_fabric_center);
+            table_budget.AddCell(cell_fabric_center);
 
             cell_budget_center.Phrase = new Phrase("DESCRIPTION", bold_font);
             table_budget.AddCell(cell_budget_center);
@@ -467,20 +467,20 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
                     //cell_budget_left.Phrase = new Phrase(materialModel.Category.SubCategory != null ? materialModel.Category.SubCategory : "", normal_font);
                     //table_budget.AddCell(cell_budget_left);
 
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.code, normal_font);
-                    table_fabric.AddCell(cell_fabric_left);
+                    cell_budget_left.Phrase = new Phrase(materialModel.Product.code, normal_font);
+                    table_budget.AddCell(cell_budget_left);
 
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.composition, normal_font);
-                    table_fabric.AddCell(cell_fabric_left);
+                    cell_budget_left.Phrase = new Phrase(materialModel.Composition.composition, normal_font);
+                    table_budget.AddCell(cell_budget_left);
 
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.construction, normal_font);
-                    table_fabric.AddCell(cell_fabric_left);
+                    cell_budget_left.Phrase = new Phrase(materialModel.Construction.construction, normal_font);
+                    table_budget.AddCell(cell_budget_left);
 
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.yarn, normal_font);
-                    table_fabric.AddCell(cell_fabric_left);
+                    cell_budget_left.Phrase = new Phrase(materialModel.Yarn.yarn, normal_font);
+                    table_budget.AddCell(cell_budget_left);
 
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.width, normal_font);
-                    table_fabric.AddCell(cell_fabric_left);
+                    cell_budget_left.Phrase = new Phrase(materialModel.Width.width, normal_font);
+                    table_budget.AddCell(cell_budget_left);
 
                     cell_budget_left.Phrase = new Phrase(materialModel.Description != null ? materialModel.Description : "", normal_font);
                     table_budget.AddCell(cell_budget_left);
@@ -620,7 +620,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
                         cell_breakDown_child_left.Phrase = new Phrase(size.Information != null ? size.Information : "", normal_font);
                         table_breakDown_child.AddCell(cell_breakDown_child_left);
 
-                        //cell_breakDown_child_left.Phrase = new Phrase(size.Size.Name != null ? size.Size.Name : "", normal_font);
+                        cell_breakDown_child_left.Phrase = new Phrase(size.Size != null ? size.Size : "", normal_font);
                         table_breakDown_child.AddCell(cell_breakDown_child_left);
 
                         cell_breakDown_child_left.Phrase = new Phrase(size.Quantity.ToString() != null ? size.Quantity.ToString() : "0", normal_font);
@@ -721,79 +721,79 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             table_instruction.WriteSelectedRows(0, -1, 10, rowYInstruction, cb);
             #endregion
 
-            
-            //#region RO Image
-            //var countImageRo = 0;
-            //byte[] roImage;
 
-            //foreach (var index in viewModel.ImagesFile)
-            //{
-            //    countImageRo++;
-            //}
+            #region RO Image
+            var countImageRo = 0;
+            byte[] roImage;
 
-            //if (countImageRo > 5)
-            //{
-            //    countImageRo = 5;
-            //}
+            foreach (var index in viewModel.ImagesFile)
+            {
+                countImageRo++;
+            }
 
-            //PdfPTable table_ro_image = new PdfPTable(countImageRo);
-            //float[] ro_widths = new float[countImageRo];
+            if (countImageRo > 5)
+            {
+                countImageRo = 5;
+            }
 
-            //for (var i = 0; i < countImageRo; i++)
-            //{
-            //    ro_widths.SetValue(5f, i);
-            //}
+            PdfPTable table_ro_image = new PdfPTable(countImageRo);
+            float[] ro_widths = new float[countImageRo];
 
-            //if (countImageRo != 0)
-            //{
-            //    table_ro_image.SetWidths(ro_widths);
-            //}
+            for (var i = 0; i < countImageRo; i++)
+            {
+                ro_widths.SetValue(5f, i);
+            }
 
-            //table_ro_image.TotalWidth = 570f;
-            //float rowYRoImage = rowYInstruction - table_instruction.TotalHeight - 10;
+            if (countImageRo != 0)
+            {
+                table_ro_image.SetWidths(ro_widths);
+            }
 
-            //foreach (var imageFromRo in viewModel.ImagesFile)
-            //{
-            //    try
-            //    {
-            //        roImage = Convert.FromBase64String(Base64.GetBase64File(imageFromRo));
-            //    }
-            //    catch (Exception)
-            //    {
-            //        var webClient = new WebClient();
-            //        roImage = webClient.DownloadData("https://bateeqstorage.blob.core.windows.net/other/no-image.jpg");
-            //    }
+            table_ro_image.TotalWidth = 570f;
+            float rowYRoImage = rowYInstruction - table_instruction.TotalHeight - 10;
 
-            //    Image images = Image.GetInstance(imgb: roImage);
+            foreach (var imageFromRo in viewModel.ImagesFile)
+            {
+                try
+                {
+                    roImage = Convert.FromBase64String(Base64.GetBase64File(imageFromRo));
+                }
+                catch (Exception)
+                {
+                    var webClient = new WebClient();
+                    roImage = webClient.DownloadData("https://bateeqstorage.blob.core.windows.net/other/no-image.jpg");
+                }
 
-            //    if (images.Width > 60)
-            //    {
-            //        float percentage = 0.0f;
-            //        percentage = 60 / images.Width;
-            //        images.ScalePercent(percentage * 100);
-            //    }
+                Image images = Image.GetInstance(imgb: roImage);
 
-            //    PdfPCell imageCell = new PdfPCell(images);
-            //    imageCell.Border = 0;
-            //    table_ro_image.AddCell(imageCell);
-            //}
+                if (images.Width > 60)
+                {
+                    float percentage = 0.0f;
+                    percentage = 60 / images.Width;
+                    images.ScalePercent(percentage * 100);
+                }
 
-            //PdfPCell cell_image = new PdfPCell()
-            //{
-            //    Border = Rectangle.NO_BORDER,
-            //    HorizontalAlignment = Element.ALIGN_LEFT,
-            //    VerticalAlignment = Element.ALIGN_MIDDLE,
-            //    Padding = 2,
-            //};
+                PdfPCell imageCell = new PdfPCell(images);
+                imageCell.Border = 0;
+                table_ro_image.AddCell(imageCell);
+            }
 
-            //foreach (var name in viewModel.ImagesName)
-            //{
-            //    cell_image.Phrase = new Phrase(name, normal_font);
-            //    table_ro_image.AddCell(cell_image);
-            //}
+            PdfPCell cell_image = new PdfPCell()
+            {
+                Border = Rectangle.NO_BORDER,
+                HorizontalAlignment = Element.ALIGN_LEFT,
+                VerticalAlignment = Element.ALIGN_MIDDLE,
+                Padding = 2,
+            };
 
-            //table_ro_image.WriteSelectedRows(0, -1, 10, rowYRoImage, cb);
-            //#endregion
+            foreach (var name in viewModel.ImagesName)
+            {
+                cell_image.Phrase = new Phrase(name, normal_font);
+                table_ro_image.AddCell(cell_image);
+            }
+
+            table_ro_image.WriteSelectedRows(0, -1, 10, rowYRoImage, cb);
+            #endregion
 
             #region Signature
             PdfPTable table_signature = new PdfPTable(6);
@@ -845,8 +845,8 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             cell_signature_noted.Phrase = new Phrase("(Michelle Tjokrosaputro)", normal_font);
             table_signature.AddCell(cell_signature_noted);
 
-            //float table_signatureY = rowYRoImage - table_ro_image.TotalHeight - 10;
-            //table_signature.WriteSelectedRows(0, -1, 10, table_signatureY, cb);
+            float table_signatureY = rowYRoImage - table_ro_image.TotalHeight - 10;
+            table_signature.WriteSelectedRows(0, -1, 10, table_signatureY, cb);
             #endregion
 
             this.DrawPrintedOn(now, bf, cb);
