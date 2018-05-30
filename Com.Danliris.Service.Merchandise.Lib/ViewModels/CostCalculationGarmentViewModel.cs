@@ -12,7 +12,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
         public int RO_SerialNumber { get; set; }
         public string RO { get; set; }
         public string Article { get; set; }
-        //public LineViewModel Line { get; set; }
+        // public LineViewModel Line { get; set; }
         public string Commodity { get; set; }
         public double? FabricAllowance { get; set; }
         public double? AccessoriesAllowance { get; set; }

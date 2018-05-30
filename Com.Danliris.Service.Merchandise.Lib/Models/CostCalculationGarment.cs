@@ -62,7 +62,8 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Models
         public string Convection { get; set; }
 
         public int AutoIncrementNumber { get; set; }
-        //public virtual RO_Garment RO_Garment { get; set; }
+
+        public virtual RO_Garment RO_Garment { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
