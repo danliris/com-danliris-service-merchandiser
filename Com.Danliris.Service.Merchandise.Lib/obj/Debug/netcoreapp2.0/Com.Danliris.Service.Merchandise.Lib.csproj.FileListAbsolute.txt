@@ -1,0 +1,9 @@
+D:\danliris\com-danliris-service-md\Com.Danliris.Service.Merchandise.WebApi\Com.Danliris.Service.Merchandise.Lib\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandise.Lib.deps.json
+D:\danliris\com-danliris-service-md\Com.Danliris.Service.Merchandise.WebApi\Com.Danliris.Service.Merchandise.Lib\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandise.Lib.dll
+D:\danliris\com-danliris-service-md\Com.Danliris.Service.Merchandise.WebApi\Com.Danliris.Service.Merchandise.Lib\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandise.Lib.csprojResolveAssemblyReference.cache
+D:\danliris\com-danliris-service-md\Com.Danliris.Service.Merchandise.WebApi\Com.Danliris.Service.Merchandise.Lib\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandise.Lib.csproj.CoreCompileInputs.cache
+D:\danliris\com-danliris-service-md\Com.Danliris.Service.Merchandise.WebApi\Com.Danliris.Service.Merchandise.Lib\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandise.Lib.AssemblyInfoInputs.cache
+D:\danliris\com-danliris-service-md\Com.Danliris.Service.Merchandise.WebApi\Com.Danliris.Service.Merchandise.Lib\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandise.Lib.AssemblyInfo.cs
+D:\danliris\com-danliris-service-md\Com.Danliris.Service.Merchandise.WebApi\Com.Danliris.Service.Merchandise.Lib\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandise.Lib.pdb
+D:\danliris\com-danliris-service-md\Com.Danliris.Service.Merchandise.WebApi\Com.Danliris.Service.Merchandise.Lib\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandise.Lib.dll
+D:\danliris\com-danliris-service-md\Com.Danliris.Service.Merchandise.WebApi\Com.Danliris.Service.Merchandise.Lib\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandise.Lib.pdb

@@ -81,7 +81,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             cell_top.Phrase = new Phrase("NO RO", normal_font);
             table_top.AddCell(cell_top);
             table_top.AddCell(cell_colon);
-            cell_top.Phrase = new Phrase($"{viewModel.CostCalculationGarment.RO}", normal_font);
+            //cell_top.Phrase = new Phrase($"{viewModel.CostCalculationGarment.RO}", normal_font);
             table_top.AddCell(cell_top);
             cell_top.Phrase = new Phrase("SECTION", normal_font);
             table_top.AddCell(cell_top);
@@ -228,7 +228,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
                     cell_fabric_left.Phrase = new Phrase(materialModel.Category.SubCategory != null ? materialModel.Category.SubCategory : "", normal_font);
                     table_fabric.AddCell(cell_fabric_left);
 
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Material.Name != null ? materialModel.Material.Name : "", normal_font);
+                    //cell_fabric_left.Phrase = new Phrase(materialModel.Material.Name != null ? materialModel.Material.Name : "", normal_font);
                     table_fabric.AddCell(cell_fabric_left);
 
                     cell_fabric_left.Phrase = new Phrase(materialModel.Description != null ? materialModel.Description : "", normal_font);
@@ -317,7 +317,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
                     cell_acc_left.Phrase = new Phrase(materialModel.Category.SubCategory != null ? materialModel.Category.SubCategory : "", normal_font);
                     table_accessories.AddCell(cell_acc_left);
 
-                    cell_acc_left.Phrase = new Phrase(materialModel.Material.Name != null ? materialModel.Material.Name : "", normal_font);
+                    //cell_acc_left.Phrase = new Phrase(materialModel.Material.Name != null ? materialModel.Material.Name : "", normal_font);
                     table_accessories.AddCell(cell_acc_left);
 
                     cell_acc_left.Phrase = new Phrase(materialModel.Description != null ? materialModel.Description : "", normal_font);
@@ -407,7 +407,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
                     cell_budget_left.Phrase = new Phrase(materialModel.Category.SubCategory != null ? materialModel.Category.SubCategory : "", normal_font);
                     table_budget.AddCell(cell_budget_left);
 
-                    cell_budget_left.Phrase = new Phrase(materialModel.Material.Name != null ? materialModel.Material.Name : "", normal_font);
+                    //cell_budget_left.Phrase = new Phrase(materialModel.Material.Name != null ? materialModel.Material.Name : "", normal_font);
                     table_budget.AddCell(cell_budget_left);
 
                     cell_budget_left.Phrase = new Phrase(materialModel.Description != null ? materialModel.Description : "", normal_font);

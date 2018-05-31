@@ -491,61 +491,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
                     b.ToTable("Rates");
                 });
 
-            modelBuilder.Entity("Com.Danliris.Service.Merchandiser.Lib.Models.RelatedSize", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Active");
-
-                    b.Property<string>("Code")
-                        .HasMaxLength(100);
-
-                    b.Property<int>("SizeId");
-
-                    b.Property<int>("SizeRangeId");
-
-                    b.Property<string>("_CreatedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_CreatedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_CreatedUtc");
-
-                    b.Property<string>("_DeletedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_DeletedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_DeletedUtc");
-
-                    b.Property<bool>("_IsDeleted");
-
-                    b.Property<string>("_LastModifiedAgent")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("_LastModifiedBy")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("_LastModifiedUtc");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SizeId");
-
-                    b.HasIndex("SizeRangeId");
-
-                    b.ToTable("RelatedSizes");
-                });
-
             modelBuilder.Entity("Com.Danliris.Service.Merchandiser.Lib.Models.RO_Garment", b =>
                 {
                     b.Property<int>("Id")
@@ -834,19 +779,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
                     b.HasOne("Com.Danliris.Service.Merchandiser.Lib.Models.CostCalculationGarment", "CostCalculationGarment")
                         .WithMany("CostCalculationGarment_Materials")
                         .HasForeignKey("CostCalculationGarmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Com.Danliris.Service.Merchandiser.Lib.Models.RelatedSize", b =>
-                {
-                    b.HasOne("Com.Danliris.Service.Merchandiser.Lib.Models.Size", "Size")
-                        .WithMany("RelatedSizes")
-                        .HasForeignKey("SizeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Com.Danliris.Service.Merchandiser.Lib.Models.SizeRange", "SizeRange")
-                        .WithMany("RelatedSizes")
-                        .HasForeignKey("SizeRangeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
