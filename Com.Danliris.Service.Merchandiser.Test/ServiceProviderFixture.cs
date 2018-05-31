@@ -1,13 +1,17 @@
-﻿
-using TestHelpers = Com.Danliris.Service.Merchandiser.Test.Helpers;
-
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using Xunit;
+using TestHelpers = Com.Danliris.Service.Merchandiser.Test.Helpers;
 using Com.Danliris.Service.Merchandiser.Lib.Helpers;
-using Microsoft.Extensions.Configuration;
 using Com.Danliris.Service.Merchandiser.Lib;
-using Microsoft.Extensions.DependencyInjection;
+using Com.Danliris.Service.Merchandiser.Lib.Services;
+using Com.Danliris.Service.Merchandiser.Test.DataUtils.LineDataUtil;
+using Com.Danliris.Service.Merchandiser.Test.DataUtils.RateDataUtil;
+using Com.Danliris.Service.Merchandiser.Test.DataUtils.EfficiencyDataUtil;
+
 
 namespace Com.Danliris.Service.Merchandiser.Test
 {
@@ -46,7 +50,7 @@ namespace Com.Danliris.Service.Merchandiser.Test
                     new KeyValuePair<string, string>("InventoryEndpoint", "http://localhost:5002/v1/"),
                     new KeyValuePair<string, string>("ProductionEndpoint", "http://localhost:5003/v1/"),
                     new KeyValuePair<string, string>("PurchasingEndpoint", "http://localhost:5004/v1/"),
-                    new KeyValuePair<string, string>("DefaultConnection", "Server=localhost,1401;Database=com.danliris.db.inventory.service.test;User=sa;password=Standar123.;MultipleActiveResultSets=true;")
+                    new KeyValuePair<string, string>("DefaultConnection", "Server=localhost,1401;Database=com.danliris.db.merchandiser.service.test;User=sa;password=Standar123.;MultipleActiveResultSets=true;")
                 })
                 .Build();
 
@@ -58,15 +62,16 @@ namespace Com.Danliris.Service.Merchandiser.Test
                 {
                     options.UseSqlServer(connectionString);
                 }, ServiceLifetime.Transient)
-                .AddTransient<MaterialDistributionNoteService>(provider => new MaterialDistributionNoteService(provider))
-
-                .AddSingleton<TestHelpers.HttpClientTestService>(provider => new TestHelpers.HttpClientTestService(provider))
-                .AddSingleton<HttpClientService>()
-                .AddSingleton<IdentityService>()
+                .AddTransient<LineService>(provider => new LineService(provider))
+                .AddTransient<RateService>(provider => new RateService(provider))
+                .AddTransient<LineDataUtil>()
+                .AddTransient<RateDataUtil>()
+                .AddTransient<EfficiencyService>(provider => new EfficiencyService(provider))
+                .AddTransient<EfficiencyDataUtil>()
 
                 .BuildServiceProvider();
 
-            InventoryDbContext dbContext = ServiceProvider.GetService<InventoryDbContext>();
+            MerchandiserDbContext dbContext = ServiceProvider.GetService<MerchandiserDbContext>();
             dbContext.Database.Migrate();
         }
 

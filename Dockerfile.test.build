@@ -1,0 +1,10 @@
+FROM microsoft/aspnetcore-build:2.0.2
+WORKDIR /app
+
+COPY Com.Danliris.Service.Merchandiser.Lib/*.csproj ./Com.Danliris.Service.Merchandiser.Lib/
+COPY Com.Danliris.Service.Merchandiser.WebApi/*.csproj ./Com.Danliris.Service.Merchandiser.WebApi/
+RUN dotnet restore ./Com.Danliris.Service.Merchandiser.WebApi/
+
+COPY Com.Danliris.Service.Merchandiser.Lib/. ./Com.Danliris.Service.Merchandiser.Lib/
+COPY Com.Danliris.Service.Merchandiser.WebApi/. ./Com.Danliris.Service.Merchandiser.WebApi/
+RUN dotnet publish ./Com.Danliris.Service.Merchandiser.WebApi/ --output /out/ --configuration Release

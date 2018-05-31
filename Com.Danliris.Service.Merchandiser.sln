@@ -7,7 +7,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Com.Danliris.Service.Mercha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Com.Danliris.Service.Merchandiser.Lib", "Com.Danliris.Service.Merchandise.Lib\Com.Danliris.Service.Merchandiser.Lib.csproj", "{C19E345F-73D7-43F1-96C0-94A54E1DB6D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Danliris.Service.Merchandiser.Test", "Com.Danliris.Service.Merchandiser.Test\Com.Danliris.Service.Merchandiser.Test.csproj", "{B63884AE-D0B9-4FE8-8BC2-D01D9160B4A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Com.Danliris.Service.Merchandiser.Test", "Com.Danliris.Service.Merchandiser.Test\Com.Danliris.Service.Merchandiser.Test.csproj", "{B63884AE-D0B9-4FE8-8BC2-D01D9160B4A0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{EB56F18F-DF37-4D85-A3FA-18501C50F41B}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		.travis.yml = .travis.yml
+		docker-compose.test.yml = docker-compose.test.yml
+		Dockerfile.test = Dockerfile.test
+		Dockerfile.test.build = Dockerfile.test.build
+		Dockerfile.test.build.sh = Dockerfile.test.build.sh
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

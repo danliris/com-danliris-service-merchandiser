@@ -42,12 +42,10 @@ namespace Com.Danliris.Service.Merchandiser.WebApi
 
             services
 
-                .AddTransient<SizeService>()
+
                 .AddTransient<RateService>()
 
                 .AddTransient<EfficiencyService>()
-                .AddTransient<SizeRangeService>()
-                .AddTransient<RelatedSizeService>()
 
                 .AddTransient<CostCalculationGarmentService>()
                 .AddTransient<CostCalculationGarment_MaterialService>()

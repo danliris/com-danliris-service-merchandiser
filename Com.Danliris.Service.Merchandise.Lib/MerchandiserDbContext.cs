@@ -11,13 +11,8 @@ namespace Com.Danliris.Service.Merchandiser.Lib
         {
         }
 
-        public DbSet<Size> Sizes { get; set; }
         public DbSet<Rate> Rates { get; set; }
-
         public DbSet<Efficiency> Efficiencies { get; set; }
-        public DbSet<SizeRange> SizeRanges { get; set; }
-        public DbSet<RelatedSize> RelatedSizes { get; set; }
-
         public DbSet<CostCalculationGarment> CostCalculationGarments { get; set; }
         public DbSet<CostCalculationGarment_Material> CostCalculationGarment_Materials { get; set; }
         public DbSet<Line> Lines { get; set; }
@@ -26,12 +21,9 @@ namespace Com.Danliris.Service.Merchandiser.Lib
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfiguration(new SizeConfig());
             modelBuilder.ApplyConfiguration(new RateConfig());
 
             modelBuilder.ApplyConfiguration(new EfficiencyConfig());
-            modelBuilder.ApplyConfiguration(new SizeRangeConfig());
-            modelBuilder.ApplyConfiguration(new RelatedSizeConfig());
 
             modelBuilder.ApplyConfiguration(new CostCalculationGarmentConfig());
             modelBuilder.ApplyConfiguration(new CostCalculationGarment_MaterialConfig());

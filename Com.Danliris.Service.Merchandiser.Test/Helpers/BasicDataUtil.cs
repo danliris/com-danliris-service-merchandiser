@@ -22,6 +22,6 @@ namespace Com.Danliris.Service.Merchandiser.Test.Helpers
         }
 
         public abstract TModel GetNewData();
-        public abstract Task<TModel> GetTestData();
+        public abstract Task<TModel> GetTestDataAsync();
     }
 }

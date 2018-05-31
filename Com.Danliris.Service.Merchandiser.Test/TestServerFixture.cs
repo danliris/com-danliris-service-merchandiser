@@ -1,13 +1,11 @@
 
-using Com.Danliris.Service.Inventory.Lib;
-using Com.Danliris.Service.Inventory.Test.DataUtils.FpRegradingResultDataUtil;
-using Com.Danliris.Service.Inventory.Test.DataUtils.FPReturnInvToPurchasingDataUtil;
-using Com.Danliris.Service.Inventory.Test.DataUtils.MaterialDistributionNoteDataUtil;
-
-using Com.Danliris.Service.Inventory.Test.DataUtils.MaterialRequestNoteDataUtil;
-using Com.Danliris.Service.Inventory.Test.DataUtils.StockTransferNoteDataUtil;
-using Com.Danliris.Service.Inventory.Test.Helpers;
-using Com.Danliris.Service.Inventory.WebApi;
+using Com.Danliris.Service.Merchandiser.Lib;
+using Com.Danliris.Service.Merchandiser.Lib.Services;
+using Com.Danliris.Service.Merchandiser.Test.DataUtils.EfficiencyDataUtil;
+using Com.Danliris.Service.Merchandiser.Test.DataUtils.LineDataUtil;
+using Com.Danliris.Service.Merchandiser.Test.DataUtils.RateDataUtil;
+using Com.Danliris.Service.Merchandiser.Test.Helpers;
+using Com.Danliris.Service.Merchandiser.WebApi;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +19,7 @@ using System.Net.Http;
 using System.Text;
 using Xunit;
 
-namespace Com.Danliris.Service.Inventory.Test
+namespace Com.Danliris.Service.Merchandiser.Test
 {
     public class TestServerFixture : IDisposable
     {
@@ -52,7 +50,7 @@ namespace Com.Danliris.Service.Inventory.Test
                     new KeyValuePair<string, string>("PurchasingEndpoint", "http://localhost:5004/v1/"),
                     new KeyValuePair<string, string>("Secret", "DANLIRISTESTENVIRONMENT"),
                     new KeyValuePair<string, string>("ASPNETCORE_ENVIRONMENT", "Test"),
-                    new KeyValuePair<string, string>("DefaultConnection", "Server=localhost,1401;Database=com.danliris.db.inventory.controller.test;User=sa;password=Standar123.;MultipleActiveResultSets=true;")
+                    new KeyValuePair<string, string>("DefaultConnection", "Server=localhost,1401;Database=com.danliris.db.merchandiser.controller.test;User=sa;password=Standar123.;MultipleActiveResultSets=true;")
                 })
                 .Build();
 
@@ -62,24 +60,9 @@ namespace Com.Danliris.Service.Inventory.Test
                 .ConfigureServices(services =>
                 {
                     services
-                        .AddTransient<MaterialRequestNoteDataUtil>()
-                        .AddTransient<MaterialRequestNoteItemDataUtil>()
-
-                        .AddTransient<FpRegradingResultDataUtil>()
-                        .AddTransient<FpRegradingResultDetailsDataUtil>()
-
-                        .AddTransient<MaterialDistributionNoteDataUtil>()
-                        .AddTransient<MaterialDistributionNoteItemDataUtil>()
-                        .AddTransient<MaterialDistributionNoteDetailDataUtil>()
-
-                        .AddTransient<StockTransferNoteDataUtil>()
-                        .AddTransient<StockTransferNoteItemDataUtil>()
-
-                        .AddTransient<FPReturnInvToPurchasingDataUtil>()
-                        .AddTransient<FPReturnInvToPurchasingDetailDataUtil>()
-
-                        .AddSingleton<HttpClientTestService>()
-                        .AddDbContext<InventoryDbContext>(options => options.UseSqlServer(configuration["DefaultConnection"]), ServiceLifetime.Transient);
+                        .AddTransient<LineDataUtil>()
+                        .AddTransient<RateDataUtil>()
+                        .AddTransient<EfficiencyDataUtil>();
                 })
                 .UseStartup<Startup>();
 
@@ -103,6 +86,7 @@ namespace Com.Danliris.Service.Inventory.Test
             var token = result["data"].ToString();
 
             Client.SetBearerToken(token);
+
         }
 
         public void Dispose()

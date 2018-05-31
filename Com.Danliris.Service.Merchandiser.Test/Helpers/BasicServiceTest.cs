@@ -1,146 +1,232 @@
-﻿using Com.Danliris.Service.Merchandiser.Lib.Helpers;
-using Com.Moonlay.Models;
-using Com.Moonlay.NetCore.Lib.Service;
+﻿using Com.Moonlay.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using Xunit;
+using System.Threading.Tasks;
+using Com.Moonlay.NetCore.Lib.Service;
+using System.Linq;
+using System.Collections.Generic;
+using Com.Danliris.Service.Merchandiser.Lib.Helpers;
+using Com.Danliris.Service.Merchandiser.Test;
 
 namespace Com.Danliris.Service.Merchandiser.Test.Helpers
 {
-    public abstract class BasicServiceTest<TDbContext, TService, TModel, TDataUtil>
+    public abstract class BasicServiceTest<TDbContext, TService, TModel> : IDisposable
         where TDbContext : DbContext
         where TService : BasicService<TDbContext, TModel>
         where TModel : StandardEntity, IValidatableObject, new()
-        where TDataUtil : BasicDataUtil<TDbContext, TService, TModel>
     {
-        private IServiceProvider serviceProvider { get; set; }
-        private readonly List<string> Keys;
+        protected IServiceProvider ServiceProvider { get; set; }
+        private string[] CreateAttrAssertions;
+        private string[] UpdateAttrAssertions;
+        private string[] ExistAttrCriteria;
 
-        public BasicServiceTest(ServiceProviderFixture fixture, List<string> keys)
+        public BasicServiceTest(ServiceProviderFixture fixture, string[] createAttrAssertions, string[] updateAttrAssertions, string[] existAttrCriteria)
         {
-            serviceProvider = fixture.ServiceProvider;
-            Keys = keys;
-        }
-
-        protected TDataUtil DataUtil
-        {
-            get { return (TDataUtil)this.serviceProvider.GetService(typeof(TDataUtil)); }
+            this.ServiceProvider = fixture.ServiceProvider;
+            this.CreateAttrAssertions = createAttrAssertions;
+            this.UpdateAttrAssertions = updateAttrAssertions;
+            this.ExistAttrCriteria = existAttrCriteria;
         }
 
         protected TService Service
         {
             get
             {
-                TService service = (TService)this.serviceProvider.GetService(typeof(TService));
-                service.Username = "Unit Test";
-                service.Token = HttpClientTestService.Token;
-
+                TService service = (TService)this.ServiceProvider.GetService<TService>();
+                service.Username = "unit_test";
                 return service;
             }
         }
 
         protected TDbContext DbContext
         {
-            get { return (TDbContext)this.serviceProvider.GetService(typeof(TDbContext)); }
+            get { return this.ServiceProvider.GetService<TDbContext>(); }
+        }
+
+        public abstract TModel GenerateTestModel();
+
+        public TModel GenerateSimilarTestModel(TModel model)
+        {
+            TModel similarTestModel = new TModel();
+            foreach (string arg in this.CreateAttrAssertions)
+            {
+                string createAttr = (string)model.GetType().GetProperty(arg).GetValue(model, null);
+                similarTestModel.GetType().GetProperty(arg).SetValue(similarTestModel, createAttr);
+            }
+            foreach (string arg in this.ExistAttrCriteria)
+            {
+                string existAttr = (string)model.GetType().GetProperty(arg).GetValue(model, null);
+                similarTestModel.GetType().GetProperty(arg).SetValue(similarTestModel, existAttr);
+            }
+            return similarTestModel;
+        }
+
+        public abstract void EmptyCreateModel(TModel model);
+
+        public abstract void EmptyUpdateModel(TModel model);
+
+        public void AssertCreateEmpty(ServiceValidationExeption exception)
+        {
+            foreach (string arg in this.CreateAttrAssertions)
+            {
+                ValidationResult assertionInstance = exception.ValidationResults.FirstOrDefault(r => r.MemberNames.Contains(arg));
+                Assert.NotNull(assertionInstance);
+            }
+        }
+
+        public void AssertCreateExist(ServiceValidationExeption exception)
+        {
+            foreach (string arg in this.ExistAttrCriteria)
+            {
+                ValidationResult assertionInstance = exception.ValidationResults.FirstOrDefault(r => r.MemberNames.Contains(arg));
+                Assert.NotNull(assertionInstance);
+            }
+        }
+
+        public void AssertUpdateEmpty(ServiceValidationExeption exception)
+        {
+            foreach (string arg in this.UpdateAttrAssertions)
+            {
+                ValidationResult assertionInstance = exception.ValidationResults.FirstOrDefault(r => r.MemberNames.Contains(arg));
+                Assert.NotNull(assertionInstance);
+            }
+        }
+
+        public virtual async Task<TModel> GetCreatedTestData(TService service)
+        {
+            TModel testModel = this.GenerateTestModel();
+
+            int createdCount = await service.CreateModel(testModel);
+            Assert.True(createdCount > 0);
+
+            return testModel;
         }
 
         [Fact]
-        public async void Should_Success_Create_Data()
+        public virtual async Task TestCreateModel()
         {
-            TModel Data = DataUtil.GetNewData();
-            int AffectedRows = await this.Service.CreateModel(Data);
+            TService service = this.Service;
 
-            Assert.True(AffectedRows > 0);
+            TModel createdData = await this.GetCreatedTestData(service);
+
+            TModel data = await service.ReadModelById(createdData.Id);
+            Assert.NotNull(data);
         }
 
         [Fact]
-        public async void Should_Success_Update_Data()
+        public virtual async Task TestCreateModel_Empty()
         {
-            TModel Data = await DataUtil.GetTestData();
-            int AffectedRows = await this.Service.UpdateModel(Data.Id, Data);
+            TService service = this.Service;
+            TModel testData = this.GenerateTestModel();
 
-            Assert.True(AffectedRows > 0);
-        }
-
-        [SkippableFact]
-        public async void Should_Error_Create_Data_With_Same_Keys()
-        {
-            Skip.If(Keys.Count == 0, "No Keys");
+            this.EmptyCreateModel(testData);
 
             try
             {
-                TModel Data = await DataUtil.GetTestData();
-                Data.Id = 0;
-
-                await this.Service.CreateModel(Data);
+                await service.CreateModel(testData);
             }
             catch (ServiceValidationExeption ex)
             {
-                foreach (string Key in Keys)
-                {
-                    ValidationResult result = ex.ValidationResults.FirstOrDefault(r => r.MemberNames.Contains(Key, StringComparer.CurrentCultureIgnoreCase));
-                    Assert.NotNull(result);
-                }
+                this.AssertCreateEmpty(ex);
             }
         }
 
         [SkippableFact]
-        public async void Should_Error_Update_Data_With_Same_Keys()
+        public virtual async Task TestCreateModel_Exist()
         {
-            Skip.If(Keys.Count == 0, "No Keys");
+            Skip.If(this.ExistAttrCriteria == null || this.ExistAttrCriteria.Length == 0, "No Exist Criteria");
+
+            TService service = this.Service;
+
+            TModel createdData = await this.GetCreatedTestData(service);
+
+            TModel similarTestModel = this.GenerateSimilarTestModel(createdData);
 
             try
             {
-                TModel Data = await DataUtil.GetTestData();
-                TModel UpdateData = await DataUtil.GetTestData();
-
-                foreach (string Key in this.Keys)
-                {
-                    string Value = (string)Data.GetType().GetProperty(Key).GetValue(Data, null);
-                    UpdateData.GetType().GetProperty(Key).SetValue(UpdateData, Value);
-                }
-
-                await this.Service.UpdateModel(UpdateData.Id, UpdateData);
+                await service.CreateModel(similarTestModel);
             }
             catch (ServiceValidationExeption ex)
             {
-                foreach (string Key in Keys)
-                {
-                    ValidationResult result = ex.ValidationResults.FirstOrDefault(r => r.MemberNames.Contains(Key, StringComparer.CurrentCultureIgnoreCase));
-                    Assert.NotNull(result);
-                }
+                this.AssertCreateExist(ex);
             }
         }
 
         [Fact]
-        public async void Should_Success_Delete_Data()
+        public virtual void TestReadModel()
         {
-            TModel Data = await DataUtil.GetTestData();
-            int AffectedRows = await this.Service.DeleteModel(Data.Id);
+            TService service = this.Service;
 
-            Assert.True(AffectedRows > 0);
+            Tuple<List<TModel>, int, Dictionary<string, string>, List<string>> data = service.ReadModel();
+            Assert.NotNull(data);
         }
 
         [Fact]
-        public async void Should_Success_Get_Data()
+        public virtual async Task TestReadModelById()
         {
-            TModel Data = await DataUtil.GetTestData();
-            var Response = this.Service.ReadModel();
+            TService service = this.Service;
+            TModel createdData = await this.GetCreatedTestData(service);
 
-            Assert.NotEqual(Response.Item1.Count, 0);
+            TModel data = await service.ReadModelById(createdData.Id);
+            Assert.NotNull(data);
         }
 
         [Fact]
-        public async void Should_Success_Get_Data_By_Id()
+        public virtual async Task TestUpdateModel()
         {
-            TModel Data = await DataUtil.GetTestData();
+            TService service = this.Service;
+            TModel createdData = await this.GetCreatedTestData(service);
 
-            var Response = await this.Service.ReadModelById(Data.Id);
+            TModel data = await service.ReadModelById(createdData.Id);
+            Assert.NotNull(data);
 
-            Assert.True(!Response.Equals(null));
+            int updatedCount = await service.UpdateModel(data.Id, data);
+            Assert.True(updatedCount == 1);
+        }
+
+        [Fact]
+        public virtual async Task TestUpdateModel_Empty()
+        {
+            TService service = this.Service;
+            TModel createdData = await this.GetCreatedTestData(service);
+
+            TModel data = await service.ReadModelById(createdData.Id);
+            Assert.NotNull(data);
+
+            this.EmptyUpdateModel(data);
+
+            try
+            {
+                await service.UpdateModel(data.Id, data);
+            }
+            catch (ServiceValidationExeption ex)
+            {
+                this.AssertUpdateEmpty(ex);
+            }
+        }
+
+        [Fact]
+        public virtual async Task TestDeleteModel()
+        {
+            TService service = this.Service;
+            TModel createdData = await this.GetCreatedTestData(service);
+
+            TModel data = await service.GetAsync(createdData.Id);
+            Assert.NotNull(data);
+
+            int affectedResult = await service.DeleteModel(data.Id);
+            Assert.True(affectedResult == 1);
+
+            data = await service.GetAsync(createdData.Id);
+            Assert.Null(data);
+        }
+
+        public void Dispose()
+        {
+            this.ServiceProvider = null;
         }
     }
 }
