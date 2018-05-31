@@ -41,15 +41,15 @@ namespace Com.Danliris.Service.Merchandiser.WebApi
                 .AddTransient<AzureImageService>();
 
             services
-
-
                 .AddTransient<RateService>()
-
-                .AddTransient<EfficiencyService>()
-
+                .AddTransient<EfficiencyService>()         
                 .AddTransient<CostCalculationGarmentService>()
                 .AddTransient<CostCalculationGarment_MaterialService>()
-                .AddTransient<LineService>();
+                .AddTransient<LineService>()
+                .AddTransient<ArticleColorService>()
+                .AddTransient<RO_GarmentService>()
+                .AddTransient<RO_Garment_SizeBreakdownService>()
+                .AddTransient<RO_Garment_SizeBreakdown_DetailService>();
 
             var Secret = Configuration.GetValue<string>("Secret") ?? Configuration["Secret"];
             var Key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Secret));

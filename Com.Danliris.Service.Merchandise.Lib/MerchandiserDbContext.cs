@@ -17,6 +17,11 @@ namespace Com.Danliris.Service.Merchandiser.Lib
         public DbSet<CostCalculationGarment_Material> CostCalculationGarment_Materials { get; set; }
         public DbSet<Line> Lines { get; set; }
 
+        public DbSet<ArticleColor> ArticleColors { get; set; }
+        public DbSet<RO_Garment> RO_Garments { get; set; }
+        public DbSet<RO_Garment_SizeBreakdown> RO_Garment_SizeBreakdowns { get; set; }
+        public DbSet<RO_Garment_SizeBreakdown_Detail> RO_Garment_SizeBreakdown_Details { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -29,6 +34,10 @@ namespace Com.Danliris.Service.Merchandiser.Lib
             modelBuilder.ApplyConfiguration(new CostCalculationGarment_MaterialConfig());
 
             modelBuilder.ApplyConfiguration(new LineConfig());
+
+            modelBuilder.ApplyConfiguration(new RO_GarmentConfig());
+            modelBuilder.ApplyConfiguration(new RO_Garment_SizeBreakdownConfig());
+            modelBuilder.ApplyConfiguration(new RO_Garment_SizeBreakdown_DetailConfig());
         }
     }
 }

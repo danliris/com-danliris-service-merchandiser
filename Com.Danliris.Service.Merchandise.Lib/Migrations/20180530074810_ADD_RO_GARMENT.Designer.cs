@@ -11,9 +11,10 @@ using System;
 namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
 {
     [DbContext(typeof(MerchandiserDbContext))]
-    partial class MerchandiserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180530074810_ADD_RO_GARMENT")]
+    partial class ADD_RO_GARMENT
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,9 +99,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
 
                     b.Property<string>("Commodity")
                         .HasMaxLength(500);
-
-                    b.Property<string>("CommodityDescription")
-                        .HasMaxLength(3000);
 
                     b.Property<DateTimeOffset>("ConfirmDate");
 
@@ -245,10 +243,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
                     b.Property<string>("Code")
                         .HasMaxLength(100);
 
-                    b.Property<string>("Composition");
-
-                    b.Property<string>("Construction");
-
                     b.Property<double>("Conversion");
 
                     b.Property<int>("CostCalculationGarmentId");
@@ -259,16 +253,17 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
                     b.Property<string>("Information")
                         .HasMaxLength(500);
 
+                    b.Property<int>("MaterialId");
+
+                    b.Property<string>("MaterialName")
+                        .HasMaxLength(500);
+
                     b.Property<string>("PO")
                         .HasMaxLength(100);
 
                     b.Property<int?>("PO_SerialNumber");
 
                     b.Property<double>("Price");
-
-                    b.Property<string>("ProductCode");
-
-                    b.Property<string>("ProductId");
 
                     b.Property<double>("Quantity");
 
@@ -287,10 +282,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
 
                     b.Property<string>("UOMQuantityName")
                         .HasMaxLength(500);
-
-                    b.Property<string>("Width");
-
-                    b.Property<string>("Yarn");
 
                     b.Property<string>("_CreatedAgent")
                         .IsRequired()
@@ -489,6 +480,61 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Rates");
+                });
+
+            modelBuilder.Entity("Com.Danliris.Service.Merchandiser.Lib.Models.RelatedSize", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Active");
+
+                    b.Property<string>("Code")
+                        .HasMaxLength(100);
+
+                    b.Property<int>("SizeId");
+
+                    b.Property<int>("SizeRangeId");
+
+                    b.Property<string>("_CreatedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_CreatedUtc");
+
+                    b.Property<string>("_DeletedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_DeletedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_DeletedUtc");
+
+                    b.Property<bool>("_IsDeleted");
+
+                    b.Property<string>("_LastModifiedAgent")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("_LastModifiedBy")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("_LastModifiedUtc");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SizeId");
+
+                    b.HasIndex("SizeRangeId");
+
+                    b.ToTable("RelatedSizes");
                 });
 
             modelBuilder.Entity("Com.Danliris.Service.Merchandiser.Lib.Models.RO_Garment", b =>
@@ -779,6 +825,19 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
                     b.HasOne("Com.Danliris.Service.Merchandiser.Lib.Models.CostCalculationGarment", "CostCalculationGarment")
                         .WithMany("CostCalculationGarment_Materials")
                         .HasForeignKey("CostCalculationGarmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Com.Danliris.Service.Merchandiser.Lib.Models.RelatedSize", b =>
+                {
+                    b.HasOne("Com.Danliris.Service.Merchandiser.Lib.Models.Size", "Size")
+                        .WithMany("RelatedSizes")
+                        .HasForeignKey("SizeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Com.Danliris.Service.Merchandiser.Lib.Models.SizeRange", "SizeRange")
+                        .WithMany("RelatedSizes")
+                        .HasForeignKey("SizeRangeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
