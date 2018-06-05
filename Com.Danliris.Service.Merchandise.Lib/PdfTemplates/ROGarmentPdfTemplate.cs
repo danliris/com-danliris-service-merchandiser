@@ -102,7 +102,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             cell_top.Phrase = new Phrase("BUYER", normal_font);
             table_top.AddCell(cell_top);
             table_top.AddCell(cell_colon);
-            cell_top.Phrase = new Phrase($"{viewModel.CostCalculationGarment.Buyer.Name}", normal_font);
+            cell_top.Phrase = new Phrase($"{viewModel.CostCalculationGarment.Buyer.name}", normal_font);
             table_top.AddCell(cell_top);
             cell_top.Phrase = new Phrase("DELIVERY DATE", normal_font);
             table_top.AddCell(cell_top);
@@ -223,7 +223,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
 
             foreach (var materialModel in viewModel.CostCalculationGarment.CostCalculationGarment_Materials)
             {
-                if (materialModel.Category.Name == "FAB")
+                if (materialModel.Category.name == "FABRIC")
                 {
                     cell_fabric_left.Phrase = new Phrase(materialModel.Category.SubCategory != null ? materialModel.Category.SubCategory : "", normal_font);
                     table_fabric.AddCell(cell_fabric_left);
@@ -234,7 +234,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
                     cell_fabric_left.Phrase = new Phrase(materialModel.Description != null ? materialModel.Description : "", normal_font);
                     table_fabric.AddCell(cell_fabric_left);
 
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Quantity.ToString() != null ? String.Format("{0} " + materialModel.UOMQuantity.Name, materialModel.Quantity.ToString()) : "0", normal_font);
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Quantity.ToString() != null ? String.Format("{0} " + materialModel.UOMQuantity.unit, materialModel.Quantity.ToString()) : "0", normal_font);
                     table_fabric.AddCell(cell_fabric_left);
 
                     cell_fabric_left.Phrase = new Phrase(materialModel.Information != null ? materialModel.Information : "", normal_font);
@@ -312,7 +312,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
 
             foreach (var materialModel in viewModel.CostCalculationGarment.CostCalculationGarment_Materials)
             {
-                if (materialModel.Category.Name == "ACC")
+                if (materialModel.Category.name == "ACC")
                 {
                     cell_acc_left.Phrase = new Phrase(materialModel.Category.SubCategory != null ? materialModel.Category.SubCategory : "", normal_font);
                     table_accessories.AddCell(cell_acc_left);
@@ -323,7 +323,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
                     cell_acc_left.Phrase = new Phrase(materialModel.Description != null ? materialModel.Description : "", normal_font);
                     table_accessories.AddCell(cell_acc_left);
 
-                    cell_acc_left.Phrase = new Phrase(materialModel.Quantity != null ? String.Format("{0} " + materialModel.UOMQuantity.Name, materialModel.Quantity.ToString()) : "0", normal_font);
+                    cell_acc_left.Phrase = new Phrase(materialModel.Quantity != null ? String.Format("{0} " + materialModel.UOMQuantity.unit, materialModel.Quantity.ToString()) : "0", normal_font);
                     table_accessories.AddCell(cell_acc_left);
 
                     cell_acc_left.Phrase = new Phrase(materialModel.Information != null ? materialModel.Information : "", normal_font);
@@ -402,7 +402,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
 
             foreach (var materialModel in viewModel.CostCalculationGarment.CostCalculationGarment_Materials)
             {
-                if (materialModel.Category.Name == "ONG")
+                if (materialModel.Category.name == "ONG")
                 {
                     cell_budget_left.Phrase = new Phrase(materialModel.Category.SubCategory != null ? materialModel.Category.SubCategory : "", normal_font);
                     table_budget.AddCell(cell_budget_left);
@@ -413,7 +413,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
                     cell_budget_left.Phrase = new Phrase(materialModel.Description != null ? materialModel.Description : "", normal_font);
                     table_budget.AddCell(cell_budget_left);
 
-                    cell_budget_left.Phrase = new Phrase(materialModel.Quantity != null ? String.Format("{0} " + materialModel.UOMQuantity.Name, materialModel.Quantity.ToString()) : "0", normal_font);
+                    cell_budget_left.Phrase = new Phrase(materialModel.Quantity != null ? String.Format("{0} " + materialModel.UOMQuantity.unit, materialModel.Quantity.ToString()) : "0", normal_font);
                     table_budget.AddCell(cell_budget_left);
 
                     cell_budget_left.Phrase = new Phrase(materialModel.Information != null ? materialModel.Information : "", normal_font);
