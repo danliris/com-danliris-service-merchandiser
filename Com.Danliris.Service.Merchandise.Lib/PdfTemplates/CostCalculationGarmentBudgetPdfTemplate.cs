@@ -82,7 +82,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
 
             cell_detail2.Phrase = new Phrase("BUYER", normal_font);
             table_detail2.AddCell(cell_detail2);
-            cell_detail2.Phrase = new Phrase($"{viewModel.Buyer.Name}", normal_font);
+            cell_detail2.Phrase = new Phrase($"{viewModel.Buyer.name}", normal_font);
             table_detail2.AddCell(cell_detail2);
 
             cell_detail2.Phrase = new Phrase("ARTICLE", normal_font);
@@ -183,7 +183,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             table_detail3.AddCell(cell_detail3_colspan8);
             cell_detail3_colspan8.Border = Rectangle.NO_BORDER;
             cell_detail3_colspan8.HorizontalAlignment = Element.ALIGN_CENTER;
-            cell_detail3_colspan8.Phrase = new Phrase($"ALLOWANCE >> FAB = {viewModel.FabricAllowance}%, ACC = {viewModel.AccessoriesAllowance}%", normal_font);
+            cell_detail3_colspan8.Phrase = new Phrase($"ALLOWANCE >> FABRIC = {viewModel.FabricAllowance}%, ACC = {viewModel.AccessoriesAllowance}%", normal_font);
             table_detail3.AddCell(cell_detail3_colspan8);
             #endregion
 
@@ -274,7 +274,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
 
                 cell_ccm.HorizontalAlignment = Element.ALIGN_LEFT;
 
-                cell_ccm.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Category.SubCategory != null ? String.Format("{0} - {1}", viewModel.CostCalculationGarment_Materials[i].Category.Name, viewModel.CostCalculationGarment_Materials[i].Category.SubCategory) : viewModel.CostCalculationGarment_Materials[i].Category.Name, normal_font);
+                cell_ccm.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Category.SubCategory != null ? String.Format("{0} - {1}", viewModel.CostCalculationGarment_Materials[i].Category.name, viewModel.CostCalculationGarment_Materials[i].Category.SubCategory) : viewModel.CostCalculationGarment_Materials[i].Category.name, normal_font);
                 table_ccm.AddCell(cell_ccm);
 
                 //cell_ccm.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Material.Name, normal_font);
@@ -290,11 +290,11 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
                 table_ccm.AddCell(cell_ccm);
 
                 double price = viewModel.CostCalculationGarment_Materials[i].Price ?? 0;
-                cell_ccm.Phrase = new Phrase(String.Format("{0}/{1}", Number.ToRupiahWithoutSymbol(price), viewModel.CostCalculationGarment_Materials[i].UOMPrice.Name), normal_font);
+                cell_ccm.Phrase = new Phrase(String.Format("{0}/{1}", Number.ToRupiahWithoutSymbol(price), viewModel.CostCalculationGarment_Materials[i].UOMPrice.unit), normal_font);
                 table_ccm.AddCell(cell_ccm);
 
                 double factor;
-                if (viewModel.CostCalculationGarment_Materials[i].Category.Name == "ACC")
+                if (viewModel.CostCalculationGarment_Materials[i].Category.name == "ACC")
                 {
                     factor = viewModel.AccessoriesAllowance ?? 0;
                 }
@@ -308,7 +308,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
                 table_ccm.AddCell(cell_ccm);
 
                 cell_ccm.HorizontalAlignment = Element.ALIGN_CENTER;
-                cell_ccm.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].UOMQuantity.Name, normal_font);
+                cell_ccm.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].UOMQuantity.unit, normal_font);
                 table_ccm.AddCell(cell_ccm);
 
                 cell_ccm.HorizontalAlignment = Element.ALIGN_RIGHT;
