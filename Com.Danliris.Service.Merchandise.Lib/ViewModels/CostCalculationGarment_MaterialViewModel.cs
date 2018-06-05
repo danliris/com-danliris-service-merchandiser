@@ -14,10 +14,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
         public CategoryViewModel Category { get; set; }
 
         public GarmentProductViewModel Product { get; set; } // product code, id
-        public GarmentProductViewModel Yarn { get; set; }
-        public GarmentProductViewModel Width { get; set; }
-        public GarmentProductViewModel Composition { get; set; }
-        public GarmentProductViewModel Construction { get; set; }
         public string Description { get; set; }
         public double? Quantity { get; set; }
         public UOMViewModel UOMQuantity { get; set; }

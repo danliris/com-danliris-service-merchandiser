@@ -11,9 +11,10 @@ using System;
 namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
 {
     [DbContext(typeof(MerchandiserDbContext))]
-    partial class MerchandiserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180605030424_ChangeDataType_DataIDFromMongo")]
+    partial class ChangeDataType_DataIDFromMongo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -44,7 +44,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
             List<string> SearchAttributes = new List<string>()
                 {
-                    "RO_Number","Article"
+                    "RO_Number","Article", "Convection"
                 };
             Query = ConfigureSearch(Query, SearchAttributes, Keyword);
 
@@ -53,7 +53,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
             List<string> SelectedFields = new List<string>()
                 {
-                    "Id", "Code", "RO_Number", "Quantity", "ConfirmPrice"
+                    "Id", "Code", "RO_Number", "Quantity", "ConfirmPrice", "Article", "Convection"
                 };
             Query = Query
                 .Select(ccg => new CostCalculationGarment
@@ -114,42 +114,35 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
         public override async Task<int> CreateModel(CostCalculationGarment Model)
         {
-            //int latestSN = this.DbSet
-            //    .Where(d => d.LineId.Equals(Model.LineId))
-            //    .DefaultIfEmpty()
-            //    .Max(d => d.RO_SerialNumber);
-            //Model.RO_SerialNumber = latestSN != 0 ? latestSN + 1 : 1;
-            //Model.RO = String.Format("{0}{1:D4}", Model.LineCode, Model.RO_SerialNumber);
-            //int created = await this.CreateAsync(Model);
-
-            //Model.ImagePath = await this.AzureImageService.UploadImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImageFile);
-
-            //await this.UpdateAsync(Model.Id, Model);
-
-            //return created;
-
             int Created = 0;
-            using (var transaction = this.DbContext.Database.BeginTransaction())
-            {
-                try
-                {
-                    Model = await this.CustomCodeGenerator(Model);
-                    Created = await this.CreateAsync(Model);
-                    Model.ImagePath = await this.AzureImageService.UploadImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImageFile);
 
-                    await this.UpdateAsync(Model.Id, Model);
-                    transaction.Commit();
-                }
-                catch (ServiceValidationExeption e)
-                {
-                    throw new ServiceValidationExeption(e.ValidationContext, e.ValidationResults);
-                }
-                catch (Exception e)
-                {
-                    transaction.Rollback();
-                    throw new Exception(e.Message);
-                }
-            }
+            Model = await this.CustomCodeGenerator(Model);
+            Created = await this.CreateAsync(Model);
+            Model.ImagePath = await this.AzureImageService.UploadImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImageFile);
+
+            await this.UpdateAsync(Model.Id, Model);
+
+            //using (var transaction = this.DbContext.Database.BeginTransaction())
+            //{
+            //    try
+            //    {
+            //        Model = await this.CustomCodeGenerator(Model);
+            //        Created = await this.CreateAsync(Model);
+            //        Model.ImagePath = await this.AzureImageService.UploadImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImageFile);
+
+            //        await this.UpdateAsync(Model.Id, Model);
+            //        transaction.Commit();
+            //    }
+            //    catch (ServiceValidationExeption e)
+            //    {
+            //        throw new ServiceValidationExeption(e.ValidationContext, e.ValidationResults);
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        transaction.Rollback();
+            //        throw new Exception(e.Message);
+            //    }
+            //}
             return Created;
         }
 
@@ -275,8 +268,8 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             viewModel.SizeRange = model.SizeRange;
 
             viewModel.Buyer = new BuyerViewModel();
-            viewModel.Buyer.Id = model.BuyerId;
-            viewModel.Buyer.Name = model.BuyerName;
+            viewModel.Buyer._id = model.BuyerId;
+            viewModel.Buyer.name = model.BuyerName;
 
             viewModel.Efficiency = new EfficiencyViewModel();
             viewModel.Efficiency.Id = model.EfficiencyId;
@@ -306,10 +299,10 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
                     CategoryViewModel categoryVM = new CategoryViewModel()
                     {
-                        Id = CostCalculationGarment_Material.CategoryId
+                        _id = CostCalculationGarment_Material.CategoryId
                     };
                     string[] names = CostCalculationGarment_Material.CategoryName.Split(new[] { " - " }, StringSplitOptions.None);
-                    categoryVM.Name = names[0];
+                    categoryVM.name = names[0];
                     try
                     {
                         categoryVM.SubCategory = names[1];
@@ -324,43 +317,29 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
                     UOMViewModel uomQuantityVM = new UOMViewModel()
                     {
-                        Id = CostCalculationGarment_Material.UOMQuantityId,
-                        Name = CostCalculationGarment_Material.UOMQuantityName
+                        _id = CostCalculationGarment_Material.UOMQuantityId,
+                        unit = CostCalculationGarment_Material.UOMQuantityName
                     };
                     CostCalculationGarment_MaterialVM.UOMQuantity = uomQuantityVM;
 
                     UOMViewModel uomPriceVM = new UOMViewModel()
                     {
-                        Id = CostCalculationGarment_Material.UOMPriceId,
-                        Name = CostCalculationGarment_Material.UOMPriceName
+                        _id = CostCalculationGarment_Material.UOMPriceId,
+                        unit = CostCalculationGarment_Material.UOMPriceName
                     };
                     CostCalculationGarment_MaterialVM.UOMPrice = uomPriceVM;
 
                     CostCalculationGarment_MaterialVM.ShippingFeePortion = Percentage.ToPercent(CostCalculationGarment_Material.ShippingFeePortion);
 
-                    CostCalculationGarment_MaterialVM.Product = new GarmentProductViewModel();
-                    CostCalculationGarment_MaterialVM.Product._id = CostCalculationGarment_Material.ProductId;
-                    CostCalculationGarment_MaterialVM.Product.code = CostCalculationGarment_Material.ProductCode;
-
-                    CostCalculationGarment_MaterialVM.Yarn = new GarmentProductViewModel();
-                    CostCalculationGarment_MaterialVM.Yarn._id = CostCalculationGarment_Material.ProductId;
-                    CostCalculationGarment_MaterialVM.Yarn.code = CostCalculationGarment_Material.ProductCode;
-                    CostCalculationGarment_MaterialVM.Yarn.yarn = CostCalculationGarment_Material.Yarn;
-
-                    CostCalculationGarment_MaterialVM.Width = new GarmentProductViewModel();
-                    CostCalculationGarment_MaterialVM.Width._id = CostCalculationGarment_Material.ProductId;
-                    CostCalculationGarment_MaterialVM.Width.code = CostCalculationGarment_Material.ProductCode;
-                    CostCalculationGarment_MaterialVM.Width.width = CostCalculationGarment_Material.Width;
-
-                    CostCalculationGarment_MaterialVM.Composition = new GarmentProductViewModel();
-                    CostCalculationGarment_MaterialVM.Composition._id = CostCalculationGarment_Material.ProductId;
-                    CostCalculationGarment_MaterialVM.Composition.code = CostCalculationGarment_Material.ProductCode;
-                    CostCalculationGarment_MaterialVM.Composition.composition = CostCalculationGarment_Material.Composition;
-
-                    CostCalculationGarment_MaterialVM.Construction = new GarmentProductViewModel();
-                    CostCalculationGarment_MaterialVM.Construction._id = CostCalculationGarment_Material.ProductId;
-                    CostCalculationGarment_MaterialVM.Construction.code = CostCalculationGarment_Material.ProductCode;
-                    CostCalculationGarment_MaterialVM.Construction.construction = CostCalculationGarment_Material.Construction;
+                    CostCalculationGarment_MaterialVM.Product = new GarmentProductViewModel
+                    {
+                        _id = CostCalculationGarment_Material.ProductId,
+                        code = CostCalculationGarment_Material.ProductCode,
+                        composition = CostCalculationGarment_Material.Composition,
+                        construction = CostCalculationGarment_Material.Construction,
+                        yarn = CostCalculationGarment_Material.Yarn,
+                        width = CostCalculationGarment_Material.Width
+                    };
 
                     viewModel.CostCalculationGarment_Materials.Add(CostCalculationGarment_MaterialVM);
                 }
@@ -396,8 +375,8 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
             model.SizeRange = viewModel.SizeRange;
 
-            model.BuyerId = viewModel.Buyer.Id;
-            model.BuyerName = viewModel.Buyer.Name;
+            model.BuyerId = viewModel.Buyer._id;
+            model.BuyerName = viewModel.Buyer.name;
 
             model.EfficiencyId = viewModel.Efficiency.Id;
             model.EfficiencyValue = Percentage.ToFraction(viewModel.Efficiency.Value);
@@ -421,16 +400,16 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
                 PropertyCopier<CostCalculationGarment_MaterialViewModel, CostCalculationGarment_Material>.Copy(CostCalculationGarment_MaterialVM, CostCalculationGarment_Material);
                 CostCalculationGarment_Material.ProductId = CostCalculationGarment_MaterialVM.Product._id;
                 CostCalculationGarment_Material.ProductCode = CostCalculationGarment_MaterialVM.Product.code;
-                CostCalculationGarment_Material.Construction = CostCalculationGarment_MaterialVM.Construction.construction;
-                CostCalculationGarment_Material.Yarn = CostCalculationGarment_MaterialVM.Yarn.yarn;
-                CostCalculationGarment_Material.Width = CostCalculationGarment_MaterialVM.Width.width;
-                CostCalculationGarment_Material.Composition = CostCalculationGarment_MaterialVM.Composition.composition;
-                CostCalculationGarment_Material.CategoryId = CostCalculationGarment_MaterialVM.Category.Id;
-                CostCalculationGarment_Material.CategoryName = CostCalculationGarment_MaterialVM.Category.SubCategory != null ? CostCalculationGarment_MaterialVM.Category.Name + " - " + CostCalculationGarment_MaterialVM.Category.SubCategory : CostCalculationGarment_MaterialVM.Category.Name;
-                CostCalculationGarment_Material.UOMQuantityId = CostCalculationGarment_MaterialVM.UOMQuantity.Id;
-                CostCalculationGarment_Material.UOMQuantityName = CostCalculationGarment_MaterialVM.UOMQuantity.Name;
-                CostCalculationGarment_Material.UOMPriceId = CostCalculationGarment_MaterialVM.UOMPrice.Id;
-                CostCalculationGarment_Material.UOMPriceName = CostCalculationGarment_MaterialVM.UOMPrice.Name;
+                CostCalculationGarment_Material.Construction = CostCalculationGarment_MaterialVM.Product.construction;
+                CostCalculationGarment_Material.Yarn = CostCalculationGarment_MaterialVM.Product.yarn;
+                CostCalculationGarment_Material.Width = CostCalculationGarment_MaterialVM.Product.width;
+                CostCalculationGarment_Material.Composition = CostCalculationGarment_MaterialVM.Product.composition;
+                CostCalculationGarment_Material.CategoryId = CostCalculationGarment_MaterialVM.Category._id;
+                CostCalculationGarment_Material.CategoryName = CostCalculationGarment_MaterialVM.Category.SubCategory != null ? CostCalculationGarment_MaterialVM.Category.name + " - " + CostCalculationGarment_MaterialVM.Category.SubCategory : CostCalculationGarment_MaterialVM.Category.name;
+                CostCalculationGarment_Material.UOMQuantityId = CostCalculationGarment_MaterialVM.UOMQuantity._id;
+                CostCalculationGarment_Material.UOMQuantityName = CostCalculationGarment_MaterialVM.UOMQuantity.unit;
+                CostCalculationGarment_Material.UOMPriceId = CostCalculationGarment_MaterialVM.UOMPrice._id;
+                CostCalculationGarment_Material.UOMPriceName = CostCalculationGarment_MaterialVM.UOMPrice.unit;
                 CostCalculationGarment_Material.ShippingFeePortion = Percentage.ToFraction(CostCalculationGarment_MaterialVM.ShippingFeePortion);
 
                 model.CostCalculationGarment_Materials.Add(CostCalculationGarment_Material);

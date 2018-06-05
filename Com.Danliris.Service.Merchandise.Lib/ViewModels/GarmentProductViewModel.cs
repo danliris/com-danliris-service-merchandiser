@@ -6,9 +6,8 @@ using System.Text;
 
 namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
 {
-    public class GarmentProductViewModel : IValidatableObject
+    public class GarmentProductViewModel : BasicOldViewModel, IValidatableObject
     {
-        public string _id { get; set; }
         public string code { get; set; }
         public string composition { get; set; }
         public string construction { get; set; }
