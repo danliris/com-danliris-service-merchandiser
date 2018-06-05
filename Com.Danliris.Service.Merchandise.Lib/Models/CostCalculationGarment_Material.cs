@@ -11,7 +11,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Models
         public string Code { get; set; }
         public int? PO_SerialNumber { get; set; }
         public string PO { get; set; }
-        public int CategoryId { get; set; }
+        public string CategoryId { get; set; }
         public string CategoryName { get; set; }
         //public int MaterialId { get; set; }
         //public string MaterialName { get; set; }
@@ -23,10 +23,10 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Models
         public string Width { set; get; }
         public string Description { get; set; }
         public double Quantity { get; set; }
-        public int UOMQuantityId { get; set; }
+        public string UOMQuantityId { get; set; }
         public string UOMQuantityName { get; set; }
         public double Price { get; set; }
-        public int UOMPriceId { get; set; }
+        public string UOMPriceId { get; set; }
         public string UOMPriceName { get; set; }
         public double Conversion { get; set; }
         public double Total { get; set; }

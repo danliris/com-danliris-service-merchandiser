@@ -28,7 +28,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Models
         public double SMV_Sewing { get; set; }
         public double SMV_Finishing { get; set; }
         public double SMV_Total { get; set; }
-        public int BuyerId { get; set; }
+        public string BuyerId { get; set; }
         public string BuyerName { get; set; }
         public int EfficiencyId { get; set; }
         public double EfficiencyValue { get; set; }
