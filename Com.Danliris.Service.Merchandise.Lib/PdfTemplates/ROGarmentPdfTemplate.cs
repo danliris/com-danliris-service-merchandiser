@@ -244,16 +244,16 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
                     cell_fabric_left.Phrase = new Phrase(materialModel.Product.code, normal_font);
                     table_fabric.AddCell(cell_fabric_left);
 
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Composition.composition, normal_font);
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.composition, normal_font);
                     table_fabric.AddCell(cell_fabric_left);
 
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Construction.construction, normal_font);
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.construction, normal_font);
                     table_fabric.AddCell(cell_fabric_left);
 
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Yarn.yarn, normal_font);
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.yarn, normal_font);
                     table_fabric.AddCell(cell_fabric_left);
 
-                    cell_fabric_left.Phrase = new Phrase(materialModel.Width.width, normal_font);
+                    cell_fabric_left.Phrase = new Phrase(materialModel.Product.width, normal_font);
 
                     table_fabric.AddCell(cell_fabric_left);
 
@@ -350,7 +350,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
 
             foreach (var materialModel in viewModel.CostCalculationGarment.CostCalculationGarment_Materials)
             {
-                if (materialModel.Category.name == "ACC")
+                if (materialModel.Category.name != "FABRIC")
                 {
                     //cell_acc_left.Phrase = new Phrase(materialModel.Category.SubCategory != null ? materialModel.Category.SubCategory : "", normal_font);
                     //table_accessories.AddCell(cell_acc_left);
@@ -358,16 +358,16 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
                     cell_acc_left.Phrase = new Phrase(materialModel.Product.code, normal_font);
                     table_accessories.AddCell(cell_acc_left);
 
-                    cell_acc_left.Phrase = new Phrase(materialModel.Composition.composition, normal_font);
+                    cell_acc_left.Phrase = new Phrase(materialModel.Product.composition, normal_font);
                     table_accessories.AddCell(cell_acc_left);
 
-                    cell_acc_left.Phrase = new Phrase(materialModel.Construction.construction, normal_font);
+                    cell_acc_left.Phrase = new Phrase(materialModel.Product.construction, normal_font);
                     table_accessories.AddCell(cell_acc_left);
 
-                    cell_acc_left.Phrase = new Phrase(materialModel.Yarn.yarn, normal_font);
+                    cell_acc_left.Phrase = new Phrase(materialModel.Product.yarn, normal_font);
                     table_accessories.AddCell(cell_acc_left);
 
-                    cell_acc_left.Phrase = new Phrase(materialModel.Width.width, normal_font);
+                    cell_acc_left.Phrase = new Phrase(materialModel.Product.width, normal_font);
 
                     table_accessories.AddCell(cell_acc_left);
 
@@ -384,127 +384,127 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             table_accessories.WriteSelectedRows(0, -1, 10, rowYAcc, cb);
             #endregion
 
-            #region Table Ongkos
-            //Ongkos Title
-            PdfPTable table_ong_top = new PdfPTable(1);
-            table_ong_top.TotalWidth = 570f;
+            //#region Table Ongkos
+            ////Ongkos Title
+            //PdfPTable table_ong_top = new PdfPTable(1);
+            //table_ong_top.TotalWidth = 570f;
 
-            float[] ong_width_top = new float[] { 5f };
-            table_ong_top.SetWidths(ong_width_top);
+            //float[] ong_width_top = new float[] { 5f };
+            //table_ong_top.SetWidths(ong_width_top);
 
-            PdfPCell cell_top_ong = new PdfPCell()
-            {
-                Border = Rectangle.NO_BORDER,
-                HorizontalAlignment = Element.ALIGN_LEFT,
-                VerticalAlignment = Element.ALIGN_MIDDLE,
-                PaddingRight = 1,
-                PaddingBottom = 2,
-                PaddingTop = 2
-            };
+            //PdfPCell cell_top_ong = new PdfPCell()
+            //{
+            //    Border = Rectangle.NO_BORDER,
+            //    HorizontalAlignment = Element.ALIGN_LEFT,
+            //    VerticalAlignment = Element.ALIGN_MIDDLE,
+            //    PaddingRight = 1,
+            //    PaddingBottom = 2,
+            //    PaddingTop = 2
+            //};
 
-            cell_top_ong.Phrase = new Phrase("ONGKOS", bold_font);
-            table_ong_top.AddCell(cell_top_ong);
+            //cell_top_ong.Phrase = new Phrase("ONGKOS", bold_font);
+            //table_ong_top.AddCell(cell_top_ong);
 
-            float rowYTittleOng = rowYAcc - table_accessories.TotalHeight - 10;
-            float allowedRow2HeightTopOng = rowYTittleOng - printedOnHeight - margin;
+            //float rowYTittleOng = rowYAcc - table_accessories.TotalHeight - 10;
+            //float allowedRow2HeightTopOng = rowYTittleOng - printedOnHeight - margin;
 
 
-            //Main Table Ongkos
-            PdfPTable table_budget = new PdfPTable(8);
-            table_budget.TotalWidth = 570f;
+            ////Main Table Ongkos
+            //PdfPTable table_budget = new PdfPTable(8);
+            //table_budget.TotalWidth = 570f;
 
-            float[] budget_widths = new float[] { 5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f };
-            table_budget.SetWidths(budget_widths);
-            var ongIndex = 0;
+            //float[] budget_widths = new float[] { 5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f };
+            //table_budget.SetWidths(budget_widths);
+            //var ongIndex = 0;
 
-            PdfPCell cell_budget_center = new PdfPCell()
-            {
-                Border = Rectangle.TOP_BORDER | Rectangle.LEFT_BORDER | Rectangle.BOTTOM_BORDER | Rectangle.RIGHT_BORDER,
-                HorizontalAlignment = Element.ALIGN_CENTER,
-                VerticalAlignment = Element.ALIGN_MIDDLE,
-                Padding = 2
-            };
+            //PdfPCell cell_budget_center = new PdfPCell()
+            //{
+            //    Border = Rectangle.TOP_BORDER | Rectangle.LEFT_BORDER | Rectangle.BOTTOM_BORDER | Rectangle.RIGHT_BORDER,
+            //    HorizontalAlignment = Element.ALIGN_CENTER,
+            //    VerticalAlignment = Element.ALIGN_MIDDLE,
+            //    Padding = 2
+            //};
 
-            PdfPCell cell_budget_left = new PdfPCell()
-            {
-                Border = Rectangle.TOP_BORDER | Rectangle.LEFT_BORDER | Rectangle.BOTTOM_BORDER | Rectangle.RIGHT_BORDER,
-                HorizontalAlignment = Element.ALIGN_LEFT,
-                VerticalAlignment = Element.ALIGN_MIDDLE,
-                Padding = 2
-            };
+            //PdfPCell cell_budget_left = new PdfPCell()
+            //{
+            //    Border = Rectangle.TOP_BORDER | Rectangle.LEFT_BORDER | Rectangle.BOTTOM_BORDER | Rectangle.RIGHT_BORDER,
+            //    HorizontalAlignment = Element.ALIGN_LEFT,
+            //    VerticalAlignment = Element.ALIGN_MIDDLE,
+            //    Padding = 2
+            //};
 
-            float rowYBudget = rowYTittleOng - table_ong_top.TotalHeight - 5;
-            float allowedRow2HeightBudget = rowYBudget - printedOnHeight - margin;
+            //float rowYBudget = rowYTittleOng - table_ong_top.TotalHeight - 5;
+            //float allowedRow2HeightBudget = rowYBudget - printedOnHeight - margin;
 
-            //cell_budget_center.Phrase = new Phrase("ONGKOS", bold_font);
+            ////cell_budget_center.Phrase = new Phrase("ONGKOS", bold_font);
+            ////table_budget.AddCell(cell_budget_center);
+
+            //cell_fabric_center.Phrase = new Phrase("PRODUCT CODE", bold_font);
+            //table_budget.AddCell(cell_fabric_center);
+
+            //cell_fabric_center.Phrase = new Phrase("COMPOSITION", bold_font);
+            //table_budget.AddCell(cell_fabric_center);
+
+            //cell_fabric_center.Phrase = new Phrase("CONSTRUCTION", bold_font);
+            //table_budget.AddCell(cell_fabric_center);
+
+            //cell_fabric_center.Phrase = new Phrase("YARN", bold_font);
+            //table_budget.AddCell(cell_fabric_center);
+
+            //cell_fabric_center.Phrase = new Phrase("WIDTH", bold_font);
+            //table_budget.AddCell(cell_fabric_center);
+
+            //cell_budget_center.Phrase = new Phrase("DESCRIPTION", bold_font);
             //table_budget.AddCell(cell_budget_center);
 
-            cell_fabric_center.Phrase = new Phrase("PRODUCT CODE", bold_font);
-            table_budget.AddCell(cell_fabric_center);
+            //cell_budget_center.Phrase = new Phrase("QUANTITY", bold_font);
+            //table_budget.AddCell(cell_budget_center);
 
-            cell_fabric_center.Phrase = new Phrase("COMPOSITION", bold_font);
-            table_budget.AddCell(cell_fabric_center);
+            //cell_budget_center.Phrase = new Phrase("REMARK", bold_font);
+            //table_budget.AddCell(cell_budget_center);
 
-            cell_fabric_center.Phrase = new Phrase("CONSTRUCTION", bold_font);
-            table_budget.AddCell(cell_fabric_center);
+            //foreach (var materialModel in viewModel.CostCalculationGarment.CostCalculationGarment_Materials)
+            //{
+            //    if (materialModel.Category.name == "ONG")
+            //    {
+            //        //cell_budget_left.Phrase = new Phrase(materialModel.Category.SubCategory != null ? materialModel.Category.SubCategory : "", normal_font);
+            //        //table_budget.AddCell(cell_budget_left);
 
-            cell_fabric_center.Phrase = new Phrase("YARN", bold_font);
-            table_budget.AddCell(cell_fabric_center);
+            //        cell_budget_left.Phrase = new Phrase(materialModel.Product.code, normal_font);
+            //        table_budget.AddCell(cell_budget_left);
 
-            cell_fabric_center.Phrase = new Phrase("WIDTH", bold_font);
-            table_budget.AddCell(cell_fabric_center);
+            //        cell_budget_left.Phrase = new Phrase(materialModel.Composition.composition, normal_font);
+            //        table_budget.AddCell(cell_budget_left);
 
-            cell_budget_center.Phrase = new Phrase("DESCRIPTION", bold_font);
-            table_budget.AddCell(cell_budget_center);
+            //        cell_budget_left.Phrase = new Phrase(materialModel.Construction.construction, normal_font);
+            //        table_budget.AddCell(cell_budget_left);
 
-            cell_budget_center.Phrase = new Phrase("QUANTITY", bold_font);
-            table_budget.AddCell(cell_budget_center);
+            //        cell_budget_left.Phrase = new Phrase(materialModel.Yarn.yarn, normal_font);
+            //        table_budget.AddCell(cell_budget_left);
 
-            cell_budget_center.Phrase = new Phrase("REMARK", bold_font);
-            table_budget.AddCell(cell_budget_center);
+            //        cell_budget_left.Phrase = new Phrase(materialModel.Width.width, normal_font);
 
-            foreach (var materialModel in viewModel.CostCalculationGarment.CostCalculationGarment_Materials)
-            {
-                if (materialModel.Category.name == "ONG")
-                {
-                    //cell_budget_left.Phrase = new Phrase(materialModel.Category.SubCategory != null ? materialModel.Category.SubCategory : "", normal_font);
-                    //table_budget.AddCell(cell_budget_left);
+            //        table_budget.AddCell(cell_budget_left);
 
-                    cell_budget_left.Phrase = new Phrase(materialModel.Product.code, normal_font);
-                    table_budget.AddCell(cell_budget_left);
+            //        cell_budget_left.Phrase = new Phrase(materialModel.Description != null ? materialModel.Description : "", normal_font);
+            //        table_budget.AddCell(cell_budget_left);
 
-                    cell_budget_left.Phrase = new Phrase(materialModel.Composition.composition, normal_font);
-                    table_budget.AddCell(cell_budget_left);
+            //        cell_budget_left.Phrase = new Phrase(materialModel.Quantity != null ? String.Format("{0} " + materialModel.UOMQuantity.unit, materialModel.Quantity.ToString()) : "0", normal_font);
+            //        table_budget.AddCell(cell_budget_left);
 
-                    cell_budget_left.Phrase = new Phrase(materialModel.Construction.construction, normal_font);
-                    table_budget.AddCell(cell_budget_left);
+            //        cell_budget_left.Phrase = new Phrase(materialModel.Information != null ? materialModel.Information : "", normal_font);
+            //        table_budget.AddCell(cell_budget_left);
 
-                    cell_budget_left.Phrase = new Phrase(materialModel.Yarn.yarn, normal_font);
-                    table_budget.AddCell(cell_budget_left);
+            //        ongIndex++;
+            //    }
+            //}
 
-                    cell_budget_left.Phrase = new Phrase(materialModel.Width.width, normal_font);
-
-                    table_budget.AddCell(cell_budget_left);
-
-                    cell_budget_left.Phrase = new Phrase(materialModel.Description != null ? materialModel.Description : "", normal_font);
-                    table_budget.AddCell(cell_budget_left);
-
-                    cell_budget_left.Phrase = new Phrase(materialModel.Quantity != null ? String.Format("{0} " + materialModel.UOMQuantity.unit, materialModel.Quantity.ToString()) : "0", normal_font);
-                    table_budget.AddCell(cell_budget_left);
-
-                    cell_budget_left.Phrase = new Phrase(materialModel.Information != null ? materialModel.Information : "", normal_font);
-                    table_budget.AddCell(cell_budget_left);
-
-                    ongIndex++;
-                }
-            }
-
-            if (ongIndex != 0)
-            {
-                table_budget.WriteSelectedRows(0, -1, 10, rowYBudget, cb);
-                table_ong_top.WriteSelectedRows(0, -1, 10, rowYTittleOng, cb);
-            }
-            #endregion
+            //if (ongIndex != 0)
+            //{
+            //    table_budget.WriteSelectedRows(0, -1, 10, rowYBudget, cb);
+            //    table_ong_top.WriteSelectedRows(0, -1, 10, rowYTittleOng, cb);
+            //}
+            //#endregion
 
             #region Table Size Breakdown
             //Title
@@ -527,7 +527,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             cell_top_breakdown.Phrase = new Phrase("SIZE BREAKDOWN", bold_font);
             table_breakdown_top.AddCell(cell_top_breakdown);
 
-            float rowYTittleBreakDown = rowYBudget - table_budget.TotalHeight - 10;
+            float rowYTittleBreakDown = rowYAcc - table_accessories.TotalHeight - 10;
             float allowedRow2HeightBreakdown = rowYTittleBreakDown - printedOnHeight - margin;
             table_breakdown_top.WriteSelectedRows(0, -1, 10, rowYTittleBreakDown, cb);
 
