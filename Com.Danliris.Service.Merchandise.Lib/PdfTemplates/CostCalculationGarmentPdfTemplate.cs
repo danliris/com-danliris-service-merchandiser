@@ -48,9 +48,9 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             #region Header
             cb.BeginText();
             cb.SetFontAndSize(bf, 10);
-            cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT, "PT. EFRATA RETAILINDO", 10, 820, 0);
+            cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT, "PT. DAN LIRIS", 10, 820, 0);
             cb.SetFontAndSize(bf_bold, 12);
-            cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT, "COST CALCULATION PENJUALAN UMUM", 10, 805, 0);
+            cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT, "COST CALCULATION EXPORT GARMENT", 10, 805, 0);
             cb.EndText();
             #endregion
 
@@ -78,7 +78,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             cell_detail1.Phrase = new Phrase("LEAD TIME", normal_font);
             table_detail1.AddCell(cell_detail1);
             table_detail1.AddCell(cell_colon);
-            cell_detail1.Phrase = new Phrase($"{viewModel.LeadTime}", normal_font);
+            cell_detail1.Phrase = new Phrase($"{viewModel.LeadTime} hari", normal_font);
             table_detail1.AddCell(cell_detail1);
 
             cell_detail1.Phrase = new Phrase("ARTICLE", normal_font);
@@ -105,7 +105,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             cell_detail1.Phrase = new Phrase("COMMODITY", normal_font);
             table_detail1.AddCell(cell_detail1);
             table_detail1.AddCell(cell_colon);
-            cell_detail1.Phrase = new Phrase($"{viewModel.Commodity}", normal_font);
+            cell_detail1.Phrase = new Phrase($"{viewModel.Commodity.name}", normal_font);
             table_detail1.AddCell(cell_detail1);
             cell_detail1.Phrase = new Phrase("ACC", normal_font);
             table_detail1.AddCell(cell_detail1);
