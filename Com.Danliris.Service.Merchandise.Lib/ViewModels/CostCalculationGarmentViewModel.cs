@@ -13,9 +13,9 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
         public BuyerViewModel Buyer { get; set; }
         public double? CommissionPortion { get; set; }
         public double CommissionRate { get; set; }
-        public string Commodity { get; set; }
+        public MasterPlanComodityViewModel Commodity { get; set; }
         public DateTimeOffset ConfirmDate { get; set; }
-        public string ComodityDescription { get; set; }
+        public string CommodityDescription { get; set; }
         public double? ConfirmPrice { get; set; }
         public string Convection { get; set; }
         public List<CostCalculationGarment_MaterialViewModel> CostCalculationGarment_Materials { get; set; }
@@ -58,7 +58,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
                 yield return new ValidationResult("Nama Artikel harus diisi", new List<string> { "Article" });
             if (string.IsNullOrWhiteSpace(this.Convection))
                 yield return new ValidationResult("Konveksi harus diisi", new List<string> { "Convection" });
-            if (string.IsNullOrWhiteSpace(this.Commodity))
+            if (Commodity == null || string.IsNullOrWhiteSpace(Commodity._id))
                 yield return new ValidationResult("Komoditi harus diisi", new List<string> { "Commodity" });
 
             if (this.FabricAllowance.Equals(0))
