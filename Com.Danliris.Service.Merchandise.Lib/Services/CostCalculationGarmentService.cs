@@ -82,7 +82,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             List<string> convectionOption = new List<string> { "K2A", "K2B", "K2C", "K1A", "K1B" };
             int convectionCode = convectionOption.IndexOf(Model.Convection) + 1;
 
-            var lastData = await this.DbSet.Where(w => w._IsDeleted == false).OrderByDescending(o => o._CreatedUtc).FirstOrDefaultAsync();
+            var lastData = await this.DbSet.Where(w => w._IsDeleted == false && w.Convection == Model.Convection).OrderByDescending(o => o._CreatedUtc).FirstOrDefaultAsync();
 
             DateTime Now = DateTime.Now;
             string Year = Now.ToString("yy");
