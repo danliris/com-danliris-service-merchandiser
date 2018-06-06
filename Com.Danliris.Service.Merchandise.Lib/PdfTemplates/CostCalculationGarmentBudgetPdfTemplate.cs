@@ -32,7 +32,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             #region Header
             cb.BeginText();
             cb.SetFontAndSize(bf, 10);
-            cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT, "PT. EFRATA RETAILINDO", 10, 820, 0);
+            cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT, "PT. DAN LIRIS", 10, 820, 0);
             cb.SetFontAndSize(bf_bold, 12);
             cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT, "BUDGET PRODUCTION", 10, 805, 0);
             cb.EndText();
@@ -50,7 +50,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             cell_detail1.Phrase = new Phrase("RO", normal_font);
             table_detail1.AddCell(cell_detail1);
             table_detail1.AddCell(cell_colon);
-            //cell_detail1.Phrase = new Phrase($"{viewModel.RO}", normal_font);
+            cell_detail1.Phrase = new Phrase($"{viewModel.RO_Number}", normal_font);
             table_detail1.AddCell(cell_detail1);
             cell_detail1.Phrase = new Phrase("SECTION", normal_font);
             table_detail1.AddCell(cell_detail1);
@@ -92,7 +92,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
 
             cell_detail2.Phrase = new Phrase("DESCRIPTION", normal_font);
             table_detail2.AddCell(cell_detail2);
-            cell_detail2.Phrase = new Phrase($"{viewModel.Description}", normal_font);
+            cell_detail2.Phrase = new Phrase($"{viewModel.CommodityDescription}", normal_font);
             table_detail2.AddCell(cell_detail2);
 
             cell_detail2.Phrase = new Phrase("QTY", normal_font);
@@ -196,15 +196,15 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
 
             PdfPCell cell_signature = new PdfPCell() { Border = Rectangle.NO_BORDER, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE, Padding = 2 };
 
-            cell_signature.Phrase = new Phrase("Membuat,", normal_font);
+            cell_signature.Phrase = new Phrase("", normal_font);
             table_signature.AddCell(cell_signature);
             cell_signature.Phrase = new Phrase("", normal_font);
             table_signature.AddCell(cell_signature);
-            cell_signature.Phrase = new Phrase("Mengetahui,", normal_font);
+            cell_signature.Phrase = new Phrase("", normal_font);
             table_signature.AddCell(cell_signature);
             cell_signature.Phrase = new Phrase("", normal_font);
             table_signature.AddCell(cell_signature);
-            cell_signature.Phrase = new Phrase("Menyetujui,", normal_font);
+            cell_signature.Phrase = new Phrase("", normal_font);
             table_signature.AddCell(cell_signature);
 
             string signatureArea = string.Empty;
@@ -220,23 +220,35 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             table_signature.AddCell(cell_signature);
             table_signature.AddCell(cell_signature);
 
-            cell_signature.Phrase = new Phrase("Penjualan Umum", normal_font);
+
+            cell_signature.Phrase = new Phrase("(................)", normal_font);
             table_signature.AddCell(cell_signature);
-            cell_signature.Phrase = new Phrase("Ka. Sie Penjualan Umum", normal_font);
+            cell_signature.Phrase = new Phrase("(................)", normal_font);
             table_signature.AddCell(cell_signature);
-            cell_signature.Phrase = new Phrase("Ka. Sie Pembelian", normal_font);
+            cell_signature.Phrase = new Phrase("(................)", normal_font);
             table_signature.AddCell(cell_signature);
-            cell_signature.Phrase = new Phrase("Ka. Bag Produksi", normal_font);
+            cell_signature.Phrase = new Phrase("(................)", normal_font);
             table_signature.AddCell(cell_signature);
-            cell_signature.Phrase = new Phrase("Direktur Operasional", normal_font);
+            cell_signature.Phrase = new Phrase("(................)", normal_font);
+            table_signature.AddCell(cell_signature);
+
+            cell_signature.Phrase = new Phrase("Penjualan", normal_font);
+            table_signature.AddCell(cell_signature);
+            cell_signature.Phrase = new Phrase("Ka. Sie/Ka. Bag Penjualan", normal_font);
+            table_signature.AddCell(cell_signature);
+            cell_signature.Phrase = new Phrase("Ka. Bag Pembelian", normal_font);
+            table_signature.AddCell(cell_signature);
+            cell_signature.Phrase = new Phrase("Ka. Div Produksi Garment", normal_font);
+            table_signature.AddCell(cell_signature);
+            cell_signature.Phrase = new Phrase("Ka. Div Penjualan", normal_font);
             table_signature.AddCell(cell_signature);
             #endregion
 
             #region Cost Calculation Material
-            PdfPTable table_ccm = new PdfPTable(10);
+            PdfPTable table_ccm = new PdfPTable(14);
             table_ccm.TotalWidth = 570f;
 
-            float[] ccm_widths = new float[] { 1f, 3f, 4f, 6f, 2f, 3f, 3f, 2f, 3f, 3f };
+            float[] ccm_widths = new float[] { 1f, 3f, 3f, 3f, 3f, 3f, 3f, 6f, 2f, 3f, 3f, 2f, 3f, 3f };
             table_ccm.SetWidths(ccm_widths);
 
             PdfPCell cell_ccm = new PdfPCell() { Border = Rectangle.TOP_BORDER | Rectangle.LEFT_BORDER | Rectangle.BOTTOM_BORDER | Rectangle.RIGHT_BORDER, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE, Padding = 2 };
@@ -245,7 +257,15 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             table_ccm.AddCell(cell_ccm);
             cell_ccm.Phrase = new Phrase("CATEGORIES", bold_font);
             table_ccm.AddCell(cell_ccm);
-            cell_ccm.Phrase = new Phrase("MATERIALS", bold_font);
+            cell_ccm.Phrase = new Phrase("KODE PRODUK", bold_font);
+            table_ccm.AddCell(cell_ccm);
+            cell_ccm.Phrase = new Phrase("KOMPOSISI", bold_font);
+            table_ccm.AddCell(cell_ccm);
+            cell_ccm.Phrase = new Phrase("KONSTRUKSI", bold_font);
+            table_ccm.AddCell(cell_ccm);
+            cell_ccm.Phrase = new Phrase("YARN", bold_font);
+            table_ccm.AddCell(cell_ccm);
+            cell_ccm.Phrase = new Phrase("WIDTH", bold_font);
             table_ccm.AddCell(cell_ccm);
             cell_ccm.Phrase = new Phrase("DESCRIPTION", bold_font);
             table_ccm.AddCell(cell_ccm);
@@ -269,17 +289,37 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
 
             for (int i = 0; i < viewModel.CostCalculationGarment_Materials.Count; i++)
             {
+                //NO
                 cell_ccm.Phrase = new Phrase((i + 1).ToString(), normal_font);
                 table_ccm.AddCell(cell_ccm);
 
                 cell_ccm.HorizontalAlignment = Element.ALIGN_LEFT;
 
-                cell_ccm.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Category.SubCategory != null ? String.Format("{0} - {1}", viewModel.CostCalculationGarment_Materials[i].Category.name, viewModel.CostCalculationGarment_Materials[i].Category.SubCategory) : viewModel.CostCalculationGarment_Materials[i].Category.name, normal_font);
+                //CATEGORY
+                cell_ccm.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Category.name, normal_font);
                 table_ccm.AddCell(cell_ccm);
 
-                //cell_ccm.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Material.Name, normal_font);
-                //table_ccm.AddCell(cell_ccm);
+                //KODE PRODUK
+                cell_ccm.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Product.code, normal_font);
+                table_ccm.AddCell(cell_ccm);
 
+                //KOMPOSISI
+                cell_ccm.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Product.composition, normal_font);
+                table_ccm.AddCell(cell_ccm);
+
+                //KONSTRUKSI
+                cell_ccm.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Product.yarn, normal_font);
+                table_ccm.AddCell(cell_ccm);
+
+                //YARN
+                cell_ccm.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Product.yarn, normal_font);
+                table_ccm.AddCell(cell_ccm);
+
+                //WIDTH
+                cell_ccm.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Product.width, normal_font);
+                table_ccm.AddCell(cell_ccm);
+
+                //DESCRIPTION
                 cell_ccm.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Description, normal_font);
                 table_ccm.AddCell(cell_ccm);
 
@@ -294,13 +334,13 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
                 table_ccm.AddCell(cell_ccm);
 
                 double factor;
-                if (viewModel.CostCalculationGarment_Materials[i].Category.name == "ACC")
+                if (viewModel.CostCalculationGarment_Materials[i].Category.name == "FABRIC")
                 {
-                    factor = viewModel.AccessoriesAllowance ?? 0;
+                    factor = viewModel.FabricAllowance ?? 0;
                 }
                 else
                 {
-                    factor = viewModel.FabricAllowance ?? 0;
+                    factor = viewModel.AccessoriesAllowance ?? 0;
                 }
                 double totalQuantity = viewModel.Quantity ?? 0;
                 double quantity = (100 + factor) / 100 * usage * totalQuantity;
