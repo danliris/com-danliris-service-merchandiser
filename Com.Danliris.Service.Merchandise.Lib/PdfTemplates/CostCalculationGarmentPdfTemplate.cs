@@ -183,7 +183,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
 
             cell_detail2.Phrase = new Phrase("BUYER", normal_font);
             table_detail2.AddCell(cell_detail2);
-            cell_detail2.Phrase = new Phrase($"{viewModel.Buyer.Name}", normal_font);
+            cell_detail2.Phrase = new Phrase($"{viewModel.Buyer.name}", normal_font);
             table_detail2.AddCell(cell_detail2);
 
             cell_detail2.Phrase = new Phrase("DELIVERY", normal_font);
@@ -466,7 +466,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
                 cell_ccm_center.Phrase = new Phrase((i + 1).ToString(), normal_font);
                 table_ccm.AddCell(cell_ccm_center);
 
-                cell_ccm_left.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Category.SubCategory != null ? String.Format("{0} - {1}", viewModel.CostCalculationGarment_Materials[i].Category.Name, viewModel.CostCalculationGarment_Materials[i].Category.SubCategory) : viewModel.CostCalculationGarment_Materials[i].Category.Name, normal_font);
+                cell_ccm_left.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Category.SubCategory != null ? String.Format("{0} - {1}", viewModel.CostCalculationGarment_Materials[i].Category.name, viewModel.CostCalculationGarment_Materials[i].Category.SubCategory) : viewModel.CostCalculationGarment_Materials[i].Category.name, normal_font);
                 table_ccm.AddCell(cell_ccm_left);
 
                 //cell_ccm_left.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Material.Name, normal_font);
@@ -475,10 +475,10 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
                 cell_ccm_left.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Description, normal_font);
                 table_ccm.AddCell(cell_ccm_left);
 
-                cell_ccm_right.Phrase = new Phrase(String.Format("{0} {1}", viewModel.CostCalculationGarment_Materials[i].Quantity, viewModel.CostCalculationGarment_Materials[i].UOMQuantity.Name), normal_font);
+                cell_ccm_right.Phrase = new Phrase(String.Format("{0} {1}", viewModel.CostCalculationGarment_Materials[i].Quantity, viewModel.CostCalculationGarment_Materials[i].UOMQuantity.unit), normal_font);
                 table_ccm.AddCell(cell_ccm_right);
 
-                cell_ccm_right.Phrase = new Phrase(String.Format("{0}/{1}", Number.ToRupiahWithoutSymbol(viewModel.CostCalculationGarment_Materials[i].Price), viewModel.CostCalculationGarment_Materials[i].UOMPrice.Name), normal_font);
+                cell_ccm_right.Phrase = new Phrase(String.Format("{0}/{1}", Number.ToRupiahWithoutSymbol(viewModel.CostCalculationGarment_Materials[i].Price), viewModel.CostCalculationGarment_Materials[i].UOMPrice.unit), normal_font);
                 table_ccm.AddCell(cell_ccm_right);
 
                 cell_ccm_right.Phrase = new Phrase(Number.ToRupiahWithoutSymbol(viewModel.CostCalculationGarment_Materials[i].Total), normal_font);

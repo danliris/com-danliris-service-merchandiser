@@ -230,6 +230,16 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
                     {
                         Service.Username = User.Claims.Single(p => p.Type.Equals("username")).Value;
                         Service.Token = Request.Headers["Authorization"].First().Replace("Bearer ", "");
+                        var exists = Service.IsExists(Id);
+
+                        if (exists == false)
+                        {
+                            Dictionary<string, object> ResultNotFound =
+                                new ResultFormatter(ApiVersion, General.NOT_FOUND_STATUS_CODE, General.NOT_FOUND_MESSAGE)
+                                .Fail();
+                            return NotFound(ResultNotFound);
+                        }
+
                         await Service.DeleteModel(Id);
                         transaction.Commit();
                     }

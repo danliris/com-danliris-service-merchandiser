@@ -41,13 +41,8 @@ namespace Com.Danliris.Service.Merchandiser.WebApi
                 .AddTransient<AzureImageService>();
 
             services
-                .AddTransient<SizeService>()
                 .AddTransient<RateService>()
-
-                .AddTransient<EfficiencyService>()
-                .AddTransient<SizeRangeService>()
-                .AddTransient<RelatedSizeService>()
-
+                .AddTransient<EfficiencyService>()         
                 .AddTransient<CostCalculationGarmentService>()
                 .AddTransient<CostCalculationGarment_MaterialService>()
                 .AddTransient<LineService>()

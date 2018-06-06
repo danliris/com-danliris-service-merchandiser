@@ -8,49 +8,49 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
 {
     public class CostCalculationGarmentViewModel : BasicViewModel, IValidatableObject
     {
-        public string Code { get; set; }
-        public int RO_Number { get; set; }
-        //public string RO { get; set; }
-        public string Article { get; set; }
-        // public LineViewModel Line { get; set; }
-        public string Commodity { get; set; }
-        public double? FabricAllowance { get; set; }
         public double? AccessoriesAllowance { get; set; }
+        public string Article { get; set; }
+        public BuyerViewModel Buyer { get; set; }
+        public double? CommissionPortion { get; set; }
+        public double CommissionRate { get; set; }
+        public string Commodity { get; set; }
+        public DateTimeOffset ConfirmDate { get; set; }
+        public string ComodityDescription { get; set; }
+        public double? ConfirmPrice { get; set; }
+        public string Convection { get; set; }
+        public List<CostCalculationGarment_MaterialViewModel> CostCalculationGarment_Materials { get; set; }
+        public DateTimeOffset DeliveryDate { get; set; }
+        public string Description { get; set; }
+        public EfficiencyViewModel Efficiency { get; set; }
+        public double? FabricAllowance { get; set; }
+        public double? Freight { get; set; }
+        public double FreightCost { get; set; }
+        public string ImageFile { get; set; }
+        public double Index { get; set; }
+        public double? Insurance { get; set; }
+        public int? LeadTime { get; set; }
+        public string Code { get; set; }
+        public string RO_Number { get; set; }
+        //public string RO { get; set; }
+        // public LineViewModel Line { get; set; }
         public string Section { get; set; }
         public int? Quantity { get; set; }
         public string SizeRange { get; set; }
-        public DateTimeOffset DeliveryDate { get; set; }
-        public DateTimeOffset ConfirmDate { get; set; }
-        public int? LeadTime { get; set; }
         public double? SMV_Cutting { get; set; }
         public double? SMV_Sewing { get; set; }
         public double? SMV_Finishing { get; set; }
         public double SMV_Total { get; set; }
-        public BuyerViewModel Buyer { get; set; }
-        public EfficiencyViewModel Efficiency { get; set; }
-        public double Index { get; set; }
         public RateViewModel Wage { get; set; }
         public RateViewModel THR { get; set; }
-        public double? ConfirmPrice { get; set; }
         public RateViewModel Rate { get; set; }
-        public List<CostCalculationGarment_MaterialViewModel> CostCalculationGarment_Materials { get; set; }
-        public double? Freight { get; set; }
-        public double? Insurance { get; set; }
-        public double? CommissionPortion { get; set; }
-        public double CommissionRate { get; set; }
         public RateCalculatedViewModel OTL1 { get; set; }
         public RateCalculatedViewModel OTL2 { get; set; }
         public double Risk { get; set; }
         public double ProductionCost { get; set; }
         public double NETFOB { get; set; }
-        public double FreightCost { get; set; }
         public double NETFOBP { get; set; }
-        public string Description { get; set; }
-        public string ImageFile { get; set; }
         public string ImagePath { get; set; }
-        public string Convection { get; set; }
         public int? RO_RetailId { get; set; }
-        public string ComodityDescription { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -80,9 +80,9 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
                 yield return new ValidationResult("Tidak ditemukan Efisiensi pada kuantitas ini", new List<string> { "Quantity" });
             if (string.IsNullOrWhiteSpace(this.SizeRange))
                 yield return new ValidationResult("Size Range harus diisi", new List<string> { "SizeRange" });
-            if (this.DeliveryDate == null || this.DeliveryDate == DateTime.MinValue)
+            if (this.DeliveryDate == null || this.DeliveryDate == DateTimeOffset.MinValue)
                 yield return new ValidationResult("Delivery Date harus diisi", new List<string> { "DeliveryDate" });
-            else if (this.DeliveryDate < DateTime.Today)
+            else if (this.DeliveryDate < DateTimeOffset.Now)
                 yield return new ValidationResult("Delivery Date harus lebih besar dari hari ini", new List<string> { "DeliveryDate" });
             if (this.SMV_Cutting == null)
                 yield return new ValidationResult("SMV Cutting harus diisi", new List<string> { "SMV_Cutting" });
@@ -96,7 +96,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
                 yield return new ValidationResult("SMV Finishing harus diisi", new List<string> { "SMV_Finishing" });
             else if (this.SMV_Finishing <= 0)
                 yield return new ValidationResult("SMV Finishing harus lebih besar dari 0", new List<string> { "SMV_Finishing" });
-            if (this.Buyer == null || this.Buyer.Id == 0)
+            if (Buyer == null || string.IsNullOrWhiteSpace(Buyer._id))
                 yield return new ValidationResult("Buyer harus diisi", new List<string> { "Buyer" });
             if (this.ConfirmPrice == null)
                 yield return new ValidationResult("Confirm Price harus diisi", new List<string> { "ConfirmPrice" });
@@ -113,7 +113,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
                 foreach (CostCalculationGarment_MaterialViewModel costCalculation_Material in this.CostCalculationGarment_Materials)
                 {
                     costCalculationGarment_MaterialsError += "{";
-                    if (costCalculation_Material.Category == null || costCalculation_Material.Category.Id == 0)
+                    if (costCalculation_Material.Category == null || string.IsNullOrWhiteSpace(costCalculation_Material.Category._id))
                     {
                         Count++;
                         costCalculationGarment_MaterialsError += "Category: 'Kategori harus diisi', ";
@@ -159,13 +159,13 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
                             costCalculationGarment_MaterialsError += "Conversion: 'Konversi harus lebih besar dari 0', ";
                         }
 
-                        if (costCalculation_Material.UOMQuantity == null || costCalculation_Material.UOMQuantity.Id == 0)
+                        if (costCalculation_Material.UOMQuantity == null || string.IsNullOrWhiteSpace(costCalculation_Material.UOMQuantity._id))
                         {
                             Count++;
                             costCalculationGarment_MaterialsError += "UOMQuantity: 'Satuan Kuantitas harus diisi', ";
                         }
 
-                        if (costCalculation_Material.UOMPrice == null || costCalculation_Material.UOMPrice.Id == 0)
+                        if (costCalculation_Material.UOMPrice == null || string.IsNullOrWhiteSpace(costCalculation_Material.UOMPrice._id))
                         {
                             Count++;
                             costCalculationGarment_MaterialsError += "UOMPrice: 'Satuan Harga harus diisi', ";
