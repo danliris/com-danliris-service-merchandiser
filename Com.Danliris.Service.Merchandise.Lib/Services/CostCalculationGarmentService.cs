@@ -261,6 +261,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             PropertyCopier<CostCalculationGarment, CostCalculationGarmentViewModel>.Copy(model, viewModel);
 
             viewModel.Convection = model.Convection;
+            viewModel.AutoIncrementNumber = model.AutoIncrementNumber;
 
             viewModel.FabricAllowance = Percentage.ToPercent(model.FabricAllowance);
             viewModel.AccessoriesAllowance = Percentage.ToPercent(model.AccessoriesAllowance);
