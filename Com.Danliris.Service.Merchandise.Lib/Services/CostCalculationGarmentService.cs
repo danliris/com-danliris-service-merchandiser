@@ -288,7 +288,10 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             viewModel.Rate.Id = model.RateId;
             viewModel.Rate.Value = model.RateValue;
 
-            viewModel.ComodityDescription = model.CommodityDescription;
+            viewModel.Commodity = new MasterPlanComodityViewModel();
+            viewModel.Commodity.name = model.Commodity;
+            viewModel.Commodity._id = model.ComodityID;
+            viewModel.CommodityDescription = model.CommodityDescription;
 
             viewModel.CostCalculationGarment_Materials = new List<CostCalculationGarment_MaterialViewModel>();
             if (model.CostCalculationGarment_Materials != null)
@@ -385,7 +388,9 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             model.WageId = viewModel.Wage.Id;
             model.WageRate = viewModel.Wage.Value != null ? (double)viewModel.Wage.Value : 0;
 
-            model.CommodityDescription = viewModel.ComodityDescription;
+            model.ComodityID = viewModel.Commodity._id;
+            model.Commodity = viewModel.Commodity.name;
+            model.CommodityDescription = viewModel.CommodityDescription;
 
             model.THRId = viewModel.THR.Id;
             model.THRRate = viewModel.THR.Value != null ? (double)viewModel.THR.Value : 0;
