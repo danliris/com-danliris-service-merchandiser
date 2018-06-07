@@ -13,6 +13,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
         public BuyerViewModel Buyer { get; set; }
         public double? CommissionPortion { get; set; }
         public double CommissionRate { get; set; }
+        public UOMViewModel UOM { get; set; }
         public MasterPlanComodityViewModel Commodity { get; set; }
         public DateTimeOffset ConfirmDate { get; set; }
         public string CommodityDescription { get; set; }
@@ -31,8 +32,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
         public int? LeadTime { get; set; }
         public string Code { get; set; }
         public string RO_Number { get; set; }
-        //public string RO { get; set; }
-        // public LineViewModel Line { get; set; }
         public string Section { get; set; }
         public int? Quantity { get; set; }
         public string SizeRange { get; set; }
@@ -71,11 +70,13 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
             else if (this.AccessoriesAllowance <= 0)
                 yield return new ValidationResult("Access harus lebih besar dari 0", new List<string> { "AccessoriesAllowance" });
 
+            if (UOM == null || string.IsNullOrWhiteSpace(UOM._id))
+                yield return new ValidationResult("Satuan harus diisi", new List<string> { "UOM" });
+
             if (this.Quantity == null)
                 yield return new ValidationResult("Kuantitas harus diisi", new List<string> { "Quantity" });
             else if (this.Quantity <= 0)
                 yield return new ValidationResult("Kuantitas harus lebih besar dari 0", new List<string> { "Quantity" });
-
             else if (this.Efficiency == null || this.Efficiency.Id == 0)
                 yield return new ValidationResult("Tidak ditemukan Efisiensi pada kuantitas ini", new List<string> { "Quantity" });
             if (string.IsNullOrWhiteSpace(this.SizeRange))

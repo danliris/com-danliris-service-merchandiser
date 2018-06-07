@@ -168,7 +168,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
 
             cell_bottom_column1_1.Phrase = new Phrase("QTY", normal_font);
             table_bottom_column1_1.AddCell(cell_bottom_column1_1);
-            cell_bottom_column1_1.Phrase = new Phrase($"{viewModel.Quantity} PCS", normal_font);
+            cell_bottom_column1_1.Phrase = new Phrase($"{viewModel.Quantity} {viewModel.UOM.unit}", normal_font);
             table_bottom_column1_1.AddCell(cell_bottom_column1_1);
 
             cell_bottom_column1_1.Phrase = new Phrase("DESCRIPTION", normal_font);

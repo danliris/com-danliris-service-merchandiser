@@ -275,6 +275,13 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             viewModel.Efficiency.Id = model.EfficiencyId;
             viewModel.Efficiency.Value = Percentage.ToPercent(model.EfficiencyValue);
 
+            viewModel.UOM = new UOMViewModel()
+            {
+                _id = model.UOMID,
+                code = model.UOMCode,
+                unit = model.UOMUnit
+            };
+
             viewModel.Wage = new RateViewModel();
             viewModel.Wage.Id = model.WageId;
             viewModel.Wage.Value = model.WageRate;
@@ -383,6 +390,10 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
             model.EfficiencyId = viewModel.Efficiency.Id;
             model.EfficiencyValue = Percentage.ToFraction(viewModel.Efficiency.Value);
+
+            model.UOMID = viewModel.UOM._id;
+            model.UOMCode = viewModel.UOM.code;
+            model.UOMUnit = viewModel.UOM.unit;
 
             model.WageId = viewModel.Wage.Id;
             model.WageRate = viewModel.Wage.Value != null ? (double)viewModel.Wage.Value : 0;
