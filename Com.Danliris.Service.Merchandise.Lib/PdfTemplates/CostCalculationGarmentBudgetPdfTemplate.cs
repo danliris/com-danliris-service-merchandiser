@@ -34,7 +34,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             cb.SetFontAndSize(bf, 10);
             cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT, "PT. DAN LIRIS", 10, 820, 0);
             cb.SetFontAndSize(bf_bold, 12);
-            cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT, "BUDGET PRODUCTION", 10, 805, 0);
+            cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT, "BUDGET EXPORT GARMENT", 10, 805, 0);
             cb.EndText();
             #endregion
 
