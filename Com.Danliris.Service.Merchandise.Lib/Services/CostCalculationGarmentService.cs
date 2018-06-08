@@ -127,38 +127,80 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
         //    }
         //}
 
+
+
         public override async Task<int> CreateModel(CostCalculationGarment Model)
         {
             int Created = 0;
 
             Model = await this.CustomCodeGenerator(Model);
+            GeneratePONumbers(Model);
             Created = await this.CreateAsync(Model);
             Model.ImagePath = await this.AzureImageService.UploadImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImageFile);
 
             await this.UpdateAsync(Model.Id, Model);
 
-            //using (var transaction = this.DbContext.Database.BeginTransaction())
-            //{
-            //    try
-            //    {
-            //        Model = await this.CustomCodeGenerator(Model);
-            //        Created = await this.CreateAsync(Model);
-            //        Model.ImagePath = await this.AzureImageService.UploadImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImageFile);
-
-            //        await this.UpdateAsync(Model.Id, Model);
-            //        transaction.Commit();
-            //    }
-            //    catch (ServiceValidationExeption e)
-            //    {
-            //        throw new ServiceValidationExeption(e.ValidationContext, e.ValidationResults);
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        transaction.Rollback();
-            //        throw new Exception(e.Message);
-            //    }
-            //}
             return Created;
+        }
+
+        private void GeneratePONumbers(CostCalculationGarment model)
+        {
+            int lastFabricNumber = GetLastMaterialFabricNumberByCategoryName(model.Convection);
+            int lastNonFabricNumber = GetLastMaterialNonFabricNumberByCategoryName(model.Convection);
+            int convectionCode = GetConvectionCode(model.Convection);
+
+            DateTime Now = DateTime.Now;
+            string Year = Now.ToString("yy");
+
+            foreach (CostCalculationGarment_Material item in model.CostCalculationGarment_Materials)
+            {
+                string Number = "";
+                if (item.CategoryName.ToUpper().Equals("FABRIC"))
+                {
+                    lastFabricNumber += 1;
+                    Number = lastFabricNumber.ToString().PadLeft(4, '0');
+                    item.PO_SerialNumber = $"PM{Year}{convectionCode}{Number}";
+                    item.AutoIncrementNumber = lastFabricNumber;
+                }
+                else
+                {
+                    lastNonFabricNumber += 1;
+                    Number = lastNonFabricNumber.ToString().PadLeft(4, '0');
+                    item.PO_SerialNumber = $"PA{Year}{convectionCode}{Number}";
+                    item.AutoIncrementNumber = lastNonFabricNumber;
+                }
+            }
+        }
+
+        private int GetConvectionCode(string convection)
+        {
+            switch (convection)
+            {
+                case "K2A":
+                    return 1;
+                case "K2B":
+                    return 2;
+                case "K2C":
+                    return 3;
+                case "K1A":
+                    return 4;
+                case "K1B":
+                    return 5;
+                default:
+                    return 0;
+            }
+        }
+
+        private int GetLastMaterialNonFabricNumberByCategoryName(string convection)
+        {
+            CostCalculationGarment_Material result = DbContext.CostCalculationGarment_Materials.Where(w => !w.CategoryName.ToUpper().Equals("FABRIC") && w.Convection.Equals(convection)).OrderByDescending(o => o._CreatedUtc.Year).ThenByDescending(t => t.AutoIncrementNumber).FirstOrDefault();
+            return result == null ? 0 : result.AutoIncrementNumber;
+        }
+
+        private int GetLastMaterialFabricNumberByCategoryName(string convection)
+        {
+            CostCalculationGarment_Material result = DbContext.CostCalculationGarment_Materials.Where(w => w.CategoryName.ToUpper().Equals("FABRIC") && w.Convection.Equals(convection)).OrderByDescending(o => o._CreatedUtc.Year).ThenByDescending(m => m.AutoIncrementNumber).FirstOrDefault();
+            return result == null ? 0 : result.AutoIncrementNumber;
         }
 
         public override async Task<CostCalculationGarment> ReadModelById(int id)
@@ -307,6 +349,8 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
                 {
                     CostCalculationGarment_MaterialViewModel CostCalculationGarment_MaterialVM = new CostCalculationGarment_MaterialViewModel();
                     PropertyCopier<CostCalculationGarment_Material, CostCalculationGarment_MaterialViewModel>.Copy(CostCalculationGarment_Material, CostCalculationGarment_MaterialVM);
+
+                    CostCalculationGarment_Material.Convection = model.Convection;
 
                     CategoryViewModel categoryVM = new CategoryViewModel()
                     {

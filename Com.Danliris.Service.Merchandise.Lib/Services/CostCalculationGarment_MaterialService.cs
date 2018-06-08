@@ -113,7 +113,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
         {
             int Created = 0;
 
-            Model = await this.GeneratePO(Model);
             Created = await this.CreateAsync(Model);
 
             await this.UpdateAsync(Model.Id, Model);
