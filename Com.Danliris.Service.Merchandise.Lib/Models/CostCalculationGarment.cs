@@ -20,6 +20,9 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Models
         public double FabricAllowance { get; set; }
         public double AccessoriesAllowance { get; set; }
         public string Section { get; set; }
+        public string UOMID { get; set; }
+        public string UOMCode { get; set; }
+        public string UOMUnit { get; set; }
         public int Quantity { get; set; }
         public string SizeRange { get; set; }
         public DateTimeOffset DeliveryDate { get; set; }
