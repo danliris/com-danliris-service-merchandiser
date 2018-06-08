@@ -8,6 +8,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
 {
     public class CostCalculationGarmentViewModel : BasicViewModel, IValidatableObject
     {
+        public int AutoIncrementNumber { get; set; }
         public double? AccessoriesAllowance { get; set; }
         public string Article { get; set; }
         public BuyerViewModel Buyer { get; set; }

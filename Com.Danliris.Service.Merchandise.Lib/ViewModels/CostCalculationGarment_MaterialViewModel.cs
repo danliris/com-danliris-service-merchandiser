@@ -9,10 +9,10 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
     public class CostCalculationGarment_MaterialViewModel : BasicViewModel
     {
         public string Code { get; set; }
-        public int? PO_SerialNumber { get; set; }
+        public string PO_SerialNumber { get; set; }
         public string PO { get; set; }
         public CategoryViewModel Category { get; set; }
-
+        public int AutoIncrementNumber { get; set; }
         public GarmentProductViewModel Product { get; set; } // product code, id
         public string Description { get; set; }
         public double? Quantity { get; set; }
@@ -27,5 +27,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
         public double TotalShippingFee { get; set; }
         public double BudgetQuantity { get; set; }
         public string Information { get; set; }
+        public string Convection { get; set; }
     }
 }

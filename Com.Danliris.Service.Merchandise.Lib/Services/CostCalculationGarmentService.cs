@@ -112,6 +112,21 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             return Model;
         }
 
+        //public async Task GeneratePO(int Id)
+        //{
+        //    HashSet<int> CostCalculationGarment_Materials = new HashSet<int>(this.CostCalculationGarment_MaterialService.DbSet
+        //            .Where(p => p.CostCalculationGarmentId.Equals(Id))
+        //            .Select(p => p.Id));
+        //    foreach (int id in CostCalculationGarment_Materials)
+        //    {
+        //        CostCalculationGarment_Material model = await CostCalculationGarment_MaterialService.ReadModelById(id);
+        //        if (model.PO_SerialNumber == null || model.PO_SerialNumber == 0)
+        //        {
+        //            await CostCalculationGarment_MaterialService.GeneratePO(model);
+        //        }
+        //    }
+        //}
+
         public override async Task<int> CreateModel(CostCalculationGarment Model)
         {
             int Created = 0;
@@ -220,21 +235,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             return await this.DeleteAsync(Id);
         }
 
-        public async Task GeneratePO(int Id)
-        {
-            HashSet<int> CostCalculationGarment_Materials = new HashSet<int>(this.CostCalculationGarment_MaterialService.DbSet
-                    .Where(p => p.CostCalculationGarmentId.Equals(Id))
-                    .Select(p => p.Id));
-            foreach (int id in CostCalculationGarment_Materials)
-            {
-                CostCalculationGarment_Material model = await CostCalculationGarment_MaterialService.ReadModelById(id);
-                if (model.PO_SerialNumber == null || model.PO_SerialNumber == 0)
-                {
-                    await CostCalculationGarment_MaterialService.GeneratePO(model);
-                }
-            }
-        }
-
         public override void OnCreating(CostCalculationGarment model)
         {
             do
@@ -261,6 +261,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             PropertyCopier<CostCalculationGarment, CostCalculationGarmentViewModel>.Copy(model, viewModel);
 
             viewModel.Convection = model.Convection;
+            viewModel.AutoIncrementNumber = model.AutoIncrementNumber;
 
             viewModel.FabricAllowance = Percentage.ToPercent(model.FabricAllowance);
             viewModel.AccessoriesAllowance = Percentage.ToPercent(model.AccessoriesAllowance);
@@ -414,6 +415,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             {
                 CostCalculationGarment_Material CostCalculationGarment_Material = new CostCalculationGarment_Material();
                 PropertyCopier<CostCalculationGarment_MaterialViewModel, CostCalculationGarment_Material>.Copy(CostCalculationGarment_MaterialVM, CostCalculationGarment_Material);
+                CostCalculationGarment_Material.Convection = model.Convection;
                 CostCalculationGarment_Material.ProductId = CostCalculationGarment_MaterialVM.Product._id;
                 CostCalculationGarment_Material.ProductCode = CostCalculationGarment_MaterialVM.Product.code;
                 CostCalculationGarment_Material.Construction = CostCalculationGarment_MaterialVM.Product.construction;

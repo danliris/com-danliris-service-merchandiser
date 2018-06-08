@@ -9,12 +9,14 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Models
         public int CostCalculationGarmentId { get; set; }
         public virtual CostCalculationGarment CostCalculationGarment { get; set; }
         public string Code { get; set; }
-        public int? PO_SerialNumber { get; set; }
+        public string PO_SerialNumber { get; set; }
+        public string Convection { get; set; }
         public string PO { get; set; }
         public string CategoryId { get; set; }
         public string CategoryName { get; set; }
         //public int MaterialId { get; set; }
         //public string MaterialName { get; set; }
+        public int AutoIncrementNumber { get; set; }
         public string ProductId { get; set; }
         public string ProductCode { get; set; }
         public string Composition { set; get; }
