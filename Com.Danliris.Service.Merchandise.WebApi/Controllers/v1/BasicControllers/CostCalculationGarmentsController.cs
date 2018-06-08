@@ -58,7 +58,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.v1.BasicControlle
                 Service.Username = User.Claims.Single(p => p.Type.Equals("username")).Value;
                 Service.Token = Request.Headers["Authorization"].First().Replace("Bearer ", "");
 
-                await Service.GeneratePO(Id);
+                //await Service.GeneratePO(Id);
                 var model = Service.ReadModelById(Id).Result;
                 var viewModel = Service.MapToViewModel(model);
 

@@ -11,9 +11,10 @@ using System;
 namespace Com.Danliris.Service.Merchandiser.Lib.Migrations
 {
     [DbContext(typeof(MerchandiserDbContext))]
-    partial class MerchandiserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180608113139_addAutoIncrementCostCalculation_Material")]
+    partial class addAutoIncrementCostCalculation_Material
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
