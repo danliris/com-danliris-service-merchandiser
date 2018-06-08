@@ -60,7 +60,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             cell_detail1.Phrase = new Phrase("CONFIRM ORDER", normal_font);
             table_detail1.AddCell(cell_detail1);
             table_detail1.AddCell(cell_colon);
-            cell_detail1.Phrase = new Phrase($"{viewModel.ConfirmDate.ToString("dd/MM/yyyy")}", normal_font);
+            cell_detail1.Phrase = new Phrase($"{viewModel.ConfirmDate.AddHours(timeoffset).ToString("dd/MM/yyyy")}", normal_font);
             table_detail1.AddCell(cell_detail1);
             #endregion
 
