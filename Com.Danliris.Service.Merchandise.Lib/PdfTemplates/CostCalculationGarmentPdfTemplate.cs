@@ -461,10 +461,10 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             cell_ccm_center.Phrase = new Phrase("QUANTITY", bold_font);
             table_ccm.AddCell(cell_ccm_center);
 
-            cell_ccm_center.Phrase = new Phrase("RP. PTC/PC", bold_font);
+            cell_ccm_center.Phrase = new Phrase("USD. PTC/PC", bold_font);
             table_ccm.AddCell(cell_ccm_center);
 
-            cell_ccm_center.Phrase = new Phrase("RP. TOTAL", bold_font);
+            cell_ccm_center.Phrase = new Phrase("USD. TOTAL", bold_font);
             table_ccm.AddCell(cell_ccm_center);
 
             double Total = 0;
