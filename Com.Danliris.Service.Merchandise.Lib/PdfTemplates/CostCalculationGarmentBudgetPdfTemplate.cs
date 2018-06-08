@@ -333,7 +333,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
                 table_ccm.AddCell(cell_ccm);
 
                 cell_ccm.HorizontalAlignment = Element.ALIGN_CENTER;
-                cell_ccm.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].PO, normal_font);
+                cell_ccm.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].PO_SerialNumber, normal_font);
                 table_ccm.AddCell(cell_ccm);
 
                 float currentHeight = table_ccm.TotalHeight;
