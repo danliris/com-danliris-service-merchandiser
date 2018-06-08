@@ -9,7 +9,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
 {
     public class CostCalculationGarmentBudgetPdfTemplate
     {
-        public MemoryStream GeneratePdfTemplate(CostCalculationGarmentViewModel viewModel)
+        public MemoryStream GeneratePdfTemplate(CostCalculationGarmentViewModel viewModel, int timeoffset)
         {
             BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
             BaseFont bf_bold = BaseFont.CreateFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
@@ -102,7 +102,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
 
             cell_detail2.Phrase = new Phrase("DELIVERY", normal_font);
             table_detail2.AddCell(cell_detail2);
-            cell_detail2.Phrase = new Phrase($"{viewModel.DeliveryDate.ToString("dd/MM/yyyy")}", normal_font);
+            cell_detail2.Phrase = new Phrase($"{viewModel.DeliveryDate.AddHours(timeoffset).ToString("dd/MM/yyyy")}", normal_font);
             table_detail2.AddCell(cell_detail2);
             #endregion
 
@@ -245,10 +245,10 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             #endregion
 
             #region Cost Calculation Material
-            PdfPTable table_ccm = new PdfPTable(14);
+            PdfPTable table_ccm = new PdfPTable(10);
             table_ccm.TotalWidth = 570f;
 
-            float[] ccm_widths = new float[] { 1f, 3f, 3f, 3f, 3f, 3f, 3f, 6f, 2f, 3f, 3f, 2f, 3f, 3f };
+            float[] ccm_widths = new float[] { 1f, 3f, 3f, 6f, 2f, 3f, 3f, 2f, 3f, 3f };
             table_ccm.SetWidths(ccm_widths);
 
             PdfPCell cell_ccm = new PdfPCell() { Border = Rectangle.TOP_BORDER | Rectangle.LEFT_BORDER | Rectangle.BOTTOM_BORDER | Rectangle.RIGHT_BORDER, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE, Padding = 2 };
@@ -258,14 +258,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             cell_ccm.Phrase = new Phrase("CATEGORIES", bold_font);
             table_ccm.AddCell(cell_ccm);
             cell_ccm.Phrase = new Phrase("KODE PRODUK", bold_font);
-            table_ccm.AddCell(cell_ccm);
-            cell_ccm.Phrase = new Phrase("KOMPOSISI", bold_font);
-            table_ccm.AddCell(cell_ccm);
-            cell_ccm.Phrase = new Phrase("KONSTRUKSI", bold_font);
-            table_ccm.AddCell(cell_ccm);
-            cell_ccm.Phrase = new Phrase("YARN", bold_font);
-            table_ccm.AddCell(cell_ccm);
-            cell_ccm.Phrase = new Phrase("WIDTH", bold_font);
             table_ccm.AddCell(cell_ccm);
             cell_ccm.Phrase = new Phrase("DESCRIPTION", bold_font);
             table_ccm.AddCell(cell_ccm);
@@ -301,22 +293,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
 
                 //KODE PRODUK
                 cell_ccm.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Product.code, normal_font);
-                table_ccm.AddCell(cell_ccm);
-
-                //KOMPOSISI
-                cell_ccm.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Product.composition, normal_font);
-                table_ccm.AddCell(cell_ccm);
-
-                //KONSTRUKSI
-                cell_ccm.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Product.yarn, normal_font);
-                table_ccm.AddCell(cell_ccm);
-
-                //YARN
-                cell_ccm.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Product.yarn, normal_font);
-                table_ccm.AddCell(cell_ccm);
-
-                //WIDTH
-                cell_ccm.Phrase = new Phrase(viewModel.CostCalculationGarment_Materials[i].Product.width, normal_font);
                 table_ccm.AddCell(cell_ccm);
 
                 //DESCRIPTION

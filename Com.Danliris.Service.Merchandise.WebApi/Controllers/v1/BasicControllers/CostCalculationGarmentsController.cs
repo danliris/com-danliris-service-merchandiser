@@ -33,8 +33,10 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.v1.BasicControlle
                 var model = Service.ReadModelById(Id).Result;
                 var viewModel = Service.MapToViewModel(model);
 
+                int timeoffsset = Convert.ToInt32(Request.Headers["x-timezone-offset"]);
+
                 CostCalculationGarmentPdfTemplate PdfTemplate = new CostCalculationGarmentPdfTemplate();
-                MemoryStream stream = PdfTemplate.GeneratePdfTemplate(viewModel);
+                MemoryStream stream = PdfTemplate.GeneratePdfTemplate(viewModel, timeoffsset);
 
                 return new FileStreamResult(stream, "application/pdf")
                 {
@@ -62,8 +64,10 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.v1.BasicControlle
                 var model = Service.ReadModelById(Id).Result;
                 var viewModel = Service.MapToViewModel(model);
 
+                int timeoffsset = Convert.ToInt32(Request.Headers["x-timezone-offset"]);
+
                 CostCalculationGarmentBudgetPdfTemplate PdfTemplate = new CostCalculationGarmentBudgetPdfTemplate();
-                MemoryStream stream = PdfTemplate.GeneratePdfTemplate(viewModel);
+                MemoryStream stream = PdfTemplate.GeneratePdfTemplate(viewModel, timeoffsset);
 
                 return new FileStreamResult(stream, "application/pdf")
                 {
