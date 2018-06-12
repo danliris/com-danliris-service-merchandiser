@@ -53,7 +53,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
             List<string> SelectedFields = new List<string>()
                 {
-                    "Id", "Code", "RO_Number", "Quantity", "ConfirmPrice", "Article", "Convection"
+                    "Id", "Code", "RO_Number", "Quantity", "ConfirmPrice", "Article", "Convection", "_LastModifiedUtc"
                 };
             Query = Query
                 .Select(ccg => new CostCalculationGarment
@@ -64,7 +64,8 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
                     Article = ccg.Article,
                     Convection = ccg.Convection,
                     Quantity = ccg.Quantity,
-                    ConfirmPrice = ccg.ConfirmPrice
+                    ConfirmPrice = ccg.ConfirmPrice,
+                    _LastModifiedUtc = ccg._LastModifiedUtc
                 });
 
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
