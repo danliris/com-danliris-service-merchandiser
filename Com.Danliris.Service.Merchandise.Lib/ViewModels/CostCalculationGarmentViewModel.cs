@@ -139,17 +139,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
                             costCalculationGarment_MaterialsError += "Quantity: 'Kuantitas harus lebih besar dari 0', ";
                         }
 
-                        if (costCalculation_Material.Price == null)
-                        {
-                            Count++;
-                            costCalculationGarment_MaterialsError += "Price: 'Harga harus diisi', ";
-                        }
-                        else if (costCalculation_Material.Price <= 0)
-                        {
-                            Count++;
-                            costCalculationGarment_MaterialsError += "Price: 'Harga harus lebih besar dari 0', ";
-                        }
-
                         if (costCalculation_Material.Conversion == null)
                         {
                             Count++;
