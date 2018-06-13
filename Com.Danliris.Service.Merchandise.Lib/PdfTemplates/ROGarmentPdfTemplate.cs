@@ -12,7 +12,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
 {
     public class ROGarmentPdfTemplate
     {
-        public MemoryStream GeneratePdfTemplate(RO_GarmentViewModel viewModel)
+        public MemoryStream GeneratePdfTemplate(RO_GarmentViewModel viewModel, int offset)
         {
             //set pdf stream
             MemoryStream stream = new MemoryStream();
@@ -92,7 +92,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             cell_top.Phrase = new Phrase("DATE", normal_font);
             table_top.AddCell(cell_top);
             table_top.AddCell(cell_colon);
-            cell_top.Phrase = new Phrase($"{viewModel.CostCalculationGarment.ConfirmDate.ToString("dd MMMM yyyy")}", normal_font);
+            cell_top.Phrase = new Phrase($"{viewModel.CostCalculationGarment.ConfirmDate.AddHours(offset).ToString("dd MMMM yyyy")}", normal_font);
             table_top.AddCell(cell_top);
 
             cell_top.Phrase = new Phrase("Konveksi", normal_font);
@@ -108,7 +108,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             cell_top.Phrase = new Phrase("DELIVERY DATE", normal_font);
             table_top.AddCell(cell_top);
             table_top.AddCell(cell_colon);
-            cell_top.Phrase = new Phrase($"{viewModel.CostCalculationGarment.DeliveryDate.ToString("dd MMMM yyyy")}", normal_font);
+            cell_top.Phrase = new Phrase($"{viewModel.CostCalculationGarment.DeliveryDate.AddHours(offset).ToString("dd MMMM yyyy")}", normal_font);
             table_top.AddCell(cell_top);
 
             cell_top.Phrase = new Phrase("DESC", normal_font);
