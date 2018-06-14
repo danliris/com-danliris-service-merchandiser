@@ -32,6 +32,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
         public double? Insurance { get; set; }
         public int? LeadTime { get; set; }
         public string Code { get; set; }
+        public int? RO_GarmentId { get; set; }
         public string RO_Number { get; set; }
         public string Section { get; set; }
         public int? Quantity { get; set; }
