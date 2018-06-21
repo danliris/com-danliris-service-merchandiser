@@ -155,20 +155,23 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
             foreach (CostCalculationGarment_Material item in model.CostCalculationGarment_Materials)
             {
-                string Number = "";
-                if (item.CategoryName.ToUpper().Equals("FABRIC"))
+                if (string.IsNullOrWhiteSpace(item.PO_SerialNumber))
                 {
-                    lastFabricNumber += 1;
-                    Number = lastFabricNumber.ToString().PadLeft(4, '0');
-                    item.PO_SerialNumber = $"PM{Year}{convectionCode}{Number}";
-                    item.AutoIncrementNumber = lastFabricNumber;
-                }
-                else
-                {
-                    lastNonFabricNumber += 1;
-                    Number = lastNonFabricNumber.ToString().PadLeft(4, '0');
-                    item.PO_SerialNumber = $"PA{Year}{convectionCode}{Number}";
-                    item.AutoIncrementNumber = lastNonFabricNumber;
+                    string Number = "";
+                    if (item.CategoryName.ToUpper().Equals("FABRIC"))
+                    {
+                        lastFabricNumber += 1;
+                        Number = lastFabricNumber.ToString().PadLeft(4, '0');
+                        item.PO_SerialNumber = $"PM{Year}{convectionCode}{Number}";
+                        item.AutoIncrementNumber = lastFabricNumber;
+                    }
+                    else
+                    {
+                        lastNonFabricNumber += 1;
+                        Number = lastNonFabricNumber.ToString().PadLeft(4, '0');
+                        item.PO_SerialNumber = $"PA{Year}{convectionCode}{Number}";
+                        item.AutoIncrementNumber = lastNonFabricNumber;
+                    }
                 }
             }
         }
@@ -221,6 +224,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             Model.ImagePath = await this.AzureImageService.UploadImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImageFile);
 
             int updated = await this.UpdateAsync(Id, Model);
+            GeneratePONumbers(Model);
 
             if (Model.CostCalculationGarment_Materials != null)
             {
@@ -396,6 +400,8 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
                         yarn = CostCalculationGarment_Material.Yarn,
                         width = CostCalculationGarment_Material.Width
                     };
+
+                    //CostCalculationGarment_MaterialVM.PO_SerialNumber = 
 
                     viewModel.CostCalculationGarment_Materials.Add(CostCalculationGarment_MaterialVM);
                 }
