@@ -53,7 +53,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
             List<string> SelectedFields = new List<string>()
                 {
-                    "Id", "Code", "RO_Number", "Quantity", "ConfirmPrice", "Article", "Convection"
+                    "Id", "Code", "RO_Number", "Quantity", "ConfirmPrice", "Article", "Convection", "_LastModifiedUtc"
                 };
             Query = Query
                 .Select(ccg => new CostCalculationGarment
@@ -64,7 +64,8 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
                     Article = ccg.Article,
                     Convection = ccg.Convection,
                     Quantity = ccg.Quantity,
-                    ConfirmPrice = ccg.ConfirmPrice
+                    ConfirmPrice = ccg.ConfirmPrice,
+                    _LastModifiedUtc = ccg._LastModifiedUtc
                 });
 
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
@@ -154,20 +155,23 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
             foreach (CostCalculationGarment_Material item in model.CostCalculationGarment_Materials)
             {
-                string Number = "";
-                if (item.CategoryName.ToUpper().Equals("FABRIC"))
+                if (string.IsNullOrWhiteSpace(item.PO_SerialNumber))
                 {
-                    lastFabricNumber += 1;
-                    Number = lastFabricNumber.ToString().PadLeft(4, '0');
-                    item.PO_SerialNumber = $"PM{Year}{convectionCode}{Number}";
-                    item.AutoIncrementNumber = lastFabricNumber;
-                }
-                else
-                {
-                    lastNonFabricNumber += 1;
-                    Number = lastNonFabricNumber.ToString().PadLeft(4, '0');
-                    item.PO_SerialNumber = $"PA{Year}{convectionCode}{Number}";
-                    item.AutoIncrementNumber = lastNonFabricNumber;
+                    string Number = "";
+                    if (item.CategoryName.ToUpper().Equals("FABRIC"))
+                    {
+                        lastFabricNumber += 1;
+                        Number = lastFabricNumber.ToString().PadLeft(4, '0');
+                        item.PO_SerialNumber = $"PM{Year}{convectionCode}{Number}";
+                        item.AutoIncrementNumber = lastFabricNumber;
+                    }
+                    else
+                    {
+                        lastNonFabricNumber += 1;
+                        Number = lastNonFabricNumber.ToString().PadLeft(4, '0');
+                        item.PO_SerialNumber = $"PA{Year}{convectionCode}{Number}";
+                        item.AutoIncrementNumber = lastNonFabricNumber;
+                    }
                 }
             }
         }
@@ -193,13 +197,13 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
         private int GetLastMaterialNonFabricNumberByCategoryName(string convection)
         {
-            CostCalculationGarment_Material result = DbContext.CostCalculationGarment_Materials.Where(w => !w.CategoryName.ToUpper().Equals("FABRIC") && w.Convection.Equals(convection)).OrderByDescending(o => o._CreatedUtc.Year).ThenByDescending(t => t.AutoIncrementNumber).FirstOrDefault();
+            CostCalculationGarment_Material result = DbContext.CostCalculationGarment_Materials.AsNoTracking().Where(w => !w.CategoryName.ToUpper().Equals("FABRIC") && w.Convection.Equals(convection)).OrderByDescending(o => o._CreatedUtc.Year).ThenByDescending(t => t.AutoIncrementNumber).FirstOrDefault();
             return result == null ? 0 : result.AutoIncrementNumber;
         }
 
         private int GetLastMaterialFabricNumberByCategoryName(string convection)
         {
-            CostCalculationGarment_Material result = DbContext.CostCalculationGarment_Materials.Where(w => w.CategoryName.ToUpper().Equals("FABRIC") && w.Convection.Equals(convection)).OrderByDescending(o => o._CreatedUtc.Year).ThenByDescending(m => m.AutoIncrementNumber).FirstOrDefault();
+            CostCalculationGarment_Material result = DbContext.CostCalculationGarment_Materials.AsNoTracking().Where(w => w.CategoryName.ToUpper().Equals("FABRIC") && w.Convection.Equals(convection)).OrderByDescending(o => o._CreatedUtc.Year).ThenByDescending(m => m.AutoIncrementNumber).FirstOrDefault();
             return result == null ? 0 : result.AutoIncrementNumber;
         }
 
@@ -219,6 +223,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
         {
             Model.ImagePath = await this.AzureImageService.UploadImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImageFile);
 
+            GeneratePONumbers(Model);
             int updated = await this.UpdateAsync(Id, Model);
 
             if (Model.CostCalculationGarment_Materials != null)
@@ -395,6 +400,8 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
                         yarn = CostCalculationGarment_Material.Yarn,
                         width = CostCalculationGarment_Material.Width
                     };
+
+                    //CostCalculationGarment_MaterialVM.PO_SerialNumber = 
 
                     viewModel.CostCalculationGarment_Materials.Add(CostCalculationGarment_MaterialVM);
                 }

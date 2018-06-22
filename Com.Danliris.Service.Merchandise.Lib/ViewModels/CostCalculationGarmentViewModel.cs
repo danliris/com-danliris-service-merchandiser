@@ -32,6 +32,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
         public double? Insurance { get; set; }
         public int? LeadTime { get; set; }
         public string Code { get; set; }
+        public int? RO_GarmentId { get; set; }
         public string RO_Number { get; set; }
         public string Section { get; set; }
         public int? Quantity { get; set; }
@@ -137,17 +138,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
                         {
                             Count++;
                             costCalculationGarment_MaterialsError += "Quantity: 'Kuantitas harus lebih besar dari 0', ";
-                        }
-
-                        if (costCalculation_Material.Price == null)
-                        {
-                            Count++;
-                            costCalculationGarment_MaterialsError += "Price: 'Harga harus diisi', ";
-                        }
-                        else if (costCalculation_Material.Price <= 0)
-                        {
-                            Count++;
-                            costCalculationGarment_MaterialsError += "Price: 'Harga harus lebih besar dari 0', ";
                         }
 
                         if (costCalculation_Material.Conversion == null)

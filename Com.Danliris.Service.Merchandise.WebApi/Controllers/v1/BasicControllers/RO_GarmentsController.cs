@@ -34,8 +34,9 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.BasicControllers.
                 var model = Service.ReadModelById(Id).Result;
                 var viewModel = Service.MapToViewModel(model);
 
+                int timeoffsset = Convert.ToInt32(Request.Headers["x-timezone-offset"]);
                 ROGarmentPdfTemplate PdfTemplate = new ROGarmentPdfTemplate();
-                MemoryStream stream = PdfTemplate.GeneratePdfTemplate(viewModel);
+                MemoryStream stream = PdfTemplate.GeneratePdfTemplate(viewModel, timeoffsset);
 
                 return new FileStreamResult(stream, "application/pdf")
                 {
