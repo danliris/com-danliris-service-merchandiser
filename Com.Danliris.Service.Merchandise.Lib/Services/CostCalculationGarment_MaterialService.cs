@@ -51,71 +51,11 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             return Tuple.Create(Data, TotalData, OrderDictionary, SelectedFields);
         }
 
-        //public async Task GeneratePO(CostCalculationGarment_Material model)
-        //{
-        //    string category = model.CategoryName.Substring(0, 3).ToUpper();
-        //    int latestSN_Garment = this.DbSet
-        //        .Where(d => d.CategoryName.Substring(0, 3).ToUpper() == category && d._CreatedUtc.Year == model._CreatedUtc.Year)
-        //        .DefaultIfEmpty()
-        //        .Max(d => d.PO_SerialNumber)
-        //        .GetValueOrDefault();
-        //    //int latestSN_Retail = this.DbContext.CostCalculationRetail_Materials
-        //    //    .Where(d => d.CategoryName.Substring(0, 3).ToUpper() == category && d._CreatedUtc.Year == model._CreatedUtc.Year)
-        //    //    .DefaultIfEmpty()
-        //    //    .Max(d => d.PO_SerialNumber)
-        //    //    .GetValueOrDefault();
-        //    //int latestSN = Math.Max(latestSN_Garment, latestSN_Retail);
-        //    //int latestSN = Math.Max(latestSN_Garment, latestSN_Retail);
-        //    //model.PO_SerialNumber = latestSN != 0 ? latestSN + 1 : 1;
-        //    if (category == "FABRIC")
-        //        model.PO = String.Format("{0}{1}{2:D5}", "PM", model._CreatedUtc.ToString("yy"), model.PO_SerialNumber);
-        //    else
-        //        model.PO = String.Format("{0}{1}{2:D5}", "PA", model._CreatedUtc.ToString("yy"), model.PO_SerialNumber);
-        //    await this.UpdateModel(model.Id, model);
-        //}
-
-        public async Task<CostCalculationGarment_Material> GeneratePO(CostCalculationGarment_Material Model)
-        {
-            string codePO = Model.CategoryName == "FABRIC" ? "PM":  "PA";
-            string convection = Model.Convection; 
-
-            var lastData = await this.DbSet.Where(w => w._IsDeleted == false && w.CategoryName == Model.CategoryName && w.Convection == convection).OrderByDescending(o => o._CreatedUtc).FirstOrDefaultAsync();
-
-            DateTime Now = DateTime.Now;
-            string Year = Now.ToString("yy");
-
-            if (lastData == null)
-            {
-                Model.AutoIncrementNumber = 1;
-                string Number = Model.AutoIncrementNumber.ToString().PadLeft(4, '0');
-                Model.PO_SerialNumber = $"{codePO}{Year}{convection}{Number}";
-            }
-            else
-            {
-                if (lastData._CreatedUtc.Year < Now.Year)
-                {
-                    Model.AutoIncrementNumber = 1;
-                    string Number = Model.AutoIncrementNumber.ToString().PadLeft(4, '0');
-                    Model.PO_SerialNumber = $"{codePO}{Year}{convection}{Number}";
-                }
-                else
-                {
-                    Model.AutoIncrementNumber = lastData.AutoIncrementNumber + 1;
-                    string Number = Model.AutoIncrementNumber.ToString().PadLeft(4, '0');
-                    Model.PO_SerialNumber = $"{codePO}{Year}{convection}{Number}";
-                }
-            }
-
-            return Model;
-        }
-
         public override async Task<int> CreateModel(CostCalculationGarment_Material Model)
         {
             int Created = 0;
 
             Created = await this.CreateAsync(Model);
-
-            await this.UpdateAsync(Model.Id, Model);
 
             return Created;
         }
