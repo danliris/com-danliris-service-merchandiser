@@ -197,13 +197,13 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
         private int GetLastMaterialNonFabricNumberByCategoryName(string convection)
         {
-            CostCalculationGarment_Material result = DbContext.CostCalculationGarment_Materials.Where(w => !w.CategoryName.ToUpper().Equals("FABRIC") && w.Convection.Equals(convection)).OrderByDescending(o => o._CreatedUtc.Year).ThenByDescending(t => t.AutoIncrementNumber).FirstOrDefault();
+            CostCalculationGarment_Material result = DbContext.CostCalculationGarment_Materials.AsNoTracking().Where(w => !w.CategoryName.ToUpper().Equals("FABRIC") && w.Convection.Equals(convection)).OrderByDescending(o => o._CreatedUtc.Year).ThenByDescending(t => t.AutoIncrementNumber).FirstOrDefault();
             return result == null ? 0 : result.AutoIncrementNumber;
         }
 
         private int GetLastMaterialFabricNumberByCategoryName(string convection)
         {
-            CostCalculationGarment_Material result = DbContext.CostCalculationGarment_Materials.Where(w => w.CategoryName.ToUpper().Equals("FABRIC") && w.Convection.Equals(convection)).OrderByDescending(o => o._CreatedUtc.Year).ThenByDescending(m => m.AutoIncrementNumber).FirstOrDefault();
+            CostCalculationGarment_Material result = DbContext.CostCalculationGarment_Materials.AsNoTracking().Where(w => w.CategoryName.ToUpper().Equals("FABRIC") && w.Convection.Equals(convection)).OrderByDescending(o => o._CreatedUtc.Year).ThenByDescending(m => m.AutoIncrementNumber).FirstOrDefault();
             return result == null ? 0 : result.AutoIncrementNumber;
         }
 
@@ -223,8 +223,8 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
         {
             Model.ImagePath = await this.AzureImageService.UploadImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImageFile);
 
-            int updated = await this.UpdateAsync(Id, Model);
             GeneratePONumbers(Model);
+            int updated = await this.UpdateAsync(Id, Model);
 
             if (Model.CostCalculationGarment_Materials != null)
             {
