@@ -21,6 +21,9 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
         {
             if (this.CostCalculationGarment == null)
                 yield return new ValidationResult("Nomor RO harus diisi", new List<string> { "CostCalculationGarment" });
+
+            if (this.RO_Garment_SizeBreakdowns == null || this.RO_Garment_SizeBreakdowns.Count == 0)
+                yield return new ValidationResult("Size Breakdown harus diisi", new List<string> { "SizeBreakdowns" });
         }
     }
 }
