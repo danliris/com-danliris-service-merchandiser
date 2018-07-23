@@ -117,9 +117,10 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Helpers
                 {
                     string Key = f.Key;
                     object Value = f.Value;
-                    string filterQuery = string.Concat(string.Empty, Key, " == @0");
+                    //string filterQuery = string.Concat(string.Empty, Key, " == @0");
+                    string filterQuery = string.Concat(string.Empty, Key, ".ToString().ToLower().Contains(@0)");
 
-                    Query = Query.Where(filterQuery, Value);
+                    Query = Query.Where(filterQuery, Value == null ? "" : Value.ToString().ToLower());
                 }
             }
             return Query;
