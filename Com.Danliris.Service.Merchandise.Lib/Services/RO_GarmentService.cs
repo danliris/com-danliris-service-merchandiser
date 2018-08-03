@@ -209,6 +209,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
             CostCalculationGarment costCalculationGarment = await this.CostCalculationGarmentService.ReadModelById(deletedImage.CostCalculationGarmentId);
             costCalculationGarment.RO_GarmentId = null;
+            costCalculationGarment.ImageFile = string.IsNullOrWhiteSpace(costCalculationGarment.ImageFile) ? "#" : costCalculationGarment.ImageFile;
             await this.CostCalculationGarmentService.UpdateModel(costCalculationGarment.Id, costCalculationGarment);
 
             List<CostCalculationGarment_Material> costCalculationGarment_Materials = this.CostCalculationGarment_MaterialService.DbSet.Where(p => p.CostCalculationGarmentId.Equals(costCalculationGarment.Id)).ToList();
