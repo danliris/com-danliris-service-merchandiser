@@ -11,6 +11,9 @@ using System.Text;
 using Com.Danliris.Service.Merchandiser.Lib;
 using Com.Danliris.Service.Merchandiser.Lib.Services.AzureStorage;
 using Com.Danliris.Service.Merchandiser.Lib.Services;
+using Swashbuckle.AspNetCore.Swagger;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Com.Danliris.Service.Merchandiser.WebApi
 {
@@ -68,6 +71,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi
 
             services
                 .AddMvcCore()
+                .AddApiExplorer()
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver())
                 .AddAuthorization(options =>
                 {
@@ -77,6 +81,29 @@ namespace Com.Danliris.Service.Merchandiser.WebApi
                     });
                 })
                 .AddJsonFormatters();
+
+            #region Swagger
+            services
+                .AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info() { Title = "My API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new ApiKeyScheme()
+                {
+                    In = "header",
+                    Description = "Please enter into field the word 'Bearer' following by space and JWT",
+                    Name = "Authorization",
+                    Type = "apiKey",
+                });
+                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>()
+                {
+                    {
+                        "Bearer",
+                        Enumerable.Empty<string>()
+                    }
+                });
+                c.CustomSchemaIds(i => i.FullName);
+            });
+            #endregion
 
             services.AddCors(options => options.AddPolicy("MerchandiserPolicy", builder =>
             {
@@ -102,6 +129,11 @@ namespace Com.Danliris.Service.Merchandiser.WebApi
             app.UseAuthentication();
             app.UseCors("MerchandiserPolicy");
             app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
+            });
         }
     }
 }
