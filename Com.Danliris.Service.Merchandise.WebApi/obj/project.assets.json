@@ -13153,7 +13153,8 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ali.syariati\\.nuget\\packages\\": {},
+    "C:\\Users\\aditya.henanda\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
@@ -13162,18 +13163,20 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "D:\\Danliris\\com-danliris-service-merchandiser\\Com.Danliris.Service.Merchandise.WebApi\\Com.Danliris.Service.Merchandiser.WebApi.csproj",
+      "projectUniqueName": "D:\\danliris\\com-danliris-service-md\\Com.Danliris.Service.Merchandise.WebApi\\Com.Danliris.Service.Merchandiser.WebApi.csproj",
       "projectName": "Com.Danliris.Service.Merchandiser.WebApi",
-      "projectPath": "D:\\Danliris\\com-danliris-service-merchandiser\\Com.Danliris.Service.Merchandise.WebApi\\Com.Danliris.Service.Merchandiser.WebApi.csproj",
-      "packagesPath": "C:\\Users\\ali.syariati\\.nuget\\packages\\",
-      "outputPath": "D:\\Danliris\\com-danliris-service-merchandiser\\Com.Danliris.Service.Merchandise.WebApi\\obj\\",
+      "projectPath": "D:\\danliris\\com-danliris-service-md\\Com.Danliris.Service.Merchandise.WebApi\\Com.Danliris.Service.Merchandiser.WebApi.csproj",
+      "packagesPath": "C:\\Users\\aditya.henanda\\.nuget\\packages\\",
+      "outputPath": "D:\\danliris\\com-danliris-service-md\\Com.Danliris.Service.Merchandise.WebApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\ali.syariati\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\aditya.henanda\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
@@ -13185,8 +13188,8 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "D:\\Danliris\\com-danliris-service-merchandiser\\Com.Danliris.Service.Merchandise.Lib\\Com.Danliris.Service.Merchandiser.Lib.csproj": {
-              "projectPath": "D:\\Danliris\\com-danliris-service-merchandiser\\Com.Danliris.Service.Merchandise.Lib\\Com.Danliris.Service.Merchandiser.Lib.csproj"
+            "D:\\danliris\\com-danliris-service-md\\Com.Danliris.Service.Merchandise.Lib\\Com.Danliris.Service.Merchandiser.Lib.csproj": {
+              "projectPath": "D:\\danliris\\com-danliris-service-md\\Com.Danliris.Service.Merchandise.Lib\\Com.Danliris.Service.Merchandiser.Lib.csproj"
             }
           }
         }
@@ -13200,34 +13203,34 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
-          "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
-            "target": "Package",
-            "version": "2.0.0"
-          },
           "IdentityServer4.AccessTokenValidation": {
             "target": "Package",
-            "version": "2.1.0"
-          },
-          "Microsoft.NETCore.App": {
-            "target": "Package",
-            "version": "2.0",
-            "autoReferenced": true
+            "version": "[2.1.0, )"
           },
           "Microsoft.AspNetCore.All": {
             "target": "Package",
-            "version": "2.0.0"
+            "version": "[2.0.0, )"
           },
           "Microsoft.AspNetCore.Mvc.Versioning": {
             "target": "Package",
-            "version": "2.0.0"
+            "version": "[2.0.0, )"
           },
-          "WindowsAzure.Storage": {
+          "Microsoft.NETCore.App": {
             "target": "Package",
-            "version": "9.1.0"
+            "version": "[2.0.0, )",
+            "autoReferenced": true
+          },
+          "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+            "target": "Package",
+            "version": "[2.0.0, )"
           },
           "Newtonsoft.Json": {
             "target": "Package",
-            "version": "10.0.3"
+            "version": "[10.0.3, )"
+          },
+          "WindowsAzure.Storage": {
+            "target": "Package",
+            "version": "[9.1.0, )"
           }
         },
         "imports": [
