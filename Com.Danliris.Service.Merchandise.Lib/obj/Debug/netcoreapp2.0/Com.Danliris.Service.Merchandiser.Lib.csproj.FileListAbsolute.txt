@@ -26,7 +26,6 @@ C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Dan
 C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.Lib\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Lib.deps.json
 C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.Lib\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Lib.dll
 C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.Lib\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Lib.pdb
-C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.Lib\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Lib.csprojAssemblyReference.cache
 C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.Lib\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Lib.AssemblyInfoInputs.cache
 C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.Lib\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Lib.AssemblyInfo.cs
 C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.Lib\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Lib.dll

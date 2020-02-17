@@ -1,21 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Configs\**" />
-    <Compile Remove="Services\**" />
-    <EmbeddedResource Remove="Configs\**" />
-    <EmbeddedResource Remove="Services\**" />
-    <None Remove="Configs\**" />
-    <None Remove="Services\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Models\Line.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
