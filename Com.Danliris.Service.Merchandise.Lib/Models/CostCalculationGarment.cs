@@ -1,4 +1,4 @@
-﻿using Com.Danliris.Service.Merchandiser.Lib.Services;
+﻿
 using Com.Moonlay.Models;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Models
     {
         public string Code { get; set; }
         public string RO_Number { get; set; }
-        //public string RO { get; set; }
+        public string RO { get; set; }
         public string Article { get; set; }
         public string ComodityID { get; set; }
         public string Commodity { get; set; }
@@ -68,14 +68,11 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Models
 
         public int AutoIncrementNumber { get; set; }
 
-        public virtual RO_Garment RO_Garment { get; set; }
+        //public virtual RO_Garment RO_Garment { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            CostCalculationGarmentService service = validationContext.GetService<CostCalculationGarmentService>();
-
-            if (service.DbSet.Count(r => r.Id != this.Id && r.Article.Equals(this.Article) && r._IsDeleted.Equals(false)) > 0)
-                yield return new ValidationResult("Nama Artikel sudah ada", new List<string> { "Article" });
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Com.Danliris.Service.Merchandiser.Lib.Helpers;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities.BaseClass;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
 {
-    public class CostCalculationGarmentViewModel : BasicViewModel, IValidatableObject
+    public class CostCalculationGarmentViewModel : BaseViewModel, IValidatableObject
     {
         public int AutoIncrementNumber { get; set; }
         public double? AccessoriesAllowance { get; set; }

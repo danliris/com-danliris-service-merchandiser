@@ -16,3 +16,45 @@ D:\danliris\com-danliris-service-md\Com.Danliris.Service.Merchandiser.Test\obj\D
 D:\danliris\com-danliris-service-md\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.pdb
 D:\danliris\com-danliris-service-md\Com.Danliris.Service.Merchandiser.Test\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.dll
 D:\danliris\com-danliris-service-md\Com.Danliris.Service.Merchandiser.Test\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.pdb
+C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\xunit.runner.reporters.netcoreapp10.dll
+C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\xunit.runner.utility.netcoreapp10.dll
+C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\appsettings.Development.json
+C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\appsettings.json
+C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\Properties\launchSettings.json
+C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.deps.json
+C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.runtimeconfig.json
+C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.runtimeconfig.dev.json
+C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.dll
+C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.pdb
+C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Lib.dll
+C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.WebApi.dll
+C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Lib.pdb
+C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.WebApi.pdb
+C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Danliris.Service.Merchandiser.Test\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.csprojAssemblyReference.cache
+C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Danliris.Service.Merchandiser.Test\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.AssemblyInfoInputs.cache
+C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Danliris.Service.Merchandiser.Test\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.AssemblyInfo.cs
+C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Danliris.Service.Merchandiser.Test\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.csproj.CopyComplete
+C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Danliris.Service.Merchandiser.Test\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.dll
+C:\Users\rizky.junior\Downloads\com-danliris-service-merchandiser-master\Com.Danliris.Service.Merchandiser.Test\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.pdb
+C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\appsettings.Development.json
+C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\appsettings.json
+C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\Properties\launchSettings.json
+C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\xunit.runner.reporters.netcoreapp10.dll
+C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\xunit.runner.utility.netcoreapp10.dll
+C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.deps.json
+C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.runtimeconfig.json
+C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.runtimeconfig.dev.json
+C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.dll
+C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.pdb
+C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Lib.dll
+C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.WebApi.dll
+C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Lib.pdb
+C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandiser.Test\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.WebApi.pdb
+C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandiser.Test\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.csprojAssemblyReference.cache
+C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandiser.Test\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.AssemblyInfoInputs.cache
+C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandiser.Test\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.AssemblyInfo.cs
+C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandiser.Test\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.csproj.CopyComplete
+C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandiser.Test\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.dll
+C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandiser.Test\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Test.pdb

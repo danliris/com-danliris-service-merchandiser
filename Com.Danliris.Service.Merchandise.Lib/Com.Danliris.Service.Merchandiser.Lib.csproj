@@ -5,6 +5,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Configs\**" />
+    <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="Configs\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Configs\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\Line.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
     <PackageReference Include="Com.Moonlay.EntityFrameworkCore" Version="1.0.0-alpha-10122017-003" />
     <PackageReference Include="Com.Moonlay.NetCore.Lib" Version="1.0.0-alpha-20171102-001" />
     <PackageReference Include="iTextSharp" Version="5.5.13" />

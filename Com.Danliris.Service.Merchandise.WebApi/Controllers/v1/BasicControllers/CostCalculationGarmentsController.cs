@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Com.Danliris.Service.Merchandiser.WebApi.Helpers;
-using Com.Danliris.Service.Merchandiser.Lib.Services;
 using Com.Danliris.Service.Merchandiser.Lib.Models;
 using Com.Danliris.Service.Merchandiser.Lib;
 using Com.Danliris.Service.Merchandiser.Lib.ViewModels;
@@ -11,6 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using Com.Danliris.Service.Merchandiser.Lib.Interfaces;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities;
+using AutoMapper;
 
 namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.v1.BasicControllers
 {
@@ -18,20 +20,22 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.v1.BasicControlle
     [ApiVersion("1.0")]
     [Route("v{version:apiVersion}/cost-calculation-garments")]
     [Authorize]
-    public class CostCalculationGarmentsController : BasicController<MerchandiserDbContext, CostCalculationGarmentService, CostCalculationGarmentViewModel, CostCalculationGarment>
+    public class CostCalculationGarmentsController : BasicController<CostCalculationGarment, CostCalculationGarmentViewModel, ICostCalculationGarments>
     {
-        private static readonly string ApiVersion = "1.0";
-        public CostCalculationGarmentsController(CostCalculationGarmentService service) : base(service, ApiVersion)
+        private readonly static string apiVersion = "1.0";
+        private readonly IIdentityService Service;
+        public CostCalculationGarmentsController(IIdentityService identityService, IValidateService validateService, ICostCalculationGarments facade, IMapper mapper, IServiceProvider serviceProvider) : base(identityService, validateService, facade, mapper, apiVersion)
         {
+            Service = identityService;
         }
 
         [HttpGet("pdf/{id}")]
-        public IActionResult GetPDF([FromRoute]int Id)
+        public async Task<IActionResult> GetPDF([FromRoute]int Id)
         {
             try
             {
-                var model = Service.ReadModelById(Id).Result;
-                var viewModel = Service.MapToViewModel(model);
+                CostCalculationGarment model = Facade.ReadByIdAsync(Id).Result;
+                CostCalculationGarmentViewModel viewModel = Mapper.Map<CostCalculationGarmentViewModel>(model);
 
                 int timeoffsset = Convert.ToInt32(Request.Headers["x-timezone-offset"]);
 
@@ -61,8 +65,8 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.v1.BasicControlle
                 Service.Token = Request.Headers["Authorization"].First().Replace("Bearer ", "");
 
                 //await Service.GeneratePO(Id);
-                var model = Service.ReadModelById(Id).Result;
-                var viewModel = Service.MapToViewModel(model);
+                CostCalculationGarment model = Facade.ReadByIdAsync(Id).Result;
+                CostCalculationGarmentViewModel viewModel = Mapper.Map<CostCalculationGarmentViewModel>(model);
 
                 int timeoffsset = Convert.ToInt32(Request.Headers["x-timezone-offset"]);
 

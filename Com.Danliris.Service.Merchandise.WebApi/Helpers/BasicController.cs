@@ -10,36 +10,61 @@ using Com.Danliris.Service.Merchandiser.Lib.Interfaces;
 using Com.Danliris.Service.Merchandiser.Lib.Helpers;
 using Com.Danliris.Service.Merchandiser.Lib.Exceptions;
 using System.Linq;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities;
+using AutoMapper;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities.BaseClass;
 
 namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
 {
-    public abstract class BasicController<TDbContext, TService, TViewModel, TModel> : Controller
-        where TDbContext : DbContext
-        where TViewModel : class
-        where TService : BasicService<TDbContext, TModel>, IMap<TModel, TViewModel> 
-        where TModel : StandardEntity, IValidatableObject
+    public abstract class BasicController<TModel, TViewModel, IFacade> : Controller
+     where TModel : StandardEntity, IValidatableObject
+     where TViewModel : BaseViewModel, IValidatableObject
+     where IFacade : IBaseFacade<TModel>
     {
-        protected TService Service { get; }
-        private string ApiVersion { get; set; }
+        protected IIdentityService IdentityService;
+        protected readonly IValidateService ValidateService;
+        protected readonly IFacade Facade;
+        protected readonly IMapper Mapper;
+        protected readonly string ApiVersion;
 
-        public BasicController(TService Service, string ApiVersion)
+        public BasicController(IIdentityService identityService, IValidateService validateService, IFacade facade, IMapper mapper, string apiVersion)
         {
-            this.Service = Service;
-            this.ApiVersion = ApiVersion;
+            this.IdentityService = identityService;
+            this.ValidateService = validateService;
+            this.Facade = facade;
+            this.Mapper = mapper;
+            this.ApiVersion = apiVersion;
+        }
+
+        protected void ValidateUser()
+        {
+            IdentityService.Username = User.Claims.Single(p => p.Type.Equals("username")).Value;
+            IdentityService.Token = Request.Headers["Authorization"].First().Replace("Bearer ", "");
+        }
+
+        private void ValidateViewModel(TViewModel viewModel)
+        {
+            ValidateService.Validate(viewModel);
         }
 
         [HttpGet]
-        public IActionResult Get(int Page = 1, int Size = 25, string Order = "{}", [Bind(Prefix = "Select[]")]List<string> Select = null, string Keyword = null, string Filter = "{}")
+        public virtual IActionResult Get(int Page = 1, int Size = 25, string Order = "{}", [Bind(Prefix = "Select[]")]List<string> Select = null, string Keyword = null, string Filter = "{}")
         {
+
             try
             {
-                Tuple<List<TModel>, int, Dictionary<string, string>, List<string>> Data = Service.ReadModel(Page, Size, Order, Select, Keyword, Filter);
+                ValidateUser();
+
+                ReadResponse<TModel> read = Facade.Read(Page, Size, Order, Select, Keyword, Filter);
+
+                //Tuple<List<TModel>, int, Dictionary<string, string>, List<string>> Data = Facade.Read(page, size, order, select, keyword, filter);
+                List<TViewModel> DataVM = Mapper.Map<List<TViewModel>>(read.Data);
 
                 Dictionary<string, object> Result =
                     new ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)
-                    .Ok<TModel, TViewModel>(Data.Item1, Service.MapToViewModel, Page, Size, Data.Item2, Data.Item1.Count, Data.Item3, Data.Item4);
-
+                    .Ok<TViewModel>(Mapper, DataVM, Page, Size, read.Count, DataVM.Count, read.Order, read.Selected);
                 return Ok(Result);
+
             }
             catch (Exception e)
             {
@@ -51,29 +76,28 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
         }
 
         [HttpGet("{Id}")]
-        public async Task<IActionResult> GetById([FromRoute] int Id)
+        public virtual async Task<IActionResult> GetById([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var model = await Service.ReadModelById(Id);
-
-            if (model == null)
-            {
-                Dictionary<string, object> Result =
-                    new ResultFormatter(ApiVersion, General.NOT_FOUND_STATUS_CODE, General.NOT_FOUND_MESSAGE)
-                    .Fail();
-                return NotFound(Result);
-            }
-
             try
             {
-                Dictionary<string, object> Result =
-                    new ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)
-                    .Ok<TModel, TViewModel>(model, Service.MapToViewModel);
-                return Ok(Result);
+                TModel model = await Facade.ReadByIdAsync(id);
+
+                if (model == null)
+                {
+                    Dictionary<string, object> Result =
+                        new ResultFormatter(ApiVersion, General.NOT_FOUND_STATUS_CODE, General.NOT_FOUND_MESSAGE)
+                        .Fail();
+                    return NotFound(Result);
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
             }
             catch (Exception e)
             {
@@ -89,69 +113,41 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
         {
             try
             {
-                this.Validate(ViewModel);
-                Service.Username = User.Claims.Single(p => p.Type.Equals("username")).Value;
-                Service.Token = Request.Headers["Authorization"].First().Replace("Bearer ", "");
+                ValidateViewModel(ViewModel);
+                ValidateUser();
 
-                TModel model = Service.MapToModel(ViewModel);
+                TModel model = Mapper.Map<TModel>(ViewModel);
 
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
                 }
 
-                if (Id != model.Id)
+                if (Id != ViewModel.Id)
                 {
                     Dictionary<string, object> Result =
                         new ResultFormatter(ApiVersion, General.BAD_REQUEST_STATUS_CODE, General.BAD_REQUEST_MESSAGE)
                         .Fail();
                     return BadRequest(Result);
                 }
-
-                using (var transaction = this.Service.DbContext.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        await Service.UpdateModel(Id, model);
-                        transaction.Commit();
-                    }
-                    catch (ServiceValidationExeption e)
-                    {
-                        transaction.Rollback();
-                        throw new ServiceValidationExeption(e.ValidationContext, e.ValidationResults);
-                    }
-                    catch (Exception e)
-                    {
-                        transaction.Rollback();
-                        throw new Exception(e.Message, e.InnerException);
-                    }
-                }
+                TModel Model = Mapper.Map<TModel>(ViewModel);
+                await Facade.UpdateAsync(Id, model);
 
                 return NoContent();
             }
-            catch (ServiceValidationExeption e)
-            {
-                Dictionary<string, object> Result =
-                    new ResultFormatter(ApiVersion, General.BAD_REQUEST_STATUS_CODE, General.BAD_REQUEST_MESSAGE)
-                    .Fail(e);
-                return BadRequest(Result);
-            }
+            //catch (ServiceValidationException e)
+            //{
+            //    Dictionary<string, object> Result =
+            //        new ResultFormatter(ApiVersion, General.BAD_REQUEST_STATUS_CODE, General.BAD_REQUEST_MESSAGE)
+            //        .Fail(e);
+            //    return BadRequest(Result);
+            //}
             catch (DbUpdateConcurrencyException e)
             {
-                if (!Service.IsExists(Id))
-                {
-                    Dictionary<string, object> Result =
-                    new ResultFormatter(ApiVersion, General.NOT_FOUND_STATUS_CODE, General.NOT_FOUND_MESSAGE)
+                Dictionary<string, object> Result =
+                    new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
                     .Fail();
-                    return NotFound(Result);
-                }
-                else
-                {
-                    Dictionary<string, object> Result =
-                        new ResultFormatter(ApiVersion, General.INTERNAL_ERROR_STATUS_CODE, e.Message)
-                        .Fail();
-                    return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
-                }
+                return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
             }
             catch (Exception e)
             {
@@ -163,48 +159,28 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] TViewModel ViewModel)
+        public virtual async Task<ActionResult> Post([FromBody] TViewModel ViewModel)
         {
             try
             {
-                Service.Token = Request.Headers["Authorization"].First().Replace("Bearer ", "");
-                this.Validate(ViewModel);
+                ValidateUser();
+                ValidateViewModel(ViewModel);
 
-                Service.Username = User.Claims.Single(p => p.Type.Equals("username")).Value;
-
-                TModel model = Service.MapToModel(ViewModel);
-
-                using (var transaction = this.Service.DbContext.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        await Service.CreateModel(model);
-                        transaction.Commit();
-                    }
-                    catch (ServiceValidationExeption e)
-                    {
-                        transaction.Rollback();
-                        throw new ServiceValidationExeption(e.ValidationContext, e.ValidationResults);
-                    }
-                    catch (Exception e)
-                    {
-                        transaction.Rollback();
-                        throw new Exception(e.Message, e.InnerException);
-                    }
-                }
+                TModel model = Mapper.Map<TModel>(ViewModel);
+                await Facade.CreateAsync(model);
 
                 Dictionary<string, object> Result =
                     new ResultFormatter(ApiVersion, General.CREATED_STATUS_CODE, General.OK_MESSAGE)
                     .Ok();
-                return Created(String.Concat(HttpContext.Request.Path, "/", model.Id), Result);
+                return Created(String.Concat(Request.Path, "/", 0), Result);
             }
-            catch (ServiceValidationExeption e)
-            {
-                Dictionary<string, object> Result =
-                    new ResultFormatter(ApiVersion, General.BAD_REQUEST_STATUS_CODE, General.BAD_REQUEST_MESSAGE)
-                    .Fail(e);
-                return BadRequest(Result);
-            }
+            //catch (ServiceValidationException e)
+            //{
+            //    Dictionary<string, object> Result =
+            //        new ResultFormatter(ApiVersion, General.BAD_REQUEST_STATUS_CODE, General.BAD_REQUEST_MESSAGE)
+            //        .Fail(e);
+            //    return BadRequest(Result);
+            //}
             catch (Exception e)
             {
                 Dictionary<string, object> Result =
@@ -215,7 +191,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
         }
 
         [HttpDelete("{Id}")]
-        public async Task<IActionResult> Delete([FromRoute] int Id)
+        public virtual async Task<IActionResult> Delete([FromRoute] int Id)
         {
             if (!ModelState.IsValid)
             {
@@ -224,45 +200,10 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
 
             try
             {
-                using (var transaction = this.Service.DbContext.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        Service.Username = User.Claims.Single(p => p.Type.Equals("username")).Value;
-                        Service.Token = Request.Headers["Authorization"].First().Replace("Bearer ", "");
-                        var exists = Service.IsExists(Id);
-
-                        if (exists == false)
-                        {
-                            Dictionary<string, object> ResultNotFound =
-                                new ResultFormatter(ApiVersion, General.NOT_FOUND_STATUS_CODE, General.NOT_FOUND_MESSAGE)
-                                .Fail();
-                            return NotFound(ResultNotFound);
-                        }
-
-                        await Service.DeleteModel(Id);
-                        transaction.Commit();
-                    }
-                    catch (DbReferenceNotNullException e)
-                    {
-                        transaction.Rollback();
-                        throw new DbReferenceNotNullException(e.Message);
-                    }
-                    catch (Exception e)
-                    {
-                        transaction.Rollback();
-                        throw new Exception(e.Message, e.InnerException);
-                    }
-                }
+                ValidateUser();
+                await Facade.DeleteAsync(Id);
 
                 return NoContent();
-            }
-            catch (DbReferenceNotNullException e)
-            {
-                Dictionary<string, object> Result =
-                    new ResultFormatter(ApiVersion, General.BAD_REQUEST_STATUS_CODE, General.BAD_REQUEST_MESSAGE)
-                    .Fail(e);
-                return BadRequest(Result);
             }
             catch (Exception e)
             {
@@ -271,15 +212,6 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
                     .Fail();
                 return StatusCode(General.INTERNAL_ERROR_STATUS_CODE, Result);
             }
-        }
-
-        void Validate(TViewModel viewModel)
-        {
-            List<ValidationResult> validationResults = new List<ValidationResult>();
-            ValidationContext validationContext = new ValidationContext(viewModel, this.Service.ServiceProvider, null);
-
-            if (!Validator.TryValidateObject(viewModel, validationContext, validationResults, true))
-                throw new ServiceValidationExeption(validationContext, validationResults);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Com.Danliris.Service.Merchandiser.Lib.Helpers;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities.BaseClass;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
 {
-    public class EfficiencyViewModel : BasicViewModel, IValidatableObject
+    public class EfficiencyViewModel : BaseViewModel, IValidatableObject
     {
         public string Code { get; set; }
         public string Name { get; set; }
