@@ -1,4 +1,5 @@
 ﻿using Com.Danliris.Service.Merchandiser.Lib.Helpers;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities.BaseClass;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
 {
-    public class RO_GarmentViewModel : BasicViewModel, IValidatableObject
+    public class RO_GarmentViewModel : BaseViewModel, IValidatableObject
     {
         public string Code { get; set; }
         public CostCalculationGarmentViewModel CostCalculationGarment { get; set; }
@@ -16,6 +17,9 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
         public List<string> ImagesFile { get; set; }
         public List<string> ImagesPath { get; set; }
         public List<string> ImagesName { get; set; }
+        public List<string> DocumentsFile { get; set; }
+        public List<string> DocumentsFileName { get; set; }
+        public List<string> DocumentsPath { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

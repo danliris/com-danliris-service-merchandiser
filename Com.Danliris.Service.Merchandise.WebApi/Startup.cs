@@ -9,8 +9,7 @@ using Newtonsoft.Json.Serialization;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Com.Danliris.Service.Merchandiser.Lib;
-using Com.Danliris.Service.Merchandiser.Lib.Services.AzureStorage;
-using Com.Danliris.Service.Merchandiser.Lib.Services;
+
 
 namespace Com.Danliris.Service.Merchandiser.WebApi
 {
@@ -37,19 +36,19 @@ namespace Com.Danliris.Service.Merchandiser.WebApi
                     options.DefaultApiVersion = new ApiVersion(1, 0);
                 });
 
-            services
-                .AddTransient<AzureImageService>();
+            //services
+            //    .AddTransient<AzureImageService>();
 
-            services
-                .AddTransient<RateService>()
-                .AddTransient<EfficiencyService>()         
-                .AddTransient<CostCalculationGarmentService>()
-                .AddTransient<CostCalculationGarment_MaterialService>()
-                .AddTransient<LineService>()
-                .AddTransient<ArticleColorService>()
-                .AddTransient<RO_GarmentService>()
-                .AddTransient<RO_Garment_SizeBreakdownService>()
-                .AddTransient<RO_Garment_SizeBreakdown_DetailService>();
+            //services
+            //    .AddTransient<RateService>()
+            //    .AddTransient<EfficiencyService>()         
+            //    .AddTransient<CostCalculationGarmentService>()
+            //    .AddTransient<CostCalculationGarment_MaterialService>()
+            //    .AddTransient<LineService>()
+            //    .AddTransient<ArticleColorService>()
+            //    .AddTransient<RO_GarmentService>()
+            //    .AddTransient<RO_Garment_SizeBreakdownService>()
+            //    .AddTransient<RO_Garment_SizeBreakdown_DetailService>();
 
             var Secret = Configuration.GetValue<string>("Secret") ?? Configuration["Secret"];
             var Key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Secret));
@@ -77,6 +76,29 @@ namespace Com.Danliris.Service.Merchandiser.WebApi
                     });
                 })
                 .AddJsonFormatters();
+
+            //#region Swagger
+            //services
+            //    .AddSwaggerGen(c =>
+            //    {
+            //        c.SwaggerDoc("v1", new Info() { Title = "My API", Version = "v1" });
+            //        c.AddSecurityDefinition("Bearer", new ApiKeyScheme()
+            //        {
+            //            In = "header",
+            //            Description = "Please enter into field the word 'Bearer' following by space and JWT",
+            //            Name = "Authorization",
+            //            Type = "apiKey",
+            //        });
+            //        c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>()
+            //    {
+            //        {
+            //            "Bearer",
+            //            Enumerable.Empty<string>()
+            //        }
+            //    });
+            //        c.CustomSchemaIds(i => i.FullName);
+            //    });
+            //#endregion
 
             services.AddCors(options => options.AddPolicy("MerchandiserPolicy", builder =>
             {

@@ -1,4 +1,4 @@
-﻿using Com.Danliris.Service.Merchandiser.Lib.Services;
+﻿
 using Com.Moonlay.Models;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Models
     {
         public string Code { get; set; }
         public string RO_Number { get; set; }
-        //public string RO { get; set; }
+        public string RO { get; set; }
         public string Article { get; set; }
         public string ComodityID { get; set; }
         public string Commodity { get; set; }
@@ -34,25 +34,25 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Models
         public double SMV_Total { get; set; }
         public string BuyerId { get; set; }
         public string BuyerName { get; set; }
-        public int EfficiencyId { get; set; }
+        public long EfficiencyId { get; set; }
         public double EfficiencyValue { get; set; }
         public double Index { get; set; }
-        public int WageId { get; set; }
+        public long WageId { get; set; }
         public double WageRate { get; set; }
-        public int THRId { get; set; }
+        public long THRId { get; set; }
         public double THRRate { get; set; }
         public double ConfirmPrice { get; set; }
-        public int RateId { get; set; }
+        public long RateId { get; set; }
         public double RateValue { get; set; }
         public ICollection<CostCalculationGarment_Material> CostCalculationGarment_Materials { get; set; }
         public double Freight { get; set; }
         public double Insurance { get; set; }
         public double CommissionPortion { get; set; }
         public double CommissionRate { get; set; }
-        public int OTL1Id { get; set; }
+        public long OTL1Id { get; set; }
         public double OTL1Rate { get; set; }
         public double OTL1CalculatedRate { get; set; }
-        public int OTL2Id { get; set; }
+        public long OTL2Id { get; set; }
         public double OTL2Rate { get; set; }
         public double OTL2CalculatedRate { get; set; }
         public double Risk { get; set; }
@@ -72,10 +72,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Models
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            CostCalculationGarmentService service = validationContext.GetService<CostCalculationGarmentService>();
-
-            if (service.DbSet.Count(r => r.Id != this.Id && r.Article.Equals(this.Article) && r._IsDeleted.Equals(false)) > 0)
-                yield return new ValidationResult("Nama Artikel sudah ada", new List<string> { "Article" });
+            throw new NotImplementedException();
         }
     }
 }

@@ -100,7 +100,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             cell_detail1.Phrase = new Phrase("DATE", normal_font);
             table_detail1.AddCell(cell_detail1);
             table_detail1.AddCell(cell_colon);
-            cell_detail1.Phrase = new Phrase($"{viewModel._CreatedUtc.ToString("dd MMMM yyyy")}", normal_font);
+            //cell_detail1.Phrase = new Phrase($"{viewModel._CreatedUtc.ToString("dd MMMM yyyy")}", normal_font);
             table_detail1.AddCell(cell_detail1);
             cell_detail1.Phrase = new Phrase("COMMODITY", normal_font);
             table_detail1.AddCell(cell_detail1);

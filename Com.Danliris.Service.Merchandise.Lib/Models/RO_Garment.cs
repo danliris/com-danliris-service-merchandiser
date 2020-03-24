@@ -1,4 +1,4 @@
-﻿using Com.Danliris.Service.Merchandiser.Lib.Services;
+﻿//using Com.Danliris.Service.Merchandiser.Lib.Services;
 using Com.Moonlay.Models;
 using System;
 using System.Collections.Generic;
@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Com.Danliris.Service.Merchandiser.Lib.Models
 {
@@ -17,16 +18,14 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Models
         public ICollection<RO_Garment_SizeBreakdown> RO_Garment_SizeBreakdowns { get; set; }
         public string Instruction { get; set; }
         public int Total { get; set; }
+        [NotMapped]
         public List<string> ImagesFile { get; set; }
         public string ImagesPath { get; set; }
         public string ImagesName { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            RO_GarmentService service = validationContext.GetService<RO_GarmentService>();
-
-            if (service.DbSet.Count(ro => ro.Id != this.Id && ro.CostCalculationGarmentId.Equals(this.CostCalculationGarmentId) && ro._IsDeleted.Equals(false)) > 0)
-                yield return new ValidationResult("Cost Calculation Garment telah terdaftar di RO", new List<string> { "CostCalculationGarment" });
+            throw new NotImplementedException();
         }
     }
 }

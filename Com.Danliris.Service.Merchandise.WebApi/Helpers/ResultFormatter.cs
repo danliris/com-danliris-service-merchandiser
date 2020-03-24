@@ -1,4 +1,6 @@
-﻿using Com.Danliris.Service.Merchandiser.Lib.Exceptions;
+﻿using AutoMapper;
+using Com.Danliris.Service.Merchandiser.Lib.Exceptions;
+using Com.Danliris.Service.Merchandiser.Lib.ViewModels;
 using Com.Moonlay.NetCore.Lib.Service;
 using Newtonsoft.Json;
 using System;
@@ -24,7 +26,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
             return Result;
         }
 
-        public Dictionary<string, object> Ok<TModel>(List<TModel> Data, int Page, int Size, int TotalData, int TotalPageData, Dictionary<string, string> Order, List<string> Select)
+        public Dictionary<string, object> Ok<TModel>(IMapper mapper, List<TModel> Data, int Page, int Size, int TotalData, int TotalPageData, Dictionary<string, string> Order, List<string> Select)
         {
             Dictionary<string, object> Info = new Dictionary<string, object>
             {
@@ -98,7 +100,12 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
             return Result;
         }
 
-        public Dictionary<string, object> Ok<TModel>(TModel Data)
+        internal Dictionary<string, object> Ok<T>(IMapper mapper, List<ArticleColorViewModel> dataVM, int page, int size, int count1, int count2, Dictionary<string, string> order, List<string> selected)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Dictionary<string, object> Ok<TModel, TViewModel>(TModel Data, List<TViewModel> dataVM)
         {
             Result.Add("data", Data);
 
@@ -137,6 +144,11 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
 
             Result.Add("error", Errors);
             return Result;
+        }
+
+        internal Dictionary<string, object> Ok<T>(ArticleColorViewModel viewModel)
+        {
+            throw new NotImplementedException();
         }
 
         public Dictionary<string, object> Fail(DbReferenceNotNullException e)

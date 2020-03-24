@@ -1,4 +1,5 @@
 ﻿using Com.Danliris.Service.Merchandiser.Lib.Helpers;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities.BaseClass;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
 {
-    public class ArticleColorViewModel : BasicViewModel, IValidatableObject
+    public class ArticleColorViewModel : BaseViewModel, IValidatableObject
     {
         public string Name { get; set; }
         public string Description { get; set; }

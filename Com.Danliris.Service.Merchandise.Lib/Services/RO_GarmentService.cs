@@ -264,7 +264,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             PropertyCopier<RO_GarmentViewModel, RO_Garment>.Copy(viewModel, model);
             model.ImagesPath = viewModel.ImagesPath != null ? JsonConvert.SerializeObject(viewModel.ImagesPath) : null;
 
-            model.CostCalculationGarmentId = viewModel.CostCalculationGarment.Id;
+           // model.CostCalculationGarmentId = viewModel.CostCalculationGarment.Id;
             model.CostCalculationGarment = this.CostCalculationGarmentService.MapToModel(viewModel.CostCalculationGarment);
             model.ImagesName = JsonConvert.SerializeObject(viewModel.ImagesName);
 

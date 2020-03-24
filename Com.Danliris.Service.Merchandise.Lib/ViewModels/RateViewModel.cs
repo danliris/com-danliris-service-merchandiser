@@ -1,10 +1,11 @@
 ﻿using Com.Danliris.Service.Merchandiser.Lib.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities.BaseClass;
 
 namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
 {
-    public class RateViewModel : BasicViewModel, IValidatableObject
+    public class RateViewModel : BaseViewModel, IValidatableObject
     {
         public string Code { get; set; }
         public string Name { get; set; }

@@ -1,6 +1,7 @@
-﻿using Com.Danliris.Service.Merchandiser.Lib.Services;
+﻿
 using Com.Moonlay.Models;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,10 +16,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Models
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            RateService service = validationContext.GetService<RateService>();
-
-            if (service.DbSet.Count(r => r.Id != this.Id && r.Name.Equals(this.Name) && r._IsDeleted.Equals(false)) > 0)
-                yield return new ValidationResult("Nama Rate sudah ada", new List<string> { "Name" });
+            throw new NotImplementedException();
         }
     }
 }
