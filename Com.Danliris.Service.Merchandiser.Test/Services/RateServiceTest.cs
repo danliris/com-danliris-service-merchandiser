@@ -27,16 +27,16 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
 
         }
 
-        [Fact]
-        public void OnCreating_Return_Success()
-        {
-            Rate model = new Rate()
-            {
-                Code = "Q1XT4ZG7"
-            };
-            RateService RateServiceObj = new RateService(GetServiceProvider().Object);
-            RateServiceObj.OnCreating(model);
-        }
+        //[Fact]
+        //public void OnCreating_Return_Success()
+        //{
+        //    Rate model = new Rate()
+        //    {
+        //        Code = "Q1XT4ZG7"
+        //    };
+        //    RateService RateServiceObj = new RateService(GetServiceProvider().Object);
+        //    RateServiceObj.OnCreating(model);
+        //}
 
         [Fact]
         public void MapToViewModel_Return_Success()
