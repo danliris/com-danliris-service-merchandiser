@@ -56,3 +56,21 @@ C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com
 C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.WebApi\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.WebApi.csproj.CopyComplete
 C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.WebApi\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.WebApi.dll
 C:\Users\rizky.junior\Downloads\New folder\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.WebApi\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.WebApi.pdb
+C:\Users\ade.pamungkas\moonlay\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.WebApi\bin\Debug\netcoreapp2.0\appsettings.Development.json
+C:\Users\ade.pamungkas\moonlay\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.WebApi\bin\Debug\netcoreapp2.0\appsettings.json
+C:\Users\ade.pamungkas\moonlay\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.WebApi\bin\Debug\netcoreapp2.0\Properties\launchSettings.json
+C:\Users\ade.pamungkas\moonlay\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.WebApi\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.WebApi.deps.json
+C:\Users\ade.pamungkas\moonlay\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.WebApi\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.WebApi.runtimeconfig.json
+C:\Users\ade.pamungkas\moonlay\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.WebApi\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.WebApi.runtimeconfig.dev.json
+C:\Users\ade.pamungkas\moonlay\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.WebApi\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.WebApi.dll
+C:\Users\ade.pamungkas\moonlay\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.WebApi\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.WebApi.pdb
+C:\Users\ade.pamungkas\moonlay\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.WebApi\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Lib.dll
+C:\Users\ade.pamungkas\moonlay\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.WebApi\bin\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.Lib.pdb
+C:\Users\ade.pamungkas\moonlay\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.WebApi\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.WebApi.csprojAssemblyReference.cache
+C:\Users\ade.pamungkas\moonlay\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.WebApi\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.WebApi.csproj.CoreCompileInputs.cache
+C:\Users\ade.pamungkas\moonlay\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.WebApi\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.WebApi.AssemblyInfoInputs.cache
+C:\Users\ade.pamungkas\moonlay\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.WebApi\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.WebApi.AssemblyInfo.cs
+C:\Users\ade.pamungkas\moonlay\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.WebApi\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.WebApi.csproj.CopyComplete
+C:\Users\ade.pamungkas\moonlay\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.WebApi\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.WebApi.dll
+C:\Users\ade.pamungkas\moonlay\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.WebApi\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.WebApi.pdb
+C:\Users\ade.pamungkas\moonlay\com-danliris-service-merchandiser\Com.Danliris.Service.Merchandise.WebApi\obj\Debug\netcoreapp2.0\Com.Danliris.Service.Merchandiser.WebApi.genruntimeconfig.cache

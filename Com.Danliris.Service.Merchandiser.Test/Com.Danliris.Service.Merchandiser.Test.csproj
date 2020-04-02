@@ -50,8 +50,4 @@
     <ProjectReference Include="..\Com.Danliris.Service.Merchandise.WebApi\Com.Danliris.Service.Merchandiser.WebApi.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>

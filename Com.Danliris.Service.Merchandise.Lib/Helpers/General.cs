@@ -12,7 +12,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Helpers
         {
             List<string> Transform = new List<string> {
                 "_id", "_deleted", "_active",
-                "_createdDate", "_createdBy", "_createAgent",
+                "_createdDate", "_createdBy", "_createdAgent",
                 "_updatedDate", "_updatedBy", "_updateAgent"
             };
 
