@@ -17,6 +17,8 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
         {
         }
 
+
+
         public override Tuple<List<ArticleColor>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null, string Filter = "{}")
         {
             IQueryable<ArticleColor> Query = this.DbContext.ArticleColors;

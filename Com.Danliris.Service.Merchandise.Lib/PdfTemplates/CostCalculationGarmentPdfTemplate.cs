@@ -27,11 +27,11 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
 
         public MemoryStream GeneratePdfTemplate(CostCalculationGarmentViewModel viewModel, int timeoffset)
         {
-            BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
-            BaseFont bf_bold = BaseFont.CreateFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
-            Font normal_font = FontFactory.GetFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED, 7);
-            Font bold_font = FontFactory.GetFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1250, BaseFont.NOT_EMBEDDED, 7);
-            Font bold_font_8 = FontFactory.GetFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1250, BaseFont.NOT_EMBEDDED, 8);
+            BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            BaseFont bf_bold = BaseFont.CreateFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            Font normal_font = FontFactory.GetFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED, 7);
+            Font bold_font = FontFactory.GetFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED, 7);
+            Font bold_font_8 = FontFactory.GetFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED, 8);
             DateTime now = DateTime.Now;
 
             Document document = new Document(PageSize.A4, 10, 10, 10, 10);
@@ -100,7 +100,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.PdfTemplates
             cell_detail1.Phrase = new Phrase("DATE", normal_font);
             table_detail1.AddCell(cell_detail1);
             table_detail1.AddCell(cell_colon);
-            cell_detail1.Phrase = new Phrase($"{viewModel._CreatedUtc.ToString("dd MMMM yyyy")}", normal_font);
+            //cell_detail1.Phrase = new Phrase($"{viewModel._CreatedUtc.ToString("dd MMMM yyyy")}", normal_font);
             table_detail1.AddCell(cell_detail1);
             cell_detail1.Phrase = new Phrase("COMMODITY", normal_font);
             table_detail1.AddCell(cell_detail1);

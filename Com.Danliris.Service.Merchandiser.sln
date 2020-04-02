@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29911.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Com.Danliris.Service.Merchandiser.WebApi", "Com.Danliris.Service.Merchandise.WebApi\Com.Danliris.Service.Merchandiser.WebApi.csproj", "{90A62D33-C5C8-4D3C-84C9-6DC36B60EBFA}"
 EndProject
@@ -11,6 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Com.Danliris.Service.Mercha
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{EB56F18F-DF37-4D85-A3FA-18501C50F41B}"
 	ProjectSection(SolutionItems) = preProject
+		.codecov.yml = .codecov.yml
 		.dockerignore = .dockerignore
 		.travis.yml = .travis.yml
 		docker-compose.test.yml = docker-compose.test.yml
