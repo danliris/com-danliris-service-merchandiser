@@ -73,10 +73,14 @@ namespace Com.Danliris.Service.Merchandiser.Test.PdfTemplates
                         CM_Price=1.0  ,
                         Category = new CategoryViewModel(){ name="category test"},
                         Product =new GarmentProductViewModel(){ code ="code test"},
-                        UOMQuantity = new UOMViewModel(){ unit = "unit test"},
+                        UOMQuantity = new UOMViewModel(){ unit = "2"},
                         UOMPrice = new UOMViewModel(){unit = "2"},
                         Price =2.0,
+                        Total =4,
+                        Quantity = 4
                     }
+
+
                     },
 
                 OTL1 = new RateCalculatedViewModel() { CalculatedValue = 1.0 },
