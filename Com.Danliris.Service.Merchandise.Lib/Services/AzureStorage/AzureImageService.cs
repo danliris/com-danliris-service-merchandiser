@@ -12,10 +12,13 @@ using System.Threading.Tasks;
 
 namespace Com.Danliris.Service.Merchandiser.Lib.Services.AzureStorage
 {
-    public class AzureImageService : AzureStorageService
+    public class AzureImageService : IAzureImageService
     {
-        public AzureImageService(IServiceProvider serviceProvider) : base(serviceProvider)
+        private readonly CloudBlobContainer _storageContainer;
+
+        public AzureImageService(IAzureStorageService storageService)
         {
+            _storageContainer = storageService.GetStorageContainer();
         }
 
         private string getBase64File(string encoded)
@@ -83,7 +86,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services.AzureStorage
 
             try
             {
-                CloudBlobContainer container = this.StorageContainer;
+                CloudBlobContainer container = _storageContainer;
                 CloudBlobDirectory dir = container.GetDirectoryReference(moduleName);
 
                 CloudBlockBlob blob = dir.GetBlockBlobReference(imageName);
@@ -162,13 +165,13 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services.AzureStorage
                 byte[] imageBytes = Convert.FromBase64String(imageFile);
                 if (imageBytes != null)
                 {
-                    CloudBlobContainer container = this.StorageContainer;
+                    CloudBlobContainer container = _storageContainer;
                     CloudBlobDirectory dir = container.GetDirectoryReference(moduleName);
 
                     CloudBlockBlob blob = dir.GetBlockBlobReference(imageName);
                     blob.Properties.ContentType = imageType;
                     await blob.UploadFromByteArrayAsync(imageBytes, 0, imageBytes.Length);
-                    path = "/" + this.StorageContainer.Name + "/" + moduleName + "/" + imageName;
+                    path = "/" + _storageContainer.Name + "/" + moduleName + "/" + imageName;
                 }
             }
             catch (Exception ex)
@@ -208,7 +211,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services.AzureStorage
 
         private async Task RemoveBase64Image(string moduleName, string fileName)
         {
-            CloudBlobContainer container = this.StorageContainer;
+            CloudBlobContainer container = _storageContainer;
             CloudBlobDirectory dir = container.GetDirectoryReference(moduleName);
 
             CloudBlockBlob blob = dir.GetBlockBlobReference(fileName);

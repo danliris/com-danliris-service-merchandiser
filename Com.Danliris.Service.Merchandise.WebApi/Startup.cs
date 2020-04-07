@@ -9,7 +9,7 @@ using Newtonsoft.Json.Serialization;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Com.Danliris.Service.Merchandiser.Lib;
-
+using Com.Danliris.Service.Merchandiser.Lib.Services.AzureStorage;
 
 namespace Com.Danliris.Service.Merchandiser.WebApi
 {
@@ -35,6 +35,10 @@ namespace Com.Danliris.Service.Merchandiser.WebApi
                     options.AssumeDefaultVersionWhenUnspecified = true;
                     options.DefaultApiVersion = new ApiVersion(1, 0);
                 });
+
+            services
+                .AddTransient<IAzureStorageService, AzureStorageService>()
+                .AddTransient<IAzureImageService, AzureImageService>();
 
             //services
             //    .AddTransient<AzureImageService>();
