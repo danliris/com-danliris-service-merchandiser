@@ -1,3 +1,4 @@
 ignore:
 	- "Com.Danliris.Service.Merchandiser.Test"
-	- "Com.Danliris.Service.Merchandiser.Lib/Migrations"
+	- "Com.Danliris.Service.Test"
+	- "Com.Danliris.Service.Merchandise.Lib/Migrations"
