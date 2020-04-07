@@ -26,6 +26,8 @@ namespace Com.Danliris.Service.Merchandiser.Test.PdfTemplates
                     UOMQuantity = new UOMViewModel(){},
                     UOMPrice = new UOMViewModel(){unit = "3"}
                     } 
+
+                   
                 },
 
 
