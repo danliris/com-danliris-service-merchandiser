@@ -161,9 +161,9 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
             Assert.NotNull(result);
         }
 
-
+        //not implement error
         //[Fact]
-        //public async Task CreateModel_Succes()
+        //public async Task CreateModel_Return_Succes()
         //{
         //    string testName = GetCurrentMethod();
         //    var dbContext = _dbContext(testName);
@@ -172,7 +172,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         //        Id = 3,
         //        Active = true,
         //        Code = "Code test 3",
-        //        _CreatedUtc = DateTime.Now.AddYears(-2),
+        //        _CreatedUtc = DateTime.Now,
         //        AutoIncrementNumber = 1,
         //        Convection = "Convection Test 3",
         //        _IsDeleted = false
@@ -181,12 +181,13 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
 
         //    CostCalculationGarment model = new CostCalculationGarment()
         //    {
-        //        Code= "Code test",
+        //        Id=3,
+        //        Code = "Code test",
         //        CostCalculationGarment_Materials = new List<CostCalculationGarment_Material>() { new CostCalculationGarment_Material() { CategoryName = "Category name sample" } },
         //    };
         //    CostCalculationGarmentService CostCalculationGarmentServiceObj = new CostCalculationGarmentService(GetServiceProvider(testName).Object);
 
-        //   var result = await CostCalculationGarmentServiceObj.CreateModel(model);
+        //    var result = await CostCalculationGarmentServiceObj.CreateModel(model);
 
         //}
 

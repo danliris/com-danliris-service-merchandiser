@@ -58,10 +58,10 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
 
             var dbContext = _dbContext(testName);
 
-            EfficiencyService EfficiencyServiceObj = new EfficiencyService(GetServiceProvider(testName).Object);
-
             dbContext.Efficiencies.Add(new Efficiency() { Id = 1, Active = true, Name = "Name Test" ,Code= "code test",Value=20, FinalRange =10, InitialRange=10, _CreatedAgent="created agen",_CreatedBy="ade"});
             dbContext.SaveChanges();
+
+            EfficiencyService EfficiencyServiceObj = new EfficiencyService(GetServiceProvider(testName).Object);
 
             var result = EfficiencyServiceObj.ReadModel(1, 25, "{}", new List<string>() { "selecttest" },null, "{}");
             Assert.NotNull(result);
@@ -103,14 +103,34 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         }
 
         [Fact]
-        public async Task ReadModelByQuantity_Return_Success()
+        public async Task ReadModelByQuantity_when_Result_Zero()
         {
             string testName = GetCurrentMethod();
            
             EfficiencyService EfficiencyServiceObj = new EfficiencyService(GetServiceProvider(testName).Object);
             var result = await EfficiencyServiceObj.ReadModelByQuantity(1);
+            Assert.Equal(0, result.Id);
+            Assert.Equal(0, result.Value);
+        }
+
+
+
+        [Fact]
+        public async Task ReadModelByQuantity_Return_Success()
+        {
+            string testName = GetCurrentMethod();
+
+            var dbContext = _dbContext(testName);
+
+            dbContext.Efficiencies.Add(new Efficiency() { Id = 1, Active = true, Name = "Name Test", Code = "code test", Value = 20, FinalRange = 50, InitialRange = 10, _CreatedAgent = "created agen", _CreatedBy = "ade", _IsDeleted=false });
+            dbContext.SaveChanges();
+
+            EfficiencyService EfficiencyServiceObj = new EfficiencyService(GetServiceProvider(testName).Object);
+            var result = await EfficiencyServiceObj.ReadModelByQuantity(30);
             Assert.NotNull(result);
         }
+
+       
 
         [Fact]
         public void MapToViewModel_Return_Success()
