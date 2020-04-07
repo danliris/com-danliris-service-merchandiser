@@ -2,6 +2,7 @@
 using Com.Danliris.Service.Merchandiser.Lib.Models;
 using Com.Danliris.Service.Merchandiser.Lib.Services;
 using Com.Danliris.Service.Merchandiser.Lib.ViewModels;
+using Com.Danliris.Service.Merchandiser.Test.DataUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Moq;
@@ -51,6 +52,11 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
             return serviceProvider;
         }
 
+        private EfficiencyDataUtil _dataUtil(EfficiencyService service)
+        {
+            return new EfficiencyDataUtil(service);
+        }
+
         [Fact]
         public void ReadModel_Return_Success()
         {
@@ -90,15 +96,8 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         {
             string testName = GetCurrentMethod();
 
-            Efficiency model = new Efficiency()
-            {
-                Code = "anycode",
-                InitialRange = 10,
-                FinalRange = 20,
-                Name = "name test",
-            };
             EfficiencyService EfficiencyServiceObj = new EfficiencyService(GetServiceProvider(testName).Object);
-
+            var model = _dataUtil(EfficiencyServiceObj).GetEfficiencyModel();
             EfficiencyServiceObj.OnUpdating(2,model);
         }
 
@@ -136,8 +135,9 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         public void MapToViewModel_Return_Success()
         {
             string testName = GetCurrentMethod();
-            Efficiency model = new Efficiency();
+           
             EfficiencyService EfficiencyServiceObj = new EfficiencyService(GetServiceProvider(testName).Object);
+            var model = _dataUtil(EfficiencyServiceObj).GetEfficiencyModel();
             var result = EfficiencyServiceObj.MapToViewModel(model);
             Assert.NotNull(result);
         }
@@ -146,13 +146,9 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         public void MapToModel_Return_Success()
         {
             string testName = GetCurrentMethod();
-            EfficiencyViewModel viewModel = new EfficiencyViewModel()
-            {
-                InitialRange = 1,
-                FinalRange =1,
-                Value=1
-            };
+           
             EfficiencyService EfficiencyServiceObj = new EfficiencyService(GetServiceProvider(testName).Object);
+            var viewModel = _dataUtil(EfficiencyServiceObj).GetEfficiencyViewModel();
             var result = EfficiencyServiceObj.MapToModel(viewModel);
             Assert.NotNull(result);
         }

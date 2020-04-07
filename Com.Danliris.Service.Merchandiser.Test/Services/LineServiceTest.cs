@@ -13,6 +13,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
+using Com.Danliris.Service.Merchandiser.Test.DataUtilities;
 
 namespace Com.Danliris.Service.Merchandiser.Test.Services
 {
@@ -51,6 +52,10 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
                 .Returns(_dbContext(testname));
             return serviceProvider;
         }
+        private LineDataUtil _dataUtil(LineService service)
+        {
+            return new LineDataUtil(service);
+        }
 
         [Fact]
         public void ReadModel_Return_Success()
@@ -73,8 +78,9 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         public void MapToViewModel_Return_Success()
         {
             string testName = GetCurrentMethod();
-            Line model = new Line();
+           
             LineService LineServiceObj = new LineService(GetServiceProvider(testName).Object);
+            var model = _dataUtil(LineServiceObj).GetLineModel();
             var result = LineServiceObj.MapToViewModel(model);
             Assert.NotNull(result);
         }
@@ -83,8 +89,8 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         public void MapToModel_Return_Success()
         {
             string testName = GetCurrentMethod();
-            LineViewModel viewModel = new LineViewModel();
             LineService LineServiceObj = new LineService(GetServiceProvider(testName).Object);
+            var viewModel = _dataUtil(LineServiceObj).GetLineViewModel();
             var result = LineServiceObj.MapToModel(viewModel);
             Assert.NotNull(result);
         }
