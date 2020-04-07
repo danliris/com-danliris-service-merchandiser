@@ -36,7 +36,6 @@ namespace Com.Danliris.Service.Merchandiser.Test.PdfTemplates
             string image_blue = "image_blue";
 
 
-
             RO_GarmentViewModel viewmodel = new RO_GarmentViewModel()
             {
                 Code = "Code test",
@@ -68,6 +67,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.PdfTemplates
 
                     }
                 },
+
                 RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdownViewModel>()
                     {
                         new RO_Garment_SizeBreakdownViewModel()
@@ -79,12 +79,502 @@ namespace Com.Danliris.Service.Merchandiser.Test.PdfTemplates
                             },
                             RO_Garment_SizeBreakdown_Details =new List<RO_Garment_SizeBreakdown_DetailViewModel>()
                             {
+
+                                 new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
                                 new RO_Garment_SizeBreakdown_DetailViewModel()
                                 {
                                     Information ="Information test",
-                                    Size ="3",
+                                    Size ="100",
                                     Quantity =1,
-                                }
+                                },
+                                 new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                  new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                   new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                      new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                       new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                        new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                         new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                          new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                           new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                            new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                             new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                             new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                               new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                      new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                   new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                  new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                  new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                   new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                   new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                   new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                      new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                      new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                      new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                      new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                     new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                      new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                   new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+                                    new RO_Garment_SizeBreakdown_DetailViewModel()
+                                {
+                                    Information ="Information test",
+                                    Size ="100",
+                                    Quantity =1,
+                                },
+
+
                             }
 
                         }

@@ -1,9 +1,14 @@
-﻿using Com.Danliris.Service.Merchandiser.Lib.Models;
+﻿using Com.Danliris.Service.Merchandiser.Lib;
+using Com.Danliris.Service.Merchandiser.Lib.Models;
 using Com.Danliris.Service.Merchandiser.Lib.Services;
 using Com.Danliris.Service.Merchandiser.Lib.ViewModels;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Xunit;
 
@@ -11,25 +16,71 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
 {
    public class RO_Garment_SizeBreakdown_DetailServiceTest
     {
-        public Mock<IServiceProvider> GetServiceProvider()
+        private const string ENTITY = "RO_Garment_SizeBreakdown_DetailService";
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public string GetCurrentMethod()
+        {
+            StackTrace st = new StackTrace();
+            StackFrame sf = st.GetFrame(1);
+
+            return string.Concat(sf.GetMethod().Name, "_", ENTITY);
+        }
+
+        private MerchandiserDbContext _dbContext(string testName)
+        {
+            DbContextOptionsBuilder<MerchandiserDbContext> optionsBuilder = new DbContextOptionsBuilder<MerchandiserDbContext>();
+            optionsBuilder
+                .UseInMemoryDatabase(testName)
+                .ConfigureWarnings(w => w.Ignore(InMemoryEventId.TransactionIgnoredWarning));
+
+            MerchandiserDbContext dbContext = new MerchandiserDbContext(optionsBuilder.Options);
+
+            return dbContext;
+        }
+
+        public Mock<IServiceProvider> GetServiceProvider(string testname)
         {
             var serviceProvider = new Mock<IServiceProvider>();
+            serviceProvider.Setup(s => s.GetService(typeof(MerchandiserDbContext)))
+                .Returns(_dbContext(testname));
 
             return serviceProvider;
         }
 
         [Fact]
-        public void Should_Success_Instantiate_RO_Garment_SizeBreakdown_DetailService()
+        public void ReadModel_Return_Success()
         {
-            RO_Garment_SizeBreakdown_DetailService RO_Garment_Size_Detail_ServiceObj = new RO_Garment_SizeBreakdown_DetailService(GetServiceProvider().Object);
+            string testName = GetCurrentMethod();
+            var dbContext = _dbContext(testName);
+            dbContext.RO_Garment_SizeBreakdown_Details.Add(new RO_Garment_SizeBreakdown_Detail() { Id = 1, Active = true, Code = "Code test" });
+            dbContext.SaveChanges();
+            RO_Garment_SizeBreakdown_DetailService RO_Garment_Size_Detail_ServiceObj = new RO_Garment_SizeBreakdown_DetailService(GetServiceProvider(testName).Object);
+            var result = RO_Garment_Size_Detail_ServiceObj.ReadModel(1, 25, "{}", new List<string>() { "select test" }, "keyword test", "{}");
+            
 
+        }
+
+        [Fact]
+        public void Should_Success_OnCreating()
+        {
+            string testName = GetCurrentMethod();
+
+            RO_Garment_SizeBreakdown_Detail model = new RO_Garment_SizeBreakdown_Detail()
+            {
+                Code = "anycode"
+            };
+            RO_Garment_SizeBreakdown_DetailService RO_Garment_Size_Detail_ServiceObj = new RO_Garment_SizeBreakdown_DetailService(GetServiceProvider(testName).Object);
+
+            RO_Garment_Size_Detail_ServiceObj.OnCreating(model);
         }
 
         [Fact]
         public void MapToViewModel_Return_Success()
         {
+            string testName = GetCurrentMethod();
             RO_Garment_SizeBreakdown_Detail model = new RO_Garment_SizeBreakdown_Detail();
-            RO_Garment_SizeBreakdown_DetailService RO_Garment_Size_Detail_ServiceObj = new RO_Garment_SizeBreakdown_DetailService(GetServiceProvider().Object);
+            RO_Garment_SizeBreakdown_DetailService RO_Garment_Size_Detail_ServiceObj = new RO_Garment_SizeBreakdown_DetailService(GetServiceProvider(testName).Object);
             var result = RO_Garment_Size_Detail_ServiceObj.MapToViewModel(model);
             Assert.NotNull(result);
         }
@@ -37,8 +88,9 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         [Fact]
         public void MapToModel_Return_Success()
         {
+            string testName = GetCurrentMethod();
             RO_Garment_SizeBreakdown_DetailViewModel viewmodel = new RO_Garment_SizeBreakdown_DetailViewModel();
-            RO_Garment_SizeBreakdown_DetailService RO_Garment_Size_Detail_ServiceObj = new RO_Garment_SizeBreakdown_DetailService(GetServiceProvider().Object);
+            RO_Garment_SizeBreakdown_DetailService RO_Garment_Size_Detail_ServiceObj = new RO_Garment_SizeBreakdown_DetailService(GetServiceProvider(testName).Object);
             var result = RO_Garment_Size_Detail_ServiceObj.MapToModel(viewmodel);
             Assert.NotNull(result);
         }
