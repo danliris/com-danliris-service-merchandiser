@@ -10,26 +10,31 @@ using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace Com.Danliris.Service.Merchandiser.Lib.Services.AzureStorage
 {
-    public class AzureStorageService
+    public class AzureStorageService : IAzureStorageService
     {
-        protected IServiceProvider ServiceProvider { get; private set; }
-        protected CloudStorageAccount StorageAccount { get; private set; }
-        protected CloudBlobContainer StorageContainer { get; private set; }
+        //private readonly IServiceProvider _serviceProvider;
+        private readonly CloudStorageAccount _storageAccount;
+        private readonly CloudBlobContainer _storageContainer;
 
-        public AzureStorageService(IServiceProvider serviceProvider)
+        public AzureStorageService()
         {
             string storageAccountName = Environment.GetEnvironmentVariable("StorageAccountName");
             string storageAccountKey = Environment.GetEnvironmentVariable("StorageAccountKey");
             string storageContainer = "merchandiser";
 
-            this.ServiceProvider = serviceProvider;
-            this.StorageAccount = new CloudStorageAccount(new StorageCredentials(storageAccountName, storageAccountKey), useHttps: true);
-            this.StorageContainer = this.Configure(storageContainer).GetAwaiter().GetResult();
+            //_serviceProvider = serviceProvider;
+            _storageAccount = new CloudStorageAccount(new StorageCredentials(storageAccountName, storageAccountKey), useHttps: true);
+            _storageContainer = Configure(storageContainer).GetAwaiter().GetResult();
+        }
+
+        public CloudBlobContainer GetStorageContainer()
+        {
+            return _storageContainer;
         }
 
         private async Task<CloudBlobContainer> Configure(string storageContainer)
         {
-            CloudBlobClient cloudBlobClient = this.StorageAccount.CreateCloudBlobClient();
+            CloudBlobClient cloudBlobClient = _storageAccount.CreateCloudBlobClient();
 
             CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference(storageContainer);
             await cloudBlobContainer.CreateIfNotExistsAsync();
@@ -40,7 +45,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services.AzureStorage
             return cloudBlobContainer;
         }
 
-        private BlobContainerPermissions SetContainerPermission(Boolean isPublic)
+        private BlobContainerPermissions SetContainerPermission(bool isPublic)
         {
             BlobContainerPermissions permissions = new BlobContainerPermissions();
             if (isPublic)
