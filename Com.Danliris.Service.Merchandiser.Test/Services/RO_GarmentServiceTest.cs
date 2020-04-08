@@ -1,6 +1,7 @@
 ﻿using Com.Danliris.Service.Merchandiser.Lib;
 using Com.Danliris.Service.Merchandiser.Lib.Models;
 using Com.Danliris.Service.Merchandiser.Lib.Services;
+using Com.Danliris.Service.Merchandiser.Lib.Services.AzureStorage;
 using Com.Danliris.Service.Merchandiser.Lib.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -11,6 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Com.Danliris.Service.Merchandiser.Test.Services
@@ -55,6 +57,10 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
 
             serviceProvider.Setup(s => s.GetService(typeof(CostCalculationGarmentService)))
               .Returns(new CostCalculationGarmentService(serviceProvider.Object));
+
+            var azureInterface = new Mock<IAzureStorageService>();
+            serviceProvider.Setup(s => s.GetService(typeof(IAzureImageService)))
+             .Returns(new AzureImageService(azureInterface.Object));
 
 
             return serviceProvider;
@@ -102,6 +108,28 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
             };
             RO_GarmentService RO_GarmentServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
             RO_GarmentServiceObj.OnCreating(model);
+
+
+        }
+
+
+        [Fact]
+        public async Task Should_Success_DeleteModel()
+        {
+            string testName = GetCurrentMethod();
+            var dbContext = _dbContext(testName);
+
+
+            dbContext.RO_Garments.Add(new RO_Garment() { 
+                ImagesPath=null,
+                Id = 1, 
+                Active = true, 
+                Code = "code test", _CreatedAgent = "created agen", _CreatedBy = "ade" });
+            dbContext.SaveChanges();
+
+
+            RO_GarmentService RO_GarmentServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
+           var result = await RO_GarmentServiceObj.DeleteModel(1);
 
 
         }

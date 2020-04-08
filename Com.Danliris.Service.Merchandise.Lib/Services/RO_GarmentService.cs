@@ -17,14 +17,17 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 {
     public class RO_GarmentService : BasicService<MerchandiserDbContext, RO_Garment>, IMap<RO_Garment, RO_GarmentViewModel>
     {
+        private readonly IAzureImageService _azureImageService;
+
         public RO_GarmentService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
+            _azureImageService = serviceProvider.GetService<IAzureImageService>();
         }
 
-        private AzureImageService AzureImageService
-        {
-            get { return this.ServiceProvider.GetService<AzureImageService>(); }
-        }
+        //private AzureImageService AzureImageService
+        //{
+        //    get { return this.ServiceProvider.GetService<AzureImageService>(); }
+        //}
 
         private RO_Garment_SizeBreakdownService RO_Garment_SizeBreakdownService
         {
@@ -109,7 +112,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
             int created = await this.CreateAsync(Model);
 
-            Model.ImagesPath = await this.AzureImageService.UploadMultipleImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImagesFile, Model.ImagesPath);
+            Model.ImagesPath = await _azureImageService.UploadMultipleImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImagesFile, Model.ImagesPath);
 
             await this.UpdateAsync(Model.Id, Model);
 
@@ -148,8 +151,8 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
                     .ThenInclude(ccg => ccg.CostCalculationGarment_Materials)
                 .FirstOrDefaultAsync();
 
-            read.CostCalculationGarment.ImageFile = await this.AzureImageService.DownloadImage(read.CostCalculationGarment.GetType().Name, read.CostCalculationGarment.ImagePath);
-            read.ImagesFile = await this.AzureImageService.DownloadMultipleImages(read.GetType().Name, read.ImagesPath);
+            read.CostCalculationGarment.ImageFile = await _azureImageService.DownloadImage(read.CostCalculationGarment.GetType().Name, read.CostCalculationGarment.ImagePath);
+            read.ImagesFile = await _azureImageService.DownloadMultipleImages(read.GetType().Name, read.ImagesPath);
 
             return read;
         }
@@ -159,7 +162,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             CostCalculationGarment costCalculationGarment = Model.CostCalculationGarment;
             Model.CostCalculationGarment = null;
 
-            Model.ImagesPath = await this.AzureImageService.UploadMultipleImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImagesFile, Model.ImagesPath);
+            Model.ImagesPath = await _azureImageService.UploadMultipleImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImagesFile, Model.ImagesPath);
 
             int updated = await this.UpdateAsync(Id, Model);
 
@@ -203,7 +206,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
         public override async Task<int> DeleteModel(int Id)
         {
             RO_Garment deletedImage = await this.GetAsync(Id);
-            await this.AzureImageService.RemoveMultipleImage(deletedImage.GetType().Name, deletedImage.ImagesPath);
+            await _azureImageService.RemoveMultipleImage(deletedImage.GetType().Name, deletedImage.ImagesPath);
 
             int deleted = await this.DeleteAsync(Id);
 
