@@ -69,13 +69,16 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
             TController controller = (TController)Activator.CreateInstance(typeof(TController), mocks.IdentityService.Object, mocks.ValidateService.Object, mocks.Facade.Object, mocks.Mapper.Object, mocks.ServiceProvider.Object);
             controller.ControllerContext = new ControllerContext()
             {
+                
                 HttpContext = new DefaultHttpContext()
                 {
-                    User = user.Object
+                    User = user.Object,
+                    
                 }
             };
             controller.ControllerContext.HttpContext.Request.Headers["Authorization"] = "Bearer unittesttoken";
             controller.ControllerContext.HttpContext.Request.Path = new PathString("/v1/unit-test");
+            
             return controller;
         }
 

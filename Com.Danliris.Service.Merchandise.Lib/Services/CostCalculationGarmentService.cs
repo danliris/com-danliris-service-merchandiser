@@ -19,14 +19,17 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 {
     public class CostCalculationGarmentService : BasicService<MerchandiserDbContext, CostCalculationGarment>, IMap<CostCalculationGarment, CostCalculationGarmentViewModel>
     {
+        private readonly IAzureImageService _azureImageService;
+
         public CostCalculationGarmentService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
+            _azureImageService = serviceProvider.GetService<IAzureImageService>();
         }
 
-        private AzureImageService AzureImageService
-        {
-            get { return this.ServiceProvider.GetService<AzureImageService>(); }
-        }
+        //private AzureImageService AzureImageService
+        //{
+        //    get { return this.ServiceProvider.GetService<AzureImageService>(); }
+        //}
 
         private CostCalculationGarment_MaterialService CostCalculationGarment_MaterialService
         {
@@ -137,7 +140,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             Model = await this.CustomCodeGenerator(Model);
             GeneratePONumbers(Model);
             Created = await this.CreateAsync(Model);
-            Model.ImagePath = await this.AzureImageService.UploadImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImageFile);
+            Model.ImagePath = await _azureImageService.UploadImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImageFile);
 
             await this.UpdateAsync(Model.Id, Model);
 
@@ -214,14 +217,14 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
                 .Include(d => d.CostCalculationGarment_Materials)
                 .FirstOrDefaultAsync();
 
-            read.ImageFile = await this.AzureImageService.DownloadImage(read.GetType().Name, read.ImagePath);
+            read.ImageFile = await _azureImageService.DownloadImage(read.GetType().Name, read.ImagePath);
 
             return read;
         }
 
         public override async Task<int> UpdateModel(int Id, CostCalculationGarment Model)
         {
-            Model.ImagePath = await this.AzureImageService.UploadImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImageFile);
+            Model.ImagePath = await _azureImageService.UploadImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImageFile);
 
             GeneratePONumbers(Model);
             int updated = await this.UpdateAsync(Id, Model);
@@ -276,7 +279,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
                     await this.CostCalculationGarment_MaterialService.DeleteModel(CostCalculationGarment_Material);
                 }
 
-                await this.AzureImageService.RemoveImage(deleted.GetType().Name, deleted.ImagePath);
+                await _azureImageService.RemoveImage(deleted.GetType().Name, deleted.ImagePath);
             }
 
             return await this.DeleteAsync(Id);

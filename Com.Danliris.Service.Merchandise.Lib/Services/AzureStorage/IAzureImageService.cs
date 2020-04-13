@@ -11,5 +11,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services.AzureStorage
         Task<string> DownloadImage(string name, string imagePath);
         Task<List<string>> DownloadMultipleImages(string name, string imagesPath);
         Task RemoveMultipleImage(string name, string imagesPath);
+        Task<string> UploadImage(string name, int id, DateTime createdUtc, string imageFile);
+        Task RemoveImage(string name, string imagePath);
     }
 }

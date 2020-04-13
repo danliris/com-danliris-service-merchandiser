@@ -209,6 +209,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services.AzureStorage
             }
         }
 
+    
         private async Task RemoveBase64Image(string moduleName, string fileName)
         {
             CloudBlobContainer container = _storageContainer;
