@@ -20,7 +20,6 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.v1.BasicControlle
     public class EfficienciesController : BasicController<Efficiency, EfficiencyViewModel, IEfficiencies>
     {
         private readonly static string apiVersion = "1.0";
-        private readonly IEfficiencies _facade;
         private readonly IIdentityService Service;
         public EfficienciesController(IIdentityService identityService, IValidateService validateService, IEfficiencies facade, IServiceProvider serviceProvider) : base(identityService, validateService, facade, apiVersion)
         {
@@ -37,7 +36,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.v1.BasicControlle
 
             try
             {
-                var model = await _facade.ReadModelByQuantity(Quantity);
+                var model = await Facade.ReadModelByQuantity(Quantity);
 
                 if (model == null)
                 {
