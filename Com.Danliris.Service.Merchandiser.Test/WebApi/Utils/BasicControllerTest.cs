@@ -5,6 +5,8 @@ using Com.Danliris.Service.Merchandiser.WebApi.Helpers;
 using Com.Moonlay.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Update;
 using Microsoft.Exchange.WebServices.Data;
 using Moq;
 using System;
@@ -153,6 +155,16 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
             return this.GetStatusCode(response);
         }
 
+        [Fact]
+        public virtual async System.Threading.Tasks.Task GetById_Model_ReturnOK()
+        {
+            var mocks = this.GetMocks();
+            //mocks.Mapper.Setup(f => f.Map<TViewModel>(It.IsAny<TModel>())).Returns(this.ViewModel);
+            mocks.Facade.Setup(f => f.ReadModelById(It.IsAny<int>())).ReturnsAsync(Model);
+            mocks.Facade.Setup(s => s.MapToViewModel(It.IsAny<TModel>())).Returns(ViewModel);
+            int statusCode = await this.GetStatusCodeGetById(mocks);
+            Assert.Equal((int)HttpStatusCode.OK, statusCode);
+        }
 
         [Fact]
         public virtual async System.Threading.Tasks.Task GetById_NullModel_ReturnNotFound()
@@ -196,6 +208,24 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
 
             int statusCode = await this.GetStatusCodePut(mocks, id, viewModel);
             Assert.Equal((int)HttpStatusCode.BadRequest, statusCode);
+        }
+
+        [Fact]
+        public async System.Threading.Tasks.Task Put_DBConcurrency_ReturnInternalError()
+        {
+            var mocks = this.GetMocks();
+            mocks.ValidateService.Setup(vs => vs.Validate(It.IsAny<TViewModel>())).Verifiable();
+            var id = 1;
+            var viewModel = new TViewModel()
+            {
+                Id = id
+            };
+            mocks.Facade.Setup(f => f.UpdateModel(It.IsAny<int>(), It.IsAny<TModel>())).ThrowsAsync(new DbUpdateConcurrencyException("", new List<IUpdateEntry>()
+            {
+                Mock.Of<IUpdateEntry>()
+            }));
+            int statusCode = await this.GetStatusCodePut(mocks, id, viewModel);
+            Assert.Equal((int)HttpStatusCode.InternalServerError, statusCode);
         }
 
         [Fact]
