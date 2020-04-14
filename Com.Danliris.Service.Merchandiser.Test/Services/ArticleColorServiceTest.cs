@@ -101,6 +101,21 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         }
 
         [Fact]
+        public async void ReadModelById_Return_Success()
+        {
+            string testName = GetCurrentMethod();
+
+            var dbContext = _dbContext(testName);
+            ArticleColorService ArticleColorServiceObj = new ArticleColorService(GetServiceProvider(testName).Object);
+            var model = new ArticleColor() { Name = "test", Description = "test" };
+            await ArticleColorServiceObj.CreateModel(model);
+            var data = ArticleColorServiceObj.ReadModel();
+            var updatedModel = data.Item1.FirstOrDefault();
+            var result = await ArticleColorServiceObj.ReadModelById(updatedModel.Id);
+            Assert.NotNull(result);
+        }
+
+        [Fact]
         public async void Delete_Return_Success()
         {
             string testName = GetCurrentMethod() + "Update";
@@ -138,6 +153,16 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
             ArticleColorService ArticleColorServiceObj = new ArticleColorService(GetServiceProvider(testName).Object);
             var result = ArticleColorServiceObj.MapToModel(viewModel);
             Assert.NotNull(result);
+        }
+
+
+        [Fact]
+        public void ValidateVM()
+        {
+            string testname = GetCurrentMethod();
+            var vm = new ArticleColorViewModel();
+            ValidateService service = new ValidateService(GetServiceProvider(testname).Object);
+            Assert.ThrowsAny<ServiceValidationException>(() => service.Validate(vm));
         }
     }
 }

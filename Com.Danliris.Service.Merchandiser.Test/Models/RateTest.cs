@@ -35,7 +35,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Models
         public void Validate_Return_Exception()
         {
             Rate defaultViewModel = new Rate();
-            Assert.Throws<NotImplementedException>(() => defaultViewModel.Validate(null));
+            Assert.Empty(defaultViewModel.Validate(null));
         }
     }
 }

@@ -72,7 +72,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Models
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            throw new NotImplementedException();
+            return new List<ValidationResult>();
         }
     }
 }

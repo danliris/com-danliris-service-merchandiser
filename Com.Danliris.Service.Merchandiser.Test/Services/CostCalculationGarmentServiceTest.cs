@@ -2,6 +2,8 @@
 using Com.Danliris.Service.Merchandiser.Lib.Models;
 using Com.Danliris.Service.Merchandiser.Lib.Services;
 using Com.Danliris.Service.Merchandiser.Lib.Services.AzureStorage;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities.BaseClass;
 using Com.Danliris.Service.Merchandiser.Lib.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -17,7 +19,7 @@ using Xunit;
 
 namespace Com.Danliris.Service.Merchandiser.Test.Services
 {
-   public class CostCalculationGarmentServiceTest
+    public class CostCalculationGarmentServiceTest
     {
         private const string ENTITY = "RateService";
 
@@ -54,21 +56,37 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
                 .Setup(x => x.GetService(typeof(CostCalculationGarment_MaterialService)))
                 .Returns(new CostCalculationGarment_MaterialService(serviceProvider.Object));
 
-            //serviceProvider
-            //   .Setup(x => x.GetService(typeof(AzureImageService)))
-            //   .Returns(new AzureImageService(serviceProvider.Object));
+            serviceProvider.Setup(s => s.GetService(typeof(IIdentityService)))
+                .Returns(new IdentityService() { Username = "test", Token = "test", TimezoneOffset = 7 });
+
+            Mock<IAzureImageService> image = new Mock<IAzureImageService>();
+            image.Setup(s => s.DownloadImage(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync("string");
+            image.Setup(s => s.DownloadMultipleImages(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(new List<string>() { "string" });
+            image.Setup(s => s.UploadImage(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<DateTime>(), It.IsAny<string>()))
+                .ReturnsAsync("string");
+            image.Setup(s => s.UploadMultipleImage(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<DateTime>(), It.IsAny<List<string>>(), It.IsAny<string>()))
+                .ReturnsAsync("string");
+            image.Setup(s => s.RemoveImage(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(Task.CompletedTask);
+            image.Setup(s => s.RemoveMultipleImage(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(Task.CompletedTask);
+            serviceProvider
+               .Setup(x => x.GetService(typeof(IAzureImageService)))
+               .Returns(image.Object);
 
             return serviceProvider;
         }
 
-     
+
 
         [Fact]
         public void ReadModel_Return_Success()
         {
             string testName = GetCurrentMethod();
             var dbContext = _dbContext(testName);
-            dbContext.CostCalculationGarments.Add(new CostCalculationGarment() { Id = 1,RO_Number ="1",Article="article test",Convection="convection", Active = true, Code = "Code test" });
+            dbContext.CostCalculationGarments.Add(new CostCalculationGarment() { Id = 1, RO_Number = "1", Article = "article test", Convection = "convection", Active = true, Code = "Code test" });
             dbContext.SaveChanges();
             CostCalculationGarmentService CostCalculationGarmentServiceObj = new CostCalculationGarmentService(GetServiceProvider(testName).Object);
             var result = CostCalculationGarmentServiceObj.ReadModel(2, 25, "{}", new List<string>() { "select test" }, "keyword test", "{}");
@@ -76,13 +94,13 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
             Assert.NotEqual(0, dbContext.CostCalculationGarments.Count());
         }
 
-        
+
 
         [Fact]
         public async Task CustomCodeGenerator_When_lastDataIsNull_Return_Success()
         {
 
-            string testName = GetCurrentMethod();
+            string testName = GetCurrentMethod() + "CustomCodeGenerator_When_lastDataIsNull_Return_Success";
             var dbContext = _dbContext(testName);
             dbContext.CostCalculationGarments.Add(new CostCalculationGarment()
             {
@@ -110,7 +128,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         public async Task CustomCodeGenerator_withCreatedUtc_DateNow_Return_Success()
         {
 
-            string testName = GetCurrentMethod();
+            string testName = GetCurrentMethod() + "CustomCodeGenerator_withCreatedUtc_DateNow_Return_Success";
             var dbContext = _dbContext(testName);
             dbContext.CostCalculationGarments.Add(new CostCalculationGarment()
             {
@@ -138,13 +156,14 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         public async Task CustomCodeGenerator_withCreatedUtc_lesThanNow_Return_Success()
         {
 
-            string testName = GetCurrentMethod();
+            string testName = GetCurrentMethod() + "CustomCodeGenerator_withCreatedUtc_lesThanNow_Return_Success";
             var dbContext = _dbContext(testName);
-            dbContext.CostCalculationGarments.Add(new CostCalculationGarment() {
+            dbContext.CostCalculationGarments.Add(new CostCalculationGarment()
+            {
                 Id = 3,
                 Active = true,
                 Code = "Code test 3",
-                _CreatedUtc = DateTime.Now.AddYears(-2) ,
+                _CreatedUtc = DateTime.Now.AddYears(-2),
                 AutoIncrementNumber = 1,
                 Convection = "Convection Test 3",
                 _IsDeleted = false
@@ -159,6 +178,37 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
             CostCalculationGarmentService CostCalculationGarmentServiceObj = new CostCalculationGarmentService(GetServiceProvider(testName).Object);
             var result = await CostCalculationGarmentServiceObj.CustomCodeGenerator(model);
             Assert.NotNull(result);
+        }
+        [Fact]
+        public async void Create_Return_Success()
+        {
+            string testName = GetCurrentMethod();
+
+            var dbContext = _dbContext(testName);
+            CostCalculationGarmentService CostCalculationGarmentServiceObj = new CostCalculationGarmentService(GetServiceProvider(testName).Object);
+            var model = new CostCalculationGarment() { CostCalculationGarment_Materials = new List<CostCalculationGarment_Material>() };
+            var result = await CostCalculationGarmentServiceObj.CreateModel(model);
+            Assert.NotEqual(0, result);
+        }
+
+        [Fact]
+        public async void Update_Return_Success()
+        {
+            string testName = GetCurrentMethod() + "Update";
+
+            var dbContext = _dbContext(testName);
+            CostCalculationGarmentService CostCalculationGarmentServiceObj = new CostCalculationGarmentService(GetServiceProvider(testName).Object);
+            CostCalculationGarmentService CostCalculationGarmentServiceObj2 = new CostCalculationGarmentService(GetServiceProvider(testName).Object);
+            var model = new CostCalculationGarment() { CostCalculationGarment_Materials = new List<CostCalculationGarment_Material>() };
+            await CostCalculationGarmentServiceObj.CreateModel(model);
+            var data = CostCalculationGarmentServiceObj.ReadModel();
+            var updatedModel = data.Item1.FirstOrDefault();
+            updatedModel.CostCalculationGarment_Materials = new List<CostCalculationGarment_Material>() { new CostCalculationGarment_Material()
+            {
+                CategoryName = "test"     
+            } };
+            var result = await CostCalculationGarmentServiceObj2.UpdateModel(updatedModel.Id, updatedModel);
+            Assert.NotEqual(0, result);
         }
 
         //not implement error
@@ -280,7 +330,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         //public void Should_Success_OnCreating()
         //{
         //    string testName = GetCurrentMethod();
-           
+
         //    CostCalculationGarment model = new CostCalculationGarment()
         //    {
 
@@ -291,7 +341,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         //    CostCalculationGarmentServiceObj.OnCreating(model);
 
         //}
-        
+
 
         [Fact]
         public void MapToViewModel_Return_Succes()
@@ -299,12 +349,13 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
             string testName = GetCurrentMethod();
             CostCalculationGarmentService CostCalculationGarmentServiceObj = new CostCalculationGarmentService(GetServiceProvider(testName).Object);
 
-            CostCalculationGarment model = new CostCalculationGarment() {
+            CostCalculationGarment model = new CostCalculationGarment()
+            {
 
-                CostCalculationGarment_Materials = new List<CostCalculationGarment_Material>() { new CostCalculationGarment_Material() { CategoryName="Category name sample" } },
+                CostCalculationGarment_Materials = new List<CostCalculationGarment_Material>() { new CostCalculationGarment_Material() { CategoryName = "Category name sample" } },
             };
 
-            var result =CostCalculationGarmentServiceObj.MapToViewModel(model);
+            var result = CostCalculationGarmentServiceObj.MapToViewModel(model);
             Assert.NotNull(result);
         }
 
@@ -329,23 +380,23 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
                 THR = new RateViewModel() { Id = 1, Value = 1.0 },
                 Rate = new RateViewModel() { Id = 1, Value = 1.0 },
                 CostCalculationGarment_Materials = new List<CostCalculationGarment_MaterialViewModel>() {
-                new CostCalculationGarment_MaterialViewModel(){Product = new GarmentProductViewModel(), 
+                new CostCalculationGarment_MaterialViewModel(){Product = new GarmentProductViewModel(),
                     Category = new CategoryViewModel(){_id ="1",SubCategory="SubCategory test" ,name ="name" },
                 UOMQuantity =new UOMViewModel(){ _id="1",unit="unit test"},
                 UOMPrice =new UOMViewModel(){_id="id test",unit="unit test"},
                 ShippingFeePortion =1.0,
                 }
                 },
-               
-                CommissionPortion =1.0,
+
+                CommissionPortion = 1.0,
                 Risk = 1.0,
-                OTL1 =new RateCalculatedViewModel() { Id=1,Value =1.0, CalculatedValue =1.0},
-                OTL2 = new RateCalculatedViewModel() { Id=1, Value=1, CalculatedValue=1.0},
-                NETFOBP =1.0,
+                OTL1 = new RateCalculatedViewModel() { Id = 1, Value = 1.0, CalculatedValue = 1.0 },
+                OTL2 = new RateCalculatedViewModel() { Id = 1, Value = 1, CalculatedValue = 1.0 },
+                NETFOBP = 1.0,
             };
 
 
-           var result = CostCalculationGarmentServiceObj.MapToModel(viewModel);
+            var result = CostCalculationGarmentServiceObj.MapToModel(viewModel);
             Assert.NotNull(result);
         }
     }

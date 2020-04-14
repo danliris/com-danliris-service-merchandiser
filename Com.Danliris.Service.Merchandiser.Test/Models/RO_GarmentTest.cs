@@ -53,7 +53,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Models
         public void Validate_withDefault_Return_Success()
         {
             RO_Garment defaultViewModel = new RO_Garment();
-            Assert.Throws<NotImplementedException>(() => defaultViewModel.Validate(null));
+            Assert.Empty(defaultViewModel.Validate(null));
         }
     }
 }

@@ -23,9 +23,9 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
         {
         }
 
-        private AzureImageService AzureImageService
+        private IAzureImageService AzureImageService
         {
-            get { return this.ServiceProvider.GetService<AzureImageService>(); }
+            get { return this.ServiceProvider.GetService<IAzureImageService>(); }
         }
 
         private CostCalculationGarment_MaterialService CostCalculationGarment_MaterialService
