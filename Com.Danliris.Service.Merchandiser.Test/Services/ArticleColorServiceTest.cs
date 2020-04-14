@@ -118,7 +118,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         [Fact]
         public async void Delete_Return_Success()
         {
-            string testName = GetCurrentMethod() + "Update";
+            string testName = GetCurrentMethod();
 
             var dbContext = _dbContext(testName);
             ArticleColorService ArticleColorServiceObj = new ArticleColorService(GetServiceProvider(testName).Object);

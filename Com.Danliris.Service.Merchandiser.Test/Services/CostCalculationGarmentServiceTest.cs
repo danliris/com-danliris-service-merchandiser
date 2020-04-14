@@ -211,6 +211,36 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
             Assert.NotEqual(0, result);
         }
 
+        [Fact]
+        public async void ReadModelById_Return_Success()
+        {
+            string testName = GetCurrentMethod();
+
+            var dbContext = _dbContext(testName);
+            CostCalculationGarmentService CostCalculationGarmentServiceObj = new CostCalculationGarmentService(GetServiceProvider(testName).Object);
+            var model = new CostCalculationGarment() { CostCalculationGarment_Materials = new List<CostCalculationGarment_Material>() };
+            await CostCalculationGarmentServiceObj.CreateModel(model);
+            var data = CostCalculationGarmentServiceObj.ReadModel();
+            var updatedModel = data.Item1.FirstOrDefault();
+            var result = await CostCalculationGarmentServiceObj.ReadModelById(updatedModel.Id);
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async void Delete_Return_Success()
+        {
+            string testName = GetCurrentMethod();
+
+            var dbContext = _dbContext(testName);
+            CostCalculationGarmentService CostCalculationGarmentServiceObj = new CostCalculationGarmentService(GetServiceProvider(testName).Object);
+            var model = new CostCalculationGarment() { CostCalculationGarment_Materials = new List<CostCalculationGarment_Material>() };
+            await CostCalculationGarmentServiceObj.CreateModel(model);
+            var data = CostCalculationGarmentServiceObj.ReadModel();
+            var updatedModel = data.Item1.FirstOrDefault();
+            var result = await CostCalculationGarmentServiceObj.DeleteModel(updatedModel.Id);
+            Assert.NotEqual(0, result);
+        }
+
         //not implement error
         //[Fact]
         //public async Task CreateModel_Return_Succes()
