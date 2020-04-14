@@ -26,32 +26,32 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
             return Result;
         }
 
-        public Dictionary<string, object> Ok<TModel>(IMapper mapper, List<TModel> Data, int Page, int Size, int TotalData, int TotalPageData, Dictionary<string, string> Order, List<string> Select)
-        {
-            Dictionary<string, object> Info = new Dictionary<string, object>
-            {
-                { "count", TotalPageData },
-                { "page", Page },
-                { "size", Size },
-                { "total", TotalData },
-                { "order", Order }
-            };
+        //public Dictionary<string, object> Ok<TModel>(IMapper mapper, List<TModel> Data, int Page, int Size, int TotalData, int TotalPageData, Dictionary<string, string> Order, List<string> Select)
+        //{
+        //    Dictionary<string, object> Info = new Dictionary<string, object>
+        //    {
+        //        { "count", TotalPageData },
+        //        { "page", Page },
+        //        { "size", Size },
+        //        { "total", TotalData },
+        //        { "order", Order }
+        //    };
 
-            if (Select.Count > 0)
-            {
-                var DataObj = Data.AsQueryable().Select(string.Concat("new(", string.Join(",", Select), ")"));
-                Result.Add("data", DataObj);
-                Info.Add("select", Select);
-            }
-            else
-            {
-                Result.Add("data", Data);
-            }
+        //    if (Select.Count > 0)
+        //    {
+        //        var DataObj = Data.AsQueryable().Select(string.Concat("new(", string.Join(",", Select), ")"));
+        //        Result.Add("data", DataObj);
+        //        Info.Add("select", Select);
+        //    }
+        //    else
+        //    {
+        //        Result.Add("data", Data);
+        //    }
 
-            Result.Add("info", Info);
+        //    Result.Add("info", Info);
 
-            return Result;
-        }
+        //    return Result;
+        //}
 
         public Dictionary<string, object> Ok<TModel, TViewModel>(List<TModel> Data, Func<TModel, TViewModel> MapToViewModel)
         {
@@ -100,10 +100,10 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
             return Result;
         }
 
-        internal Dictionary<string, object> Ok<T>(IMapper mapper, List<ArticleColorViewModel> dataVM, int page, int size, int count1, int count2, Dictionary<string, string> order, List<string> selected)
-        {
-            throw new NotImplementedException();
-        }
+        //internal Dictionary<string, object> Ok<T>(IMapper mapper, List<ArticleColorViewModel> dataVM, int page, int size, int count1, int count2, Dictionary<string, string> order, List<string> selected)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public Dictionary<string, object> Ok<TModel, TViewModel>(TModel Data, List<TViewModel> dataVM)
         {
@@ -112,12 +112,12 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
             return Result;
         }
 
-        public Dictionary<string, object> Ok<TViewModel>(IMapper mapper, TViewModel Data)
-        {
-            Result.Add("data", Data);
+        //public Dictionary<string, object> Ok<TViewModel>(IMapper mapper, TViewModel Data)
+        //{
+        //    Result.Add("data", Data);
 
-            return Result;
-        }
+        //    return Result;
+        //}
 
         public Dictionary<string, object> Ok<TModel, TViewModel>(TModel Data, Func<TModel, TViewModel> MapToViewModel)
         {
