@@ -61,19 +61,19 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
 
         }
 
-        [Fact]
-        public void Should_Success_OnCreating()
-        {
-            string testName = GetCurrentMethod();
+        //[Fact]
+        //public void Should_Success_OnCreating()
+        //{
+        //    string testName = GetCurrentMethod();
 
-            RO_Garment_SizeBreakdown_Detail model = new RO_Garment_SizeBreakdown_Detail()
-            {
-                Code = "anycode"
-            };
-            RO_Garment_SizeBreakdown_DetailService RO_Garment_Size_Detail_ServiceObj = new RO_Garment_SizeBreakdown_DetailService(GetServiceProvider(testName).Object);
+        //    RO_Garment_SizeBreakdown_Detail model = new RO_Garment_SizeBreakdown_Detail()
+        //    {
+        //        Code = "anycode"
+        //    };
+        //    RO_Garment_SizeBreakdown_DetailService RO_Garment_Size_Detail_ServiceObj = new RO_Garment_SizeBreakdown_DetailService(GetServiceProvider(testName).Object);
 
-            RO_Garment_Size_Detail_ServiceObj.OnCreating(model);
-        }
+        //    RO_Garment_Size_Detail_ServiceObj.OnCreating(model);
+        //}
 
         [Fact]
         public void MapToViewModel_Return_Success()

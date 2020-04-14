@@ -22,7 +22,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.v1.BasicControlle
         private readonly static string apiVersion = "1.0";
         private readonly IEfficiencies _facade;
         private readonly IIdentityService Service;
-        public EfficienciesController(IIdentityService identityService, IValidateService validateService, IEfficiencies facade, IMapper mapper, IServiceProvider serviceProvider) : base(identityService, validateService, facade, mapper, apiVersion)
+        public EfficienciesController(IIdentityService identityService, IValidateService validateService, IEfficiencies facade, IServiceProvider serviceProvider) : base(identityService, validateService, facade, apiVersion)
         {
             Service = identityService;
         }

@@ -31,7 +31,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             get
             {
                 RO_Garment_SizeBreakdownService service = this.ServiceProvider.GetService<RO_Garment_SizeBreakdownService>();
-                service.Username = this.Username;
+                service.identityService = identityService;
                 return service;
             }
         }
@@ -41,7 +41,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             get
             {
                 CostCalculationGarmentService service = this.ServiceProvider.GetService<CostCalculationGarmentService>();
-                service.Username = this.Username;
+                service.identityService = identityService;
                 return service;
             }
         }
@@ -51,7 +51,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             get
             {
                 CostCalculationGarment_MaterialService service = this.ServiceProvider.GetService<CostCalculationGarment_MaterialService>();
-                service.Username = this.Username;
+                service.identityService = identityService;
                 return service;
             }
         }

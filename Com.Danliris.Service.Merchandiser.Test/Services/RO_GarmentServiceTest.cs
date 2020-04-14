@@ -77,34 +77,34 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         }
 
 
-        [Fact]
-        public void Should_Success_OnCreating()
-        {
-            string testName = GetCurrentMethod();
-            var dbContext = _dbContext(testName);
+        //[Fact]
+        //public void Should_Success_OnCreating()
+        //{
+        //    string testName = GetCurrentMethod();
+        //    var dbContext = _dbContext(testName);
 
 
-            dbContext.RO_Garments.Add(new RO_Garment() { Id = 1, Active = true, Code = "code test", _CreatedAgent = "created agen", _CreatedBy = "ade" });
-            dbContext.SaveChanges();
+        //    dbContext.RO_Garments.Add(new RO_Garment() { Id = 1, Active = true, Code = "code test", _CreatedAgent = "created agen", _CreatedBy = "ade" });
+        //    dbContext.SaveChanges();
 
-            RO_Garment model = new RO_Garment()
-            {
-                CostCalculationGarmentId = 1,
-                RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown>() { new RO_Garment_SizeBreakdown() {
-                    Active=true,
-                    ColorName ="Red",
-                    RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>()
-                    {
-                        new RO_Garment_SizeBreakdown_Detail(){Active = true, Code ="CodeTest", Id=1}
-                    }
+        //    RO_Garment model = new RO_Garment()
+        //    {
+        //        CostCalculationGarmentId = 1,
+        //        RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown>() { new RO_Garment_SizeBreakdown() {
+        //            Active=true,
+        //            ColorName ="Red",
+        //            RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>()
+        //            {
+        //                new RO_Garment_SizeBreakdown_Detail(){Active = true, Code ="CodeTest", Id=1}
+        //            }
 
-                } },
-            };
-            RO_GarmentService RO_GarmentServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
-            RO_GarmentServiceObj.OnCreating(model);
+        //        } },
+        //    };
+        //    RO_GarmentService RO_GarmentServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
+        //    RO_GarmentServiceObj.OnCreating(model);
 
 
-        }
+        //}
 
 
 
@@ -161,108 +161,108 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
 
         //}
 
-        [Fact]
-        public void Should_Success_OnUpdating_When_ChildModel_Null()
-        {
-            string testName = GetCurrentMethod();
-            var dbContext = _dbContext(testName);
+        //[Fact]
+        //public void Should_Success_OnUpdating_When_ChildModel_Null()
+        //{
+        //    string testName = GetCurrentMethod();
+        //    var dbContext = _dbContext(testName);
 
 
-            dbContext.RO_Garments.Add(new RO_Garment()
-            {
-                Id = 1,
-                Active = true,
-                Code = "code test",
-                _CreatedAgent = "created agen",
-                _CreatedBy = "ade",
-                RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown> { new RO_Garment_SizeBreakdown() {
-                    Id=2,
-                    Active=true,
-                    Code="code test",
-                    RO_Garment_SizeBreakdown_Details= new List<RO_Garment_SizeBreakdown_Detail>()
-                    {
-                        new RO_Garment_SizeBreakdown_Detail()
-                        {
-                            Id=3,
-                            Code="code detail",
-                            Active=true
-                        }
-                    }
-                }
-                }
-            });
-            dbContext.SaveChanges();
+        //    dbContext.RO_Garments.Add(new RO_Garment()
+        //    {
+        //        Id = 1,
+        //        Active = true,
+        //        Code = "code test",
+        //        _CreatedAgent = "created agen",
+        //        _CreatedBy = "ade",
+        //        RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown> { new RO_Garment_SizeBreakdown() {
+        //            Id=2,
+        //            Active=true,
+        //            Code="code test",
+        //            RO_Garment_SizeBreakdown_Details= new List<RO_Garment_SizeBreakdown_Detail>()
+        //            {
+        //                new RO_Garment_SizeBreakdown_Detail()
+        //                {
+        //                    Id=3,
+        //                    Code="code detail",
+        //                    Active=true
+        //                }
+        //            }
+        //        }
+        //        }
+        //    });
+        //    dbContext.SaveChanges();
 
-            RO_Garment model = new RO_Garment()
-            {
-                CostCalculationGarmentId = 3,
+        //    RO_Garment model = new RO_Garment()
+        //    {
+        //        CostCalculationGarmentId = 3,
 
-                RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown>() { new RO_Garment_SizeBreakdown() {
-                    Id=2,
-                    Active=true,
-                    ColorName ="Red",
-                    RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>()
-                    {
-                        new RO_Garment_SizeBreakdown_Detail(){Active = true, Code ="code detail",Id=4},
+        //        RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown>() { new RO_Garment_SizeBreakdown() {
+        //            Id=2,
+        //            Active=true,
+        //            ColorName ="Red",
+        //            RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>()
+        //            {
+        //                new RO_Garment_SizeBreakdown_Detail(){Active = true, Code ="code detail",Id=4},
 
-                    }
+        //            }
 
-                } },
-            };
-            RO_GarmentService RO_GarmentServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
-            RO_GarmentServiceObj.OnUpdating(1, model);
-
-
-        }
+        //        } },
+        //    };
+        //    RO_GarmentService RO_GarmentServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
+        //    RO_GarmentServiceObj.OnUpdating(1, model);
 
 
-
-        [Fact]
-        public void Should_Success_OnDeleting()
-        {
-            string testName = GetCurrentMethod();
-            var dbContext = _dbContext(testName);
+        //}
 
 
-            dbContext.RO_Garments.Add(new RO_Garment()
-            {
-                Id = 9,
 
-                //RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown> { new RO_Garment_SizeBreakdown() {
-                //      Id=10,
-                //    RO_Garment_SizeBreakdown_Details= new List<RO_Garment_SizeBreakdown_Detail>()
-                //    {
-                //        new RO_Garment_SizeBreakdown_Detail()
-                //        {
-                //            Id=10,
-                //            Code="code detail",
-                //            Active=true
-                //        }
-                //    }
-                //}
-                // }
-            });
-            dbContext.SaveChanges();
-
-            RO_Garment model = new RO_Garment()
-            {
-                Id = 9,
-
-                RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown>() { new RO_Garment_SizeBreakdown() {
-                   Id=10,
-                    RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>()
-                    {
-                        new RO_Garment_SizeBreakdown_Detail(){Id=10,Active = true, Code ="code detail"},
-
-                    }
-
-                } },
-            };
-            RO_GarmentService RO_GarmentServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
-            RO_GarmentServiceObj.OnDeleting(model);
+        //[Fact]
+        //public void Should_Success_OnDeleting()
+        //{
+        //    string testName = GetCurrentMethod();
+        //    var dbContext = _dbContext(testName);
 
 
-        }
+        //    dbContext.RO_Garments.Add(new RO_Garment()
+        //    {
+        //        Id = 9,
+
+        //        //RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown> { new RO_Garment_SizeBreakdown() {
+        //        //      Id=10,
+        //        //    RO_Garment_SizeBreakdown_Details= new List<RO_Garment_SizeBreakdown_Detail>()
+        //        //    {
+        //        //        new RO_Garment_SizeBreakdown_Detail()
+        //        //        {
+        //        //            Id=10,
+        //        //            Code="code detail",
+        //        //            Active=true
+        //        //        }
+        //        //    }
+        //        //}
+        //        // }
+        //    });
+        //    dbContext.SaveChanges();
+
+        //    RO_Garment model = new RO_Garment()
+        //    {
+        //        Id = 9,
+
+        //        RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown>() { new RO_Garment_SizeBreakdown() {
+        //           Id=10,
+        //            RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>()
+        //            {
+        //                new RO_Garment_SizeBreakdown_Detail(){Id=10,Active = true, Code ="code detail"},
+
+        //            }
+
+        //        } },
+        //    };
+        //    RO_GarmentService RO_GarmentServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
+        //    RO_GarmentServiceObj.OnDeleting(model);
+
+
+        //}
 
 
 

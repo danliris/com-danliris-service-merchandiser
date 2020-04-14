@@ -86,7 +86,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Controllers
                     "D:/name.jpg"
                 }
             };
-            mocks.Facade.Setup(x => x.ReadByIdAsync(It.IsAny<int>())).ReturnsAsync(Model);
+            mocks.Facade.Setup(x => x.ReadModelById(It.IsAny<int>())).ReturnsAsync(Model);
             mocks.Mapper.Setup(s => s.Map<RO_GarmentViewModel>(It.IsAny<RO_Garment>()))
                 .Returns(vm);
             var controller = GetController(mocks);
@@ -113,7 +113,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Controllers
         public void Get_PDF_Exception()
         {
             var mocks = GetMocks();
-            mocks.Facade.Setup(x => x.ReadByIdAsync(It.IsAny<int>())).ThrowsAsync(new Exception("error"));
+            mocks.Facade.Setup(x => x.ReadModelById(It.IsAny<int>())).ThrowsAsync(new Exception("error"));
             var controller = GetController(mocks);
             var response = controller.GetPDFAsync(1).Result;
 

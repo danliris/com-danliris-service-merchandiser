@@ -23,7 +23,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             get
             {
                 RO_Garment_SizeBreakdown_DetailService service = this.ServiceProvider.GetService<RO_Garment_SizeBreakdown_DetailService>();
-                service.Username = this.Username;
+                service.identityService = identityService;
                 return service;
             }
         }
@@ -135,7 +135,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
             viewModel.Color = new ArticleColorViewModel()
             {
-                Id = model.ColorId,
+                Id = (int)model.ColorId,
                 Name = model.ColorName
             };
 

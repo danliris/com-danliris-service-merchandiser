@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities;
 
 namespace Com.Danliris.Service.Merchandiser.Lib.Helpers
 {
@@ -15,10 +17,10 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Helpers
         where TDbContext : DbContext
         where TModel : StandardEntity, IValidatableObject
     {
-        public string Username { get; set; }
-        public string Token { get; set; }
+        public IIdentityService identityService;
         public BasicService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
+            identityService = serviceProvider.GetService<IIdentityService>();
         }
 
         public void Validate(TModel model)
@@ -48,9 +50,11 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Helpers
         {
             base.OnCreating(model);
             model._CreatedAgent = "merchandiser-service";
-            model._CreatedBy = this.Username;
+            model._CreatedBy = identityService.Username;
             model._LastModifiedAgent = "merchandiser-service";
-            model._LastModifiedBy = this.Username;
+            model._LastModifiedBy = identityService.Username;
+            model._DeletedAgent = "";
+            model._DeletedBy = "";
         }
 
         public virtual async Task<TModel> ReadModelById(int id)
@@ -74,7 +78,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Helpers
         {
             base.OnUpdating(id, model);
             model._LastModifiedAgent = "merchandiser-service";
-            model._LastModifiedBy = this.Username;
+            model._LastModifiedBy = identityService.Username;
         }
 
         public virtual async Task<int> DeleteModel(int id)
@@ -96,7 +100,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Helpers
         {
             base.OnDeleting(model);
             model._DeletedAgent = "merchandiser-service";
-            model._DeletedBy = this.Username;
+            model._DeletedBy = identityService.Username;
         }
 
         public virtual IQueryable<TModel> ConfigureSearch(IQueryable<TModel> Query, List<string> SearchAttributes, string Keyword)

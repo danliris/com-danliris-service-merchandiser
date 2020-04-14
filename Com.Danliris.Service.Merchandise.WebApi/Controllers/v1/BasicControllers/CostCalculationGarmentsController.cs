@@ -24,7 +24,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.v1.BasicControlle
     {
         private readonly static string apiVersion = "1.0";
         private readonly IIdentityService Service;
-        public CostCalculationGarmentsController(IIdentityService identityService, IValidateService validateService, ICostCalculationGarments facade, IMapper mapper, IServiceProvider serviceProvider) : base(identityService, validateService, facade, mapper, apiVersion)
+        public CostCalculationGarmentsController(IIdentityService identityService, IValidateService validateService, ICostCalculationGarments facade, IServiceProvider serviceProvider) : base(identityService, validateService, facade, apiVersion)
         {
             Service = identityService;
         }
@@ -34,8 +34,8 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.v1.BasicControlle
         {
             try
             {
-                CostCalculationGarment model = Facade.ReadByIdAsync(Id).Result;
-                CostCalculationGarmentViewModel viewModel = Mapper.Map<CostCalculationGarmentViewModel>(model);
+                CostCalculationGarment model = Facade.ReadModelById(Id).Result;
+                CostCalculationGarmentViewModel viewModel = Facade.MapToViewModel(model);
 
                 int timeoffsset = Convert.ToInt32(Request.Headers["x-timezone-offset"]);
 
@@ -65,8 +65,8 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.v1.BasicControlle
                 Service.Token = Request.Headers["Authorization"].First().Replace("Bearer ", "");
 
                 //await Service.GeneratePO(Id);
-                CostCalculationGarment model = Facade.ReadByIdAsync(Id).Result;
-                CostCalculationGarmentViewModel viewModel = Mapper.Map<CostCalculationGarmentViewModel>(model);
+                CostCalculationGarment model = Facade.ReadModelById(Id).Result;
+                CostCalculationGarmentViewModel viewModel = Facade.MapToViewModel(model);
 
                 int timeoffsset = Convert.ToInt32(Request.Headers["x-timezone-offset"]);
 

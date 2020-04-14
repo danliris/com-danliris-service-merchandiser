@@ -5,6 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="AutoMapperProfiles\**" />
+    <Compile Remove="BusinessLogic\**" />
+    <EmbeddedResource Remove="AutoMapperProfiles\**" />
+    <EmbeddedResource Remove="BusinessLogic\**" />
+    <None Remove="AutoMapperProfiles\**" />
+    <None Remove="BusinessLogic\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
     <PackageReference Include="Com.Moonlay.EntityFrameworkCore" Version="1.0.0-alpha-10122017-003" />
     <PackageReference Include="Com.Moonlay.NetCore.Lib" Version="1.0.0-alpha-20171102-001" />

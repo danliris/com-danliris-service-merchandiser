@@ -30,8 +30,8 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Controllers
         {
             var mock = GetMocks();
 
-            mock.Facade.Setup(s => s.Read(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(new ReadResponse<Rate>(new List<Rate>(), 10, new Dictionary<string, string>(), new List<string>()));
+            mock.Facade.Setup(s => s.ReadModel(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(new Tuple<List<Rate>, int, Dictionary<string, string>, List<string>>(new List<Rate>(), 1, new Dictionary<string, string>(), new List<string>()));
 
             mock.ServiceProvider.Setup(s => s.GetService(typeof(IRates)))
                 .Returns(mock.Facade.Object);

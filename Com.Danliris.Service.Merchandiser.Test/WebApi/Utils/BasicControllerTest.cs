@@ -21,7 +21,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
        where TController : BasicController<TModel, TViewModel, IFacade>
        where TModel : StandardEntity, IValidatableObject, new()
        where TViewModel : BaseViewModel, IValidatableObject, new()
-       where IFacade : class, IBaseFacade<TModel>
+       where IFacade : class, IBaseFacade<TModel, TViewModel>
     {
         protected virtual TModel Model
         {
@@ -43,12 +43,12 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
             get { return new List<TViewModel>(); }
         }
 
-        protected ServiceValidationException GetServiceValidationException()
+        protected Lib.Ultilities.ServiceValidationException GetServiceValidationException()
         {
             Mock<IServiceProvider> serviceProvider = new Mock<IServiceProvider>();
             List<ValidationResult> validationResults = new List<ValidationResult>();
             System.ComponentModel.DataAnnotations.ValidationContext validationContext = new System.ComponentModel.DataAnnotations.ValidationContext(this.ViewModel, serviceProvider.Object, null);
-            return new ServiceValidationException();
+            return new Lib.Ultilities.ServiceValidationException(validationContext, validationResults);
         }
 
         protected (Mock<IIdentityService> IdentityService, Mock<IValidateService> ValidateService, Mock<IFacade> Facade, Mock<IMapper> Mapper, Mock<IServiceProvider> ServiceProvider) GetMocks()
@@ -66,7 +66,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
             };
             user.Setup(u => u.Claims).Returns(claims);
             mocks.ServiceProvider.Setup(s => s.GetService(typeof(IHttpClientService))).Returns(new HttpClientTestService());
-            TController controller = (TController)Activator.CreateInstance(typeof(TController), mocks.IdentityService.Object, mocks.ValidateService.Object, mocks.Facade.Object, mocks.Mapper.Object, mocks.ServiceProvider.Object);
+            TController controller = (TController)Activator.CreateInstance(typeof(TController), mocks.IdentityService.Object, mocks.ValidateService.Object, mocks.Facade.Object, mocks.ServiceProvider.Object);
             controller.ControllerContext = new ControllerContext()
             {
                 HttpContext = new DefaultHttpContext()
@@ -96,7 +96,8 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
         public virtual void Get_WithoutException_ReturnOK()
         {
             var mocks = this.GetMocks();
-            mocks.Facade.Setup(f => f.Read(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<string>(), It.IsAny<string>())).Returns(new ReadResponse<TModel>(new List<TModel>(), 0, new Dictionary<string, string>(), new List<string>()));
+            mocks.Facade.Setup(f => f.ReadModel(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(new Tuple<List<TModel>, int, Dictionary<string, string>, List<string>>(new List<TModel>(), 1, new Dictionary<string, string>(), new List<string>()));
             mocks.Mapper.Setup(f => f.Map<List<TViewModel>>(It.IsAny<List<TModel>>())).Returns(this.ViewModels);
 
             int statusCode = this.GetStatusCodeGet(mocks);
@@ -107,7 +108,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
         public void Get_ReadThrowException_ReturnInternalServerError()
         {
             var mocks = this.GetMocks();
-            mocks.Facade.Setup(f => f.Read(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<string>(), It.IsAny<string>())).Throws(new Exception());
+            mocks.Facade.Setup(f => f.ReadModel(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<string>(), It.IsAny<string>())).Throws(new Exception());
 
             int statusCode = this.GetStatusCodeGet(mocks);
             Assert.Equal((int)HttpStatusCode.InternalServerError, statusCode);
@@ -126,7 +127,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
         {
             var mocks = this.GetMocks();
             mocks.ValidateService.Setup(s => s.Validate(It.IsAny<TViewModel>())).Verifiable();
-            mocks.Facade.Setup(s => s.CreateAsync(It.IsAny<TModel>())).ReturnsAsync(1);
+            mocks.Facade.Setup(s => s.CreateModel(It.IsAny<TModel>())).ReturnsAsync(1);
 
             int statusCode = await this.GetStatusCodePost(mocks);
             Assert.Equal((int)HttpStatusCode.Created, statusCode);
@@ -138,7 +139,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
         {
             var mocks = this.GetMocks();
             mocks.ValidateService.Setup(s => s.Validate(It.IsAny<TViewModel>())).Verifiable();
-            mocks.Facade.Setup(s => s.CreateAsync(It.IsAny<TModel>())).ThrowsAsync(new Exception());
+            mocks.Facade.Setup(s => s.CreateModel(It.IsAny<TModel>())).ThrowsAsync(new Exception());
 
             int statusCode = await this.GetStatusCodePost(mocks);
             Assert.Equal((int)HttpStatusCode.InternalServerError, statusCode);
@@ -158,7 +159,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
         {
             var mocks = this.GetMocks();
             mocks.Mapper.Setup(f => f.Map<TViewModel>(It.IsAny<TModel>())).Returns(this.ViewModel);
-            mocks.Facade.Setup(f => f.ReadByIdAsync(It.IsAny<int>())).ReturnsAsync((TModel)null);
+            mocks.Facade.Setup(f => f.ReadModelById(It.IsAny<int>())).ReturnsAsync((TModel)null);
 
             int statusCode = await this.GetStatusCodeGetById(mocks);
             Assert.Equal((int)HttpStatusCode.NotFound, statusCode);
@@ -168,7 +169,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
         public virtual async System.Threading.Tasks.Task GetById_ThrowException_ReturnInternalServerError()
         {
             var mocks = this.GetMocks();
-            mocks.Facade.Setup(f => f.ReadByIdAsync(It.IsAny<int>())).ThrowsAsync(new Exception());
+            mocks.Facade.Setup(f => f.ReadModelById(It.IsAny<int>())).ThrowsAsync(new Exception());
 
             int statusCode = await this.GetStatusCodeGetById(mocks);
             Assert.Equal((int)HttpStatusCode.InternalServerError, statusCode);
@@ -208,7 +209,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
                 Id = id
             };
             mocks.Mapper.Setup(m => m.Map<TViewModel>(It.IsAny<TModel>())).Returns(viewModel);
-            mocks.Facade.Setup(f => f.UpdateAsync(It.IsAny<int>(), It.IsAny<TModel>())).ReturnsAsync(1);
+            mocks.Facade.Setup(f => f.UpdateModel(It.IsAny<int>(), It.IsAny<TModel>())).ReturnsAsync(1);
 
             int statusCode = await this.GetStatusCodePut(mocks, id, viewModel);
             Assert.Equal((int)HttpStatusCode.NoContent, statusCode);
@@ -225,7 +226,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
                 Id = id
             };
             mocks.Mapper.Setup(m => m.Map<TViewModel>(It.IsAny<TModel>())).Returns(viewModel);
-            mocks.Facade.Setup(f => f.UpdateAsync(It.IsAny<int>(), It.IsAny<TModel>())).ThrowsAsync(new Exception());
+            mocks.Facade.Setup(f => f.UpdateModel(It.IsAny<int>(), It.IsAny<TModel>())).ThrowsAsync(new Exception());
 
             int statusCode = await this.GetStatusCodePut(mocks, id, viewModel);
             Assert.Equal((int)HttpStatusCode.InternalServerError, statusCode);
@@ -242,7 +243,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
         public async System.Threading.Tasks.Task Delete_WithoutException_ReturnNoContent()
         {
             var mocks = this.GetMocks();
-            mocks.Facade.Setup(f => f.DeleteAsync(It.IsAny<int>())).ReturnsAsync(1);
+            mocks.Facade.Setup(f => f.DeleteModel(It.IsAny<int>())).ReturnsAsync(1);
 
             int statusCode = await this.GetStatusCodeDelete(mocks);
             Assert.Equal((int)HttpStatusCode.NoContent, statusCode);
@@ -252,7 +253,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
         public async System.Threading.Tasks.Task Delete_ThrowException_ReturnInternalStatusError()
         {
             var mocks = this.GetMocks();
-            mocks.Facade.Setup(f => f.DeleteAsync(It.IsAny<int>())).ThrowsAsync(new Exception());
+            mocks.Facade.Setup(f => f.DeleteModel(It.IsAny<int>())).ThrowsAsync(new Exception());
 
             int statusCode = await this.GetStatusCodeDelete(mocks);
             Assert.Equal((int)HttpStatusCode.InternalServerError, statusCode);

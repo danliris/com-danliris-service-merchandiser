@@ -25,7 +25,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.BasicControllers.
     {
         private readonly static string apiVersion = "1.0";
         private readonly IIdentityService Service;
-        public RO_GarmentsController(IIdentityService identityService, IValidateService validateService, IROGarment facade, IMapper mapper, IServiceProvider serviceProvider) : base(identityService, validateService, facade, mapper, apiVersion)
+        public RO_GarmentsController(IIdentityService identityService, IValidateService validateService, IROGarment facade, IServiceProvider serviceProvider) : base(identityService, validateService, facade, apiVersion)
         {
             Service = identityService;
         }
@@ -35,8 +35,8 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.BasicControllers.
         {
             try
             {
-                RO_Garment model = await Facade.ReadByIdAsync(Id);
-                RO_GarmentViewModel viewModel = Mapper.Map<RO_GarmentViewModel>(model);
+                RO_Garment model = await Facade.ReadModelById(Id);
+                RO_GarmentViewModel viewModel = Facade.MapToViewModel(model);
 
                 int timeoffsset = Convert.ToInt32(Request.Headers["x-timezone-offset"]);
                 ROGarmentPdfTemplate PdfTemplate = new ROGarmentPdfTemplate();

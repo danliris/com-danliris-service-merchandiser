@@ -112,6 +112,13 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
             return Result;
         }
 
+        public Dictionary<string, object> Ok<TViewModel>(IMapper mapper, TViewModel Data)
+        {
+            Result.Add("data", Data);
+
+            return Result;
+        }
+
         public Dictionary<string, object> Ok<TModel, TViewModel>(TModel Data, Func<TModel, TViewModel> MapToViewModel)
         {
             Result.Add("data", MapToViewModel(Data));

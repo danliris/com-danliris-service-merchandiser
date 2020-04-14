@@ -19,20 +19,18 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
     public abstract class BasicController<TModel, TViewModel, IFacade> : Controller
      where TModel : StandardEntity, IValidatableObject
      where TViewModel : BaseViewModel, IValidatableObject
-     where IFacade : IBaseFacade<TModel>
+     where IFacade : IBaseFacade<TModel, TViewModel>
     {
         protected IIdentityService IdentityService;
         protected readonly IValidateService ValidateService;
         protected readonly IFacade Facade;
-        protected readonly IMapper Mapper;
         protected readonly string ApiVersion;
 
-        public BasicController(IIdentityService identityService, IValidateService validateService, IFacade facade, IMapper mapper, string apiVersion)
+        public BasicController(IIdentityService identityService, IValidateService validateService, IFacade facade, string apiVersion)
         {
             this.IdentityService = identityService;
             this.ValidateService = validateService;
             this.Facade = facade;
-            this.Mapper = mapper;
             this.ApiVersion = apiVersion;
         }
 
@@ -55,14 +53,14 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
             {
                 ValidateUser();
 
-                ReadResponse<TModel> read = Facade.Read(Page, Size, Order, Select, Keyword, Filter);
+                var read = Facade.ReadModel(Page, Size, Order, Select, Keyword, Filter);
 
                 //Tuple<List<TModel>, int, Dictionary<string, string>, List<string>> Data = Facade.Read(page, size, order, select, keyword, filter);
-                List<TViewModel> DataVM = Mapper.Map<List<TViewModel>>(read.Data);
+                //List<TViewModel> DataVM = Mapper.Map<List<TViewModel>>(read.Data);
 
                 Dictionary<string, object> Result =
                     new ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)
-                    .Ok<TViewModel>(Mapper, DataVM, Page, Size, read.Count, DataVM.Count, read.Order, read.Selected);
+                    .Ok<TModel, TViewModel>(read.Item1, Facade.MapToViewModel, Page, Size, read.Item2, read.Item1.Count, read.Item3, read.Item4);
                 return Ok(Result);
 
             }
@@ -75,7 +73,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
             }
         }
 
-        [HttpGet("{Id}")]
+        [HttpGet("{id}")]
         public virtual async Task<IActionResult> GetById([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -85,7 +83,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
 
             try
             {
-                TModel model = await Facade.ReadByIdAsync(id);
+                TModel model = await Facade.ReadModelById(id);
 
                 if (model == null)
                 {
@@ -96,7 +94,11 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
                 }
                 else
                 {
-                    throw new NotImplementedException();
+                    //TViewModel viewModel = Mapper.Map<TViewModel>(model);
+                    Dictionary<string, object> Result =
+                        new ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)
+                        .Ok(model, Facade.MapToViewModel);
+                    return Ok(Result);
                 }
             }
             catch (Exception e)
@@ -116,7 +118,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
                 ValidateViewModel(ViewModel);
                 ValidateUser();
 
-                TModel model = Mapper.Map<TModel>(ViewModel);
+                TModel model = Facade.MapToModel(ViewModel);
 
                 if (!ModelState.IsValid)
                 {
@@ -130,8 +132,9 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
                         .Fail();
                     return BadRequest(Result);
                 }
-                TModel Model = Mapper.Map<TModel>(ViewModel);
-                await Facade.UpdateAsync(Id, model);
+                //TModel Model = Mapper.Map<TModel>(ViewModel);
+                //TModel Model = Facade.MapToModel(ViewModel);
+                await Facade.UpdateModel(Id, model);
 
                 return NoContent();
             }
@@ -166,8 +169,9 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
                 ValidateUser();
                 ValidateViewModel(ViewModel);
 
-                TModel model = Mapper.Map<TModel>(ViewModel);
-                await Facade.CreateAsync(model);
+                //TModel model = Mapper.Map<TModel>(ViewModel);
+                TModel model = Facade.MapToModel(ViewModel);
+                await Facade.CreateModel(model);
 
                 Dictionary<string, object> Result =
                     new ResultFormatter(ApiVersion, General.CREATED_STATUS_CODE, General.OK_MESSAGE)
@@ -201,7 +205,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
             try
             {
                 ValidateUser();
-                await Facade.DeleteAsync(Id);
+                await Facade.DeleteModel(Id);
 
                 return NoContent();
             }

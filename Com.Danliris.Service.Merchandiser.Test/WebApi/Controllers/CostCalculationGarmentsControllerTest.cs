@@ -20,7 +20,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Controllers
         public void Get_PDF_NotFound()
         {
             var mocks = GetMocks();
-            mocks.Facade.Setup(x => x.ReadByIdAsync(It.IsAny<int>())).ReturnsAsync(default(CostCalculationGarment));
+            mocks.Facade.Setup(x => x.ReadModelById(It.IsAny<int>())).ReturnsAsync(default(CostCalculationGarment));
             var controller = GetController(mocks);
             var response = controller.GetPDF(1).Result;
 
@@ -70,7 +70,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Controllers
                 OTL2 = new RateCalculatedViewModel()
             };
 
-            mocks.Facade.Setup(x => x.ReadByIdAsync(It.IsAny<int>())).ReturnsAsync(Model);
+            mocks.Facade.Setup(x => x.ReadModelById(It.IsAny<int>())).ReturnsAsync(Model);
             mocks.Mapper.Setup(f => f.Map<CostCalculationGarmentViewModel>(It.IsAny<CostCalculationGarment>())).Returns(viewModel);
 
             var controller = GetController(mocks);
@@ -113,7 +113,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Controllers
                 ConfirmDate = DateTimeOffset.UtcNow
             };
 
-            mocks.Facade.Setup(x => x.ReadByIdAsync(It.IsAny<int>())).ReturnsAsync(Model);
+            mocks.Facade.Setup(x => x.ReadModelById(It.IsAny<int>())).ReturnsAsync(Model);
             mocks.Mapper.Setup(f => f.Map<CostCalculationGarmentViewModel>(It.IsAny<CostCalculationGarment>())).Returns(viewModel);
 
             var controller = GetController(mocks);
@@ -156,7 +156,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Controllers
                 ConfirmDate = DateTimeOffset.UtcNow
             };
 
-            mocks.Facade.Setup(x => x.ReadByIdAsync(It.IsAny<int>())).ThrowsAsync(new Exception());
+            mocks.Facade.Setup(x => x.ReadModelById(It.IsAny<int>())).ThrowsAsync(new Exception());
             mocks.Mapper.Setup(f => f.Map<CostCalculationGarmentViewModel>(It.IsAny<CostCalculationGarment>())).Returns(viewModel);
 
             var controller = GetController(mocks);

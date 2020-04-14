@@ -70,37 +70,37 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         }
 
 
-        [Fact]
-        public void Should_Success_OnCreating()
-        {
-            string testName = GetCurrentMethod();
+        //[Fact]
+        //public void Should_Success_OnCreating()
+        //{
+        //    string testName = GetCurrentMethod();
 
-            Efficiency model = new Efficiency()
-            {
-                Code = "anycode"
-            };
-            EfficiencyService EfficiencyServiceObj = new EfficiencyService(GetServiceProvider(testName).Object);
+        //    Efficiency model = new Efficiency()
+        //    {
+        //        Code = "anycode"
+        //    };
+        //    EfficiencyService EfficiencyServiceObj = new EfficiencyService(GetServiceProvider(testName).Object);
 
-            EfficiencyServiceObj.OnCreating(model);
-        }
+        //    EfficiencyServiceObj.OnCreating(model);
+        //}
 
 
-        [Fact]
-        public void Should_Success_OnUpdating()
-        {
-            string testName = GetCurrentMethod();
+        //[Fact]
+        //public void Should_Success_OnUpdating()
+        //{
+        //    string testName = GetCurrentMethod();
 
-            Efficiency model = new Efficiency()
-            {
-                Code = "anycode",
-                InitialRange = 10,
-                FinalRange = 20,
-                Name = "name test",
-            };
-            EfficiencyService EfficiencyServiceObj = new EfficiencyService(GetServiceProvider(testName).Object);
+        //    Efficiency model = new Efficiency()
+        //    {
+        //        Code = "anycode",
+        //        InitialRange = 10,
+        //        FinalRange = 20,
+        //        Name = "name test",
+        //    };
+        //    EfficiencyService EfficiencyServiceObj = new EfficiencyService(GetServiceProvider(testName).Object);
 
-            EfficiencyServiceObj.OnUpdating(2,model);
-        }
+        //    EfficiencyServiceObj.OnUpdating(2,model);
+        //}
 
         [Fact]
         public async Task ReadModelByQuantity_when_Result_Zero()

@@ -64,19 +64,19 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
 
         }
 
-        [Fact]
-        public void Should_Success_OnCreating()
-        {
-            string testName = GetCurrentMethod();
+        //[Fact]
+        //public void Should_Success_OnCreating()
+        //{
+        //    string testName = GetCurrentMethod();
            
-            Rate model = new Rate()
-            {
-                Code = "Q1XT4ZG7"
-            };
-            RateService RateServiceObj = new RateService(GetServiceProvider(testName).Object);
+        //    Rate model = new Rate()
+        //    {
+        //        Code = "Q1XT4ZG7"
+        //    };
+        //    RateService RateServiceObj = new RateService(GetServiceProvider(testName).Object);
             
-            RateServiceObj.OnCreating(model);
-        }
+        //    RateServiceObj.OnCreating(model);
+        //}
 
         [Fact]
         public void MapToViewModel_Return_Success()

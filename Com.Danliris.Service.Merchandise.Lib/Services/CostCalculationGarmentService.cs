@@ -33,7 +33,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             get
             {
                 CostCalculationGarment_MaterialService service = this.ServiceProvider.GetService<CostCalculationGarment_MaterialService>();
-                service.Username = this.Username;
+                service.identityService = identityService;
                 return service;
             }
         }
@@ -320,7 +320,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             viewModel.Buyer.name = model.BuyerName;
 
             viewModel.Efficiency = new EfficiencyViewModel();
-            viewModel.Efficiency.Id = model.EfficiencyId;
+            viewModel.Efficiency.Id = (int)model.EfficiencyId;
             viewModel.Efficiency.Value = Percentage.ToPercent(model.EfficiencyValue);
 
             viewModel.UOM = new UOMViewModel()
@@ -331,15 +331,15 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             };
 
             viewModel.Wage = new RateViewModel();
-            viewModel.Wage.Id = model.WageId;
+            viewModel.Wage.Id = (int)model.WageId;
             viewModel.Wage.Value = model.WageRate;
 
             viewModel.THR = new RateViewModel();
-            viewModel.THR.Id = model.THRId;
+            viewModel.THR.Id = (int)model.THRId;
             viewModel.THR.Value = model.THRRate;
 
             viewModel.Rate = new RateViewModel();
-            viewModel.Rate.Id = model.RateId;
+            viewModel.Rate.Id = (int)model.RateId;
             viewModel.Rate.Value = model.RateValue;
 
             viewModel.Commodity = new MasterPlanComodityViewModel();
@@ -411,12 +411,12 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             viewModel.Risk = Percentage.ToPercent(model.Risk);
 
             viewModel.OTL1 = new RateCalculatedViewModel();
-            viewModel.OTL1.Id = model.OTL1Id;
-            viewModel.OTL1.Value = model.OTL1Rate;
+            viewModel.OTL1.Id = (int)model.OTL1Id;
+            viewModel.OTL1.Value = (int)model.OTL1Rate;
             viewModel.OTL1.CalculatedValue = model.OTL1CalculatedRate;
 
             viewModel.OTL2 = new RateCalculatedViewModel();
-            viewModel.OTL2.Id = model.OTL2Id;
+            viewModel.OTL2.Id = (int)model.OTL2Id;
             viewModel.OTL2.Value = model.OTL2Rate;
             viewModel.OTL2.CalculatedValue = model.OTL2CalculatedRate;
 

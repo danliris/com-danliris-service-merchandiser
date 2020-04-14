@@ -1,6 +1,7 @@
 ﻿using Com.Danliris.Service.Merchandiser.Lib.Helpers;
 using Com.Danliris.Service.Merchandiser.Lib.Interfaces;
 using Com.Danliris.Service.Merchandiser.Lib.Models;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities;
 using Com.Danliris.Service.Merchandiser.Lib.ViewModels;
 using Com.Moonlay.NetCore.Lib;
 using Newtonsoft.Json;
@@ -8,10 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Com.Danliris.Service.Merchandiser.Lib.Services
 {
-    public class ArticleColorService : BasicService<MerchandiserDbContext, ArticleColor>, IMap<ArticleColor, ArticleColorViewModel>
+    public class ArticleColorService : BasicService<MerchandiserDbContext, ArticleColor>, IMap<ArticleColor, ArticleColorViewModel>, IArticleColor
     {
         public ArticleColorService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -58,6 +60,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
         {
             ArticleColorViewModel viewModel = new ArticleColorViewModel();
             PropertyCopier<ArticleColor, ArticleColorViewModel>.Copy(model, viewModel);
+            
             return viewModel;
         }
 
@@ -67,5 +70,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             PropertyCopier<ArticleColorViewModel, ArticleColor>.Copy(viewModel, model);
             return model;
         }
+
     }
 }
