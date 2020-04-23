@@ -14,16 +14,19 @@ using Com.Danliris.Service.Merchandiser.Lib.ViewModels;
 using Com.Danliris.Service.Merchandiser.Lib.Services.AzureStorage;
 using Com.Danliris.Service.Merchandiser.Lib.Exceptions;
 using Com.Moonlay.NetCore.Lib.Service;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities;
+using Com.Moonlay.Models;
 
 namespace Com.Danliris.Service.Merchandiser.Lib.Services
 {
-    public class CostCalculationGarmentService : BasicService<MerchandiserDbContext, CostCalculationGarment>, IMap<CostCalculationGarment, CostCalculationGarmentViewModel>
+    public class CostCalculationGarmentService : BasicService<MerchandiserDbContext, CostCalculationGarment>, IMap<CostCalculationGarment, CostCalculationGarmentViewModel>,ICostCalculationGarments
     {
         private readonly IAzureImageService _azureImageService;
-
+        protected IIdentityService IdentityService;
         public CostCalculationGarmentService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _azureImageService = serviceProvider.GetService<IAzureImageService>();
+            IdentityService = serviceProvider.GetService<IIdentityService>();
         }
 
         //private AzureImageService AzureImageService
@@ -56,7 +59,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
             List<string> SelectedFields = new List<string>()
                 {
-                    "Id", "Code", "RO_Number", "Quantity", "ConfirmPrice", "Article", "Convection", "_LastModifiedUtc"
+                    "Id", "Code", "RO_Number", "Quantity", "ConfirmPrice", "Article", "Convection", "LastModifiedUtc"
                 };
             Query = Query
                 .Select(ccg => new CostCalculationGarment
@@ -68,7 +71,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
                     Convection = ccg.Convection,
                     Quantity = ccg.Quantity,
                     ConfirmPrice = ccg.ConfirmPrice,
-                    _LastModifiedUtc = ccg._LastModifiedUtc
+                    LastModifiedUtc = ccg.LastModifiedUtc
                 });
 
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
@@ -86,7 +89,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             List<string> convectionOption = new List<string> { "K2A", "K2B", "K2C", "K1A", "K1B" };
             int convectionCode = convectionOption.IndexOf(Model.Convection) + 1;
 
-            var lastData = await this.DbSet.Where(w => w._IsDeleted == false && w.Convection == Model.Convection).OrderByDescending(o => o._CreatedUtc).FirstOrDefaultAsync();
+            var lastData = await this.DbSet.Where(w => w.IsDeleted == false && w.Convection == Model.Convection).OrderByDescending(o => o.CreatedUtc).FirstOrDefaultAsync();
 
             DateTime Now = DateTime.Now;
             string Year = Now.ToString("yy");
@@ -99,7 +102,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             }
             else
             {
-                if (lastData._CreatedUtc.Year < Now.Year)
+                if (lastData.CreatedUtc.Year < Now.Year)
                 {
                     Model.AutoIncrementNumber = 1;
                     string Number = Model.AutoIncrementNumber.ToString().PadLeft(4, '0');
@@ -140,7 +143,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             Model = await this.CustomCodeGenerator(Model);
             GeneratePONumbers(Model);
             Created = await this.CreateAsync(Model);
-            Model.ImagePath = await _azureImageService.UploadImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImageFile);
+            Model.ImagePath = await _azureImageService.UploadImage(Model.GetType().Name, Model.Id, Model.CreatedUtc, Model.ImageFile);
 
             await this.UpdateAsync(Model.Id, Model);
 
@@ -200,20 +203,20 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
         private int GetLastMaterialNonFabricNumberByCategoryName(string convection)
         {
-            CostCalculationGarment_Material result = DbContext.CostCalculationGarment_Materials.AsNoTracking().Where(w => !w.CategoryName.ToUpper().Equals("FABRIC") && w.Convection.Equals(convection)).OrderByDescending(o => o._CreatedUtc.Year).ThenByDescending(t => t.AutoIncrementNumber).FirstOrDefault();
+            CostCalculationGarment_Material result = DbContext.CostCalculationGarment_Materials.AsNoTracking().Where(w => !w.CategoryName.ToUpper().Equals("FABRIC") && w.Convection.Equals(convection)).OrderByDescending(o => o.CreatedUtc.Year).ThenByDescending(t => t.AutoIncrementNumber).FirstOrDefault();
             return result == null ? 0 : result.AutoIncrementNumber;
         }
 
         private int GetLastMaterialFabricNumberByCategoryName(string convection)
         {
-            CostCalculationGarment_Material result = DbContext.CostCalculationGarment_Materials.AsNoTracking().Where(w => w.CategoryName.ToUpper().Equals("FABRIC") && w.Convection.Equals(convection)).OrderByDescending(o => o._CreatedUtc.Year).ThenByDescending(m => m.AutoIncrementNumber).FirstOrDefault();
+            CostCalculationGarment_Material result = DbContext.CostCalculationGarment_Materials.AsNoTracking().Where(w => w.CategoryName.ToUpper().Equals("FABRIC") && w.Convection.Equals(convection)).OrderByDescending(o => o.CreatedUtc.Year).ThenByDescending(m => m.AutoIncrementNumber).FirstOrDefault();
             return result == null ? 0 : result.AutoIncrementNumber;
         }
 
         public override async Task<CostCalculationGarment> ReadModelById(int id)
         {
             CostCalculationGarment read = await this.DbSet
-                .Where(d => d.Id.Equals(id) && d._IsDeleted.Equals(false))
+                .Where(d => d.Id.Equals(id) && d.IsDeleted.Equals(false))
                 .Include(d => d.CostCalculationGarment_Materials)
                 .FirstOrDefaultAsync();
 
@@ -224,7 +227,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
         public override async Task<int> UpdateModel(int Id, CostCalculationGarment Model)
         {
-            Model.ImagePath = await _azureImageService.UploadImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImageFile);
+            Model.ImagePath = await _azureImageService.UploadImage(Model.GetType().Name, Model.Id, Model.CreatedUtc, Model.ImageFile);
 
             GeneratePONumbers(Model);
             int updated = await this.UpdateAsync(Id, Model);
@@ -501,6 +504,75 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             model.NETFOBP = Percentage.ToFraction(viewModel.NETFOBP);
 
             return model;
+        }
+
+        public ReadResponse<CostCalculationGarment> Read(int page, int size, string order, List<string> select, string keyword, string filter)
+        {
+            var dataModel = ReadModel(page, size, order, select, keyword, filter);
+
+            return new ReadResponse<CostCalculationGarment>(dataModel.Item1, dataModel.Item2, dataModel.Item3, dataModel.Item4);
+        }
+
+        public async Task<CostCalculationGarment> ReadByIdAsync(int id)
+        {
+           return await this.ReadModelById(id);
+        }
+
+        public async Task<int> CreateAsync(CostCalculationGarment model)
+        {
+            do
+            {
+                model.Code = Code.Generate();
+            }
+            while (this.DbSet.Any(d => d.Code.Equals(model.Code)));
+
+            foreach(var CostCalculationGarment_Material in model.CostCalculationGarment_Materials)
+            {
+                EntityExtension.FlagForCreate(CostCalculationGarment_Material, IdentityService.Username, UserAgent);
+            }
+
+            EntityExtension.FlagForCreate(model, IdentityService.Username, UserAgent);
+            this.DbSet.Add(model);
+            return await this.DbContext.SaveChangesAsync();
+        }
+
+        public async Task<int> UpdateAsync(int id, CostCalculationGarment model)
+        {
+            
+            foreach (var CostCalculationGarment_Material in model.CostCalculationGarment_Materials)
+            {
+               if(CostCalculationGarment_Material.CreatedAgent == null)
+                {
+                    CostCalculationGarment_Material.CreatedAgent = "";
+
+                }
+                if (CostCalculationGarment_Material.CreatedBy == null)
+                {
+                    CostCalculationGarment_Material.CreatedBy = "";
+
+                }
+
+                EntityExtension.FlagForUpdate(CostCalculationGarment_Material, IdentityService.Username, UserAgent);
+            }
+
+            EntityExtension.FlagForUpdate(model, IdentityService.Username, UserAgent);
+            DbSet.Update(model);
+            return await DbContext.SaveChangesAsync();
+        }
+
+        public async Task<int> DeleteAsync(int id)
+        {
+
+            var model = await this.ReadModelById(id);
+
+            foreach (var CostCalculationGarment_Material in model.CostCalculationGarment_Materials)
+            {
+                EntityExtension.FlagForDelete(CostCalculationGarment_Material, IdentityService.Username, UserAgent, true);
+            }
+            EntityExtension.FlagForDelete(model, IdentityService.Username, UserAgent, true);
+            DbSet.Update(model);
+
+            return await DbContext.SaveChangesAsync();
         }
     }
 }

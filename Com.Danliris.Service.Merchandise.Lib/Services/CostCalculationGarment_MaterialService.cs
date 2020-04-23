@@ -8,13 +8,17 @@ using System.Linq.Dynamic.Core;
 using Com.Moonlay.NetCore.Lib;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities;
 
 namespace Com.Danliris.Service.Merchandiser.Lib.Services
 {
     public class CostCalculationGarment_MaterialService : BasicService<MerchandiserDbContext, CostCalculationGarment_Material>
     {
+        protected IIdentityService IdentityService;
         public CostCalculationGarment_MaterialService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
+            IdentityService = serviceProvider.GetService<IIdentityService>();
         }
 
         public override Tuple<List<CostCalculationGarment_Material>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int CostCalculationGarment_Material = 25, string Order = "{}", List<string> Select = null, string Keyword = null, string Filter = "{}")

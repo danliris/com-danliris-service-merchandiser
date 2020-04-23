@@ -12,20 +12,24 @@ using Com.Moonlay.NetCore.Lib;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Com.Danliris.Service.Merchandiser.Lib.ViewModels;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities;
+using Com.Moonlay.Models;
 
 namespace Com.Danliris.Service.Merchandiser.Lib.Services
 {
-    public class RO_GarmentService : BasicService<MerchandiserDbContext, RO_Garment>, IMap<RO_Garment, RO_GarmentViewModel>
+    public class RO_GarmentService : BasicService<MerchandiserDbContext, RO_Garment>, IMap<RO_Garment, RO_GarmentViewModel>, IROGarment
     {
         private readonly IAzureImageService _azureImageService;
         private readonly ICostCalculationGarments _costCalculationGarmentService;
         private readonly ICostCalculationGarment_MaterialService _costCalculationGarment_MaterialService;
+        protected IIdentityService IdentityService;
 
         public RO_GarmentService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _azureImageService = serviceProvider.GetService<IAzureImageService>();
             _costCalculationGarmentService = serviceProvider.GetService<ICostCalculationGarments>();
             _costCalculationGarment_MaterialService = serviceProvider.GetService<ICostCalculationGarment_MaterialService>();
+            IdentityService = serviceProvider.GetService<IIdentityService>();
         }
 
         //private AzureImageService AzureImageService
@@ -96,7 +100,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
                     //LineName = ro.CostCalculationGarment.LineName,
                 },
                 Total = ro.Total,
-                _LastModifiedUtc = ro._LastModifiedUtc
+                LastModifiedUtc = ro.LastModifiedUtc
             });
 
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
@@ -116,7 +120,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
             int created = await this.CreateAsync(Model);
 
-            Model.ImagesPath = await _azureImageService.UploadMultipleImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImagesFile, Model.ImagesPath);
+            Model.ImagesPath = await _azureImageService.UploadMultipleImage(Model.GetType().Name, Model.Id, Model.CreatedUtc, Model.ImagesFile, Model.ImagesPath);
 
             await this.UpdateAsync(Model.Id, Model);
 
@@ -148,7 +152,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
         public override async Task<RO_Garment> ReadModelById(int id)
         {
             RO_Garment read = await this.DbSet
-                .Where(d => d.Id.Equals(id) && d._IsDeleted.Equals(false))
+                .Where(d => d.Id.Equals(id) && d.IsDeleted.Equals(false))
                 .Include(d => d.RO_Garment_SizeBreakdowns)
                     .ThenInclude(sb => sb.RO_Garment_SizeBreakdown_Details)
                 .Include(d => d.CostCalculationGarment)
@@ -166,7 +170,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             CostCalculationGarment costCalculationGarment = Model.CostCalculationGarment;
             Model.CostCalculationGarment = null;
 
-            Model.ImagesPath = await _azureImageService.UploadMultipleImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImagesFile, Model.ImagesPath);
+            Model.ImagesPath = await _azureImageService.UploadMultipleImage(Model.GetType().Name, Model.Id, Model.CreatedUtc, Model.ImagesFile, Model.ImagesPath);
 
             int updated = await this.UpdateAsync(Id, Model);
 
@@ -207,12 +211,34 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             base.OnUpdating(id, model);
         }
 
+        //public override async Task<int> DeleteModel(int Id)
+        //{
+        //    RO_Garment deletedImage = await this.GetAsync(Id);
+        //    await _azureImageService.RemoveMultipleImage(deletedImage.GetType().Name, deletedImage.ImagesPath);
+
+        //    int deleted = await this.DeleteAsync(Id);
+
+        //    CostCalculationGarment costCalculationGarment = await _costCalculationGarmentService.ReadModelById(deletedImage.CostCalculationGarmentId);
+        //    costCalculationGarment.RO_GarmentId = null;
+        //    costCalculationGarment.ImageFile = string.IsNullOrWhiteSpace(costCalculationGarment.ImageFile) ? "#" : costCalculationGarment.ImageFile;
+        //    await _costCalculationGarmentService.UpdateAsync(costCalculationGarment.Id, costCalculationGarment);
+
+        //    List<CostCalculationGarment_Material> costCalculationGarment_Materials = _costCalculationGarment_MaterialService.DbSet.Where(p => p.CostCalculationGarmentId.Equals(costCalculationGarment.Id)).ToList();
+        //    foreach (CostCalculationGarment_Material costCalculationGarment_Material in costCalculationGarment_Materials)
+        //    {
+        //        costCalculationGarment_Material.Information = null;
+        //        await _costCalculationGarment_MaterialService.UpdateModel(costCalculationGarment_Material.Id, costCalculationGarment_Material);
+        //    }
+
+        //    return deleted;
+        //}
+
         public override async Task<int> DeleteModel(int Id)
         {
             RO_Garment deletedImage = await this.GetAsync(Id);
             await _azureImageService.RemoveMultipleImage(deletedImage.GetType().Name, deletedImage.ImagesPath);
 
-            int deleted = await this.DeleteAsync(Id);
+           int deleted = await this.DeleteAsync(Id);
 
             CostCalculationGarment costCalculationGarment = await _costCalculationGarmentService.ReadModelById(deletedImage.CostCalculationGarmentId);
             costCalculationGarment.RO_GarmentId = null;
@@ -283,6 +309,168 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             }
 
             return model;
+        }
+
+        public Task<int> PostRO(List<long> listId)
+        {
+           
+             throw new NotImplementedException();
+        }
+
+        public Task<int> UnpostRO(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+     
+        public new async Task<int> CreateAsync(RO_Garment model)
+        {
+            do
+            {
+                model.Code = Code.Generate();
+            }
+            while (this.DbSet.Any(d => d.Code.Equals(model.Code)));
+
+        
+            model.ImagesPath =await _azureImageService.UploadMultipleImage(model.GetType().Name, model.Id, model.CreatedUtc, model.ImagesFile, model.ImagesPath);
+
+            var costCalculationGarment_Materials = model.CostCalculationGarment.CostCalculationGarment_Materials;
+
+            if (costCalculationGarment_Materials.Count > 0)
+            {
+                foreach (var costCalculationGarment_Material in costCalculationGarment_Materials)
+                {
+                    
+                    EntityExtension.FlagForCreate(costCalculationGarment_Material, IdentityService.Username, UserAgent);
+
+                }
+            }
+            
+
+            EntityExtension.FlagForCreate(model.CostCalculationGarment, IdentityService.Username, UserAgent);
+
+            if (model.RO_Garment_SizeBreakdowns.Count > 0)
+            {
+
+                foreach (RO_Garment_SizeBreakdown RO_Garment_SizeBreakdown in model.RO_Garment_SizeBreakdowns)
+                {
+                    
+
+                    EntityExtension.FlagForCreate(RO_Garment_SizeBreakdown, IdentityService.Username, UserAgent);
+                    foreach (var RO_Garment_SizeBreakdown_Detail in RO_Garment_SizeBreakdown.RO_Garment_SizeBreakdown_Details)
+                    {
+                        EntityExtension.FlagForCreate(RO_Garment_SizeBreakdown_Detail, IdentityService.Username, UserAgent);
+                    }
+                }
+            }
+
+
+            EntityExtension.FlagForCreate(model, IdentityService.Username, UserAgent);
+           
+            this.DbSet.Add(model);
+            return await this.DbContext.SaveChangesAsync();
+        }
+
+
+        public new async Task<int> DeleteAsync(int Id)
+        {
+
+            RO_Garment deletedImage = await this.GetAsync(Id);
+            await _azureImageService.RemoveMultipleImage(deletedImage.GetType().Name, deletedImage.ImagesPath);
+
+           // int deleted = await this.DeleteAsync(Id);
+
+            CostCalculationGarment costCalculationGarment = await _costCalculationGarmentService.ReadModelById(deletedImage.CostCalculationGarmentId);
+            costCalculationGarment.RO_GarmentId = null;
+            costCalculationGarment.ImageFile = string.IsNullOrWhiteSpace(costCalculationGarment.ImageFile) ? "#" : costCalculationGarment.ImageFile;
+            await _costCalculationGarmentService.UpdateAsync(costCalculationGarment.Id, costCalculationGarment);
+
+            List<CostCalculationGarment_Material> costCalculationGarment_Materials = _costCalculationGarment_MaterialService.DbSet.Where(p => p.CostCalculationGarmentId.Equals(costCalculationGarment.Id)).ToList();
+            foreach (CostCalculationGarment_Material costCalculationGarment_Material in costCalculationGarment_Materials)
+            {
+                costCalculationGarment_Material.Information = null;
+                await _costCalculationGarment_MaterialService.UpdateModel(costCalculationGarment_Material.Id, costCalculationGarment_Material);
+            }
+
+            //await this.DeleteModel(Id);
+            return await this.DbContext.SaveChangesAsync();
+        }
+
+        
+        public ReadResponse<RO_Garment> Read(int page, int size, string order, List<string> select, string keyword, string filter)
+        {
+            var dataModel = ReadModel(page, size, order, select, keyword, filter);
+
+
+            return new ReadResponse<RO_Garment>(dataModel.Item1, dataModel.Item2, dataModel.Item3, dataModel.Item4);
+        }
+
+        public async Task<RO_Garment> ReadByIdAsync(int id)
+        {
+            return await this.ReadModelById(id);
+        }
+
+        public async Task<int> UpdateAsync(int id, RO_Garment model)
+        {
+            var costCalculationGarment_Materials = model.CostCalculationGarment.CostCalculationGarment_Materials;
+
+            if (costCalculationGarment_Materials.Count>0)
+            {
+                foreach (var costCalculationGarment_Material in costCalculationGarment_Materials)
+                {
+                    if (costCalculationGarment_Material.CreatedAgent ==null)
+                    {
+                        costCalculationGarment_Material.CreatedAgent = "";
+                       
+                    }
+
+                    if (costCalculationGarment_Material.CreatedBy== null)
+                    {
+                        costCalculationGarment_Material.CreatedBy = "";
+
+                    }
+
+                    EntityExtension.FlagForUpdate(costCalculationGarment_Material, IdentityService.Username, UserAgent);
+                }
+            }
+           
+            EntityExtension.FlagForUpdate(model.CostCalculationGarment, IdentityService.Username, UserAgent);
+
+            if (model.RO_Garment_SizeBreakdowns.Count >= 0)
+            {
+
+                foreach (RO_Garment_SizeBreakdown RO_Garment_SizeBreakdown in model.RO_Garment_SizeBreakdowns)
+                {
+                   if(RO_Garment_SizeBreakdown.CreatedAgent == null)
+                    {
+                        RO_Garment_SizeBreakdown.CreatedAgent = "";
+                    }
+
+                    if (RO_Garment_SizeBreakdown.CreatedBy == null)
+                    {
+                        RO_Garment_SizeBreakdown.CreatedBy = "";
+                    }
+
+                    foreach (var RO_Garment_SizeBreakdown_Detail in RO_Garment_SizeBreakdown.RO_Garment_SizeBreakdown_Details)
+                    {
+                        if (RO_Garment_SizeBreakdown_Detail.CreatedAgent == null)
+                        {
+                            RO_Garment_SizeBreakdown_Detail.CreatedAgent = "";
+                        }
+                        if (RO_Garment_SizeBreakdown_Detail.CreatedBy == null)
+                        {
+                            RO_Garment_SizeBreakdown_Detail.CreatedBy = "";
+                           
+                        }
+                        EntityExtension.FlagForUpdate(RO_Garment_SizeBreakdown_Detail, IdentityService.Username, UserAgent);
+                    }
+                    EntityExtension.FlagForUpdate(RO_Garment_SizeBreakdown, IdentityService.Username, UserAgent);
+                }
+            }
+
+            EntityExtension.FlagForUpdate(model, IdentityService.Username, UserAgent);
+            this.DbSet.Update(model);
+            return await this.DbContext.SaveChangesAsync();
         }
     }
 }

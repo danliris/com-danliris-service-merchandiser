@@ -8,6 +8,7 @@ using Com.Danliris.Service.Merchandiser.Lib.Interfaces;
 using Com.Danliris.Service.Merchandiser.Lib.Ultilities;
 using AutoMapper;
 using System;
+using Com.Danliris.Service.Merchandiser.Lib.Services;
 
 namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.v1.BasicControllers
 {
@@ -19,9 +20,17 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.v1.BasicControlle
     {
         private readonly static string apiVersion = "1.0";
         private readonly IIdentityService Service;
+      
+        //public ArticleColorController(IIdentityService identityService, IValidateService validateService, IArticleColor facade, IMapper mapper, IServiceProvider serviceProvider, IArticleColorService serviceColor) : base(identityService, validateService, facade, mapper, apiVersion)
+        //{
+        //    Service = identityService;
+       
+        //}
+
         public ArticleColorController(IIdentityService identityService, IValidateService validateService, IArticleColor facade, IMapper mapper, IServiceProvider serviceProvider) : base(identityService, validateService, facade, mapper, apiVersion)
         {
             Service = identityService;
+            
         }
     }
 }

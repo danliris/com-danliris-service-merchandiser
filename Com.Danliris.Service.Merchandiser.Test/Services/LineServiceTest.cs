@@ -60,7 +60,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
 
             LineService LineServiceObj = new LineService(GetServiceProvider(testName).Object);
 
-            dbContext.Lines.Add(new Line() { Code = "test", Name = "test ", _CreatedAgent = "ade", _CreatedBy = "ade", _LastModifiedAgent = "ade", _LastModifiedBy = "ade" });
+            dbContext.Lines.Add(new Line() { Code = "test", Name = "test ", CreatedAgent = "ade", CreatedBy = "ade", LastModifiedAgent = "ade", LastModifiedBy = "ade" });
             dbContext.SaveChanges();
 
             var result = LineServiceObj.ReadModel(1, 25, "{}", new List<string>() { "test ade" }, "test ", "{}");

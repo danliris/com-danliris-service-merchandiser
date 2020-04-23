@@ -11,6 +11,8 @@ namespace Com.Danliris.Service.Merchandiser.Lib.ViewModels
         public string Name { get; set; }
         public double? Value { get; set; }
 
+       
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (string.IsNullOrWhiteSpace(this.Name))

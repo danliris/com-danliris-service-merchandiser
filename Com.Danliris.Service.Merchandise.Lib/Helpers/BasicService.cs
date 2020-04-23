@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Reflection;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities;
 
 namespace Com.Danliris.Service.Merchandiser.Lib.Helpers
 {
@@ -17,8 +18,13 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Helpers
     {
         public string Username { get; set; }
         public string Token { get; set; }
+        public const string UserAgent = "merchandiser-service";
+
+      
+
         public BasicService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
+          
         }
 
         public void Validate(TModel model)
@@ -37,6 +43,12 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Helpers
             return await this.CreateAsync(model);
         }
 
+        //public virtual void CreateModel(TModel model)
+        //{
+        //    EntityExtension.FlagForCreate(model, this.Username, UserAgent);
+        //    DbSet.Add(model);
+        //}
+
         public void Creating(TModel model)
         {
             this.DbSet.Add(model);
@@ -47,16 +59,21 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Helpers
         public override void OnCreating(TModel model)
         {
             base.OnCreating(model);
-            model._CreatedAgent = "merchandiser-service";
-            model._CreatedBy = this.Username;
-            model._LastModifiedAgent = "merchandiser-service";
-            model._LastModifiedBy = this.Username;
+            model.CreatedAgent = UserAgent;
+            model.CreatedBy = this.Username;
+            model.LastModifiedAgent = "merchandiser-service";
+            model.LastModifiedBy = this.Username;
         }
 
-        public virtual async Task<TModel> ReadModelById(int id)
+        public virtual async  Task<TModel> ReadModelById(int id)
         {
-            return await this.GetAsync(id);
+            // return  this.DbSet.FirstOrDefaultAsync(d => d.Id.Equals(id));
+            //return this.DbSet.Where(eff => eff.Id.Equals(id))
+            //    .FirstOrDefaultAsync();
+              return await this.GetAsync(id);
         }
+
+       
 
         public virtual async Task<int> UpdateModel(int id, TModel model)
         {
@@ -73,8 +90,8 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Helpers
         public override void OnUpdating(int id, TModel model)
         {
             base.OnUpdating(id, model);
-            model._LastModifiedAgent = "merchandiser-service";
-            model._LastModifiedBy = this.Username;
+            model.LastModifiedAgent = "merchandiser-service";
+            model.LastModifiedBy = this.Username;
         }
 
         public virtual async Task<int> DeleteModel(int id)
@@ -95,8 +112,8 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Helpers
         public override void OnDeleting(TModel model)
         {
             base.OnDeleting(model);
-            model._DeletedAgent = "merchandiser-service";
-            model._DeletedBy = this.Username;
+            model.DeletedAgent = "merchandiser-service";
+            model.DeletedBy = this.Username;
         }
 
         public virtual IQueryable<TModel> ConfigureSearch(IQueryable<TModel> Query, List<string> SearchAttributes, string Keyword)
@@ -133,7 +150,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Helpers
             {
                 OrderDictionary.Add("_LastModifiedUtc", General.DESCENDING);
 
-                Query = Query.OrderByDescending(b => b._LastModifiedUtc);
+                Query = Query.OrderByDescending(b => b.LastModifiedUtc);
             }
             /* Custom Order */
             else

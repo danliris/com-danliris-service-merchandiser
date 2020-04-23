@@ -100,17 +100,17 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
                 Id = 4,
                 Active = true,
                 Code = "Code test",
-                _CreatedUtc = DateTime.Now,
+                CreatedUtc = DateTime.Now,
                 AutoIncrementNumber = 1,
                 Convection = "K2C",
-                _IsDeleted = false
+                IsDeleted = false
             });
             dbContext.SaveChanges();
 
             CostCalculationGarment model = new CostCalculationGarment()
             {
                 Convection = "K2A",
-                _IsDeleted = false
+                IsDeleted = false
             };
             CostCalculationGarmentService CostCalculationGarmentServiceObj = new CostCalculationGarmentService(GetServiceProvider(testName).Object);
             var result = await CostCalculationGarmentServiceObj.CustomCodeGenerator(model);
@@ -181,17 +181,17 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
                 Id = 5,
                 Active = true,
                 Code = "Code test",
-                _CreatedUtc = DateTime.Now,
+                CreatedUtc = DateTime.Now,
                 AutoIncrementNumber = 1,
                 Convection = "K2C",
-                _IsDeleted = false
+                IsDeleted = false
             });
             dbContext.SaveChanges();
 
             CostCalculationGarment model = new CostCalculationGarment()
             {
                 Convection = "K2C",
-                _IsDeleted = false
+                IsDeleted = false
             };
             CostCalculationGarmentService CostCalculationGarmentServiceObj = new CostCalculationGarmentService(GetServiceProvider(testName).Object);
             var result = await CostCalculationGarmentServiceObj.CustomCodeGenerator(model);
@@ -210,17 +210,17 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
                 Id = 6,
                 Active = true,
                 Code = "Code test 6",
-                _CreatedUtc = DateTime.Now.AddYears(-2),
+                CreatedUtc = DateTime.Now.AddYears(-2),
                 AutoIncrementNumber = 1,
                 Convection = "K2C",
-                _IsDeleted = false
+                IsDeleted = false
             });
             dbContext.SaveChanges();
 
             CostCalculationGarment model = new CostCalculationGarment()
             {
                 Convection = "K2C",
-                _IsDeleted = false
+                IsDeleted = false
             };
             CostCalculationGarmentService CostCalculationGarmentServiceObj = new CostCalculationGarmentService(GetServiceProvider(testName).Object);
             var result = await CostCalculationGarmentServiceObj.CustomCodeGenerator(model);
@@ -238,10 +238,10 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
                 Id = 7,
                 Active = true,
                 Code = "Code test 4",
-                _CreatedUtc = DateTime.Now,
+                CreatedUtc = DateTime.Now,
                 AutoIncrementNumber = 1,
                 Convection = "K2C",
-                _IsDeleted = false
+                IsDeleted = false
             });
             dbContext.SaveChanges();
 
@@ -270,10 +270,10 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
                 Id = 8,
                 Active = true,
                 Code = "Code test 8",
-                _CreatedUtc = DateTime.Now.AddYears(-2),
+                CreatedUtc = DateTime.Now.AddYears(-2),
                 AutoIncrementNumber = 1,
                 Convection = "K2C",
-                _IsDeleted = false,
+                IsDeleted = false,
                 RO_GarmentId = 8,
                 ImagePath = "https://via.placeholder.com/300/09f/fff.png",
             });
@@ -296,10 +296,10 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
                 Id = 9,
                 Active = true,
                 Code = "Code test 9",
-                _CreatedUtc = DateTime.Now.AddYears(-2),
+                CreatedUtc = DateTime.Now.AddYears(-2),
                 AutoIncrementNumber = 1,
                 Convection = "K2C",
-                _IsDeleted = false,
+                IsDeleted = false,
                 RO_GarmentId = null,
                 ImagePath = "https://via.placeholder.com/300/09f/fff.png",
                 CostCalculationGarment_Materials = new List<CostCalculationGarment_Material>() {
@@ -332,10 +332,10 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
                 Id = 10,
                 Active = true,
                 Code = "Code test 10",
-                _CreatedUtc = DateTime.Now.AddYears(-2),
+                CreatedUtc = DateTime.Now.AddYears(-2),
                 AutoIncrementNumber = 1,
                 Convection = "K2C",
-                _IsDeleted = false,
+                IsDeleted = false,
                 RO_GarmentId = null,
                 ImagePath = "https://via.placeholder.com/300/09f/fff.png",
             });
@@ -359,10 +359,10 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
                 Id = 11,
                 Active = true,
                 Code = "Code test 11",
-                _CreatedUtc = DateTime.Now,
+                CreatedUtc = DateTime.Now,
                 AutoIncrementNumber = 1,
                 Convection = "K2A",
-                _IsDeleted = false,
+                IsDeleted = false,
                 RO_GarmentId = null,
                 ImagePath = "https://via.placeholder.com/300/09f/fff.png",
                 CostCalculationGarment_Materials = new List<CostCalculationGarment_Material>() {
@@ -373,7 +373,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
                         CategoryName ="FABRIC",
                         AutoIncrementNumber=1,
                         Convection ="K2A",
-                        _CreatedUtc =DateTime.Now,
+                        CreatedUtc =DateTime.Now,
                          PO_SerialNumber = "",
 
                     }
@@ -387,7 +387,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
             {
                 Id = 11,
                 Convection = "K2A",
-                _CreatedUtc = DateTime.Now,
+                CreatedUtc = DateTime.Now,
                 AutoIncrementNumber = 1,
                 CostCalculationGarment_Materials = new List<CostCalculationGarment_Material>() {
                     new CostCalculationGarment_Material()
@@ -419,10 +419,10 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
                 Id = 12,
                 Active = true,
                 Code = "Code test 12",
-                _CreatedUtc = DateTime.Now,
+                CreatedUtc = DateTime.Now,
                 AutoIncrementNumber = 1,
                 Convection = "K2B",
-                _IsDeleted = false,
+                IsDeleted = false,
                 RO_GarmentId = null,
                 ImagePath = "https://via.placeholder.com/300/09f/fff.png",
                 CostCalculationGarment_Materials = new List<CostCalculationGarment_Material>() {
@@ -433,7 +433,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
                         CategoryName ="NOT FABRIC",
                         AutoIncrementNumber=1,
                         Convection ="K2B",
-                        _CreatedUtc =DateTime.Now,
+                        CreatedUtc =DateTime.Now,
                          PO_SerialNumber = "",
 
                     }
@@ -447,7 +447,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
             {
                 Id = 12,
                 Convection = "K2B",
-                _CreatedUtc = DateTime.Now,
+                CreatedUtc = DateTime.Now,
                 AutoIncrementNumber = 1,
                 CostCalculationGarment_Materials = new List<CostCalculationGarment_Material>() {
                     new CostCalculationGarment_Material()

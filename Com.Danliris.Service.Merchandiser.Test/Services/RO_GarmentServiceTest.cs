@@ -107,8 +107,8 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
                 Id = 14, 
                 Active = true, 
                 Code = "code test",
-                _CreatedAgent = "created agen", 
-                _CreatedBy = "ade" });
+                CreatedAgent = "created agen", 
+                CreatedBy = "ade" });
             dbContext.SaveChanges();
 
 
@@ -129,8 +129,8 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
                 Id = 15, 
                 Active = true, 
                 Code = "code test", 
-                _CreatedAgent = "created agen",
-                _CreatedBy = "ade" 
+                CreatedAgent = "created agen",
+                CreatedBy = "ade" 
             });
             dbContext.SaveChanges();
 
@@ -252,8 +252,8 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
                 Id = 23,
                 Active = true,
                 Code = "code test",
-                _CreatedAgent = "created agen",
-                _CreatedBy = "ade",
+                CreatedAgent = "created agen",
+                CreatedBy = "ade",
                 RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown> { new RO_Garment_SizeBreakdown() {
                     Id=23,
                     Active=true,
@@ -309,8 +309,8 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
                 Id = 17,
                 Active = true,
                 Code = "code test",
-                _CreatedAgent = "created agen",
-                _CreatedBy = "ade",
+                CreatedAgent = "created agen",
+                CreatedBy = "ade",
                 RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown> { new RO_Garment_SizeBreakdown() {
                     Id=17,
                     Active=true,
@@ -426,8 +426,8 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
                 Id = 19,
                 Active = true,
                 Code = "code test",
-                _CreatedAgent = "created agen",
-                _CreatedBy = "ade",
+                CreatedAgent = "created agen",
+                CreatedBy = "ade",
                 ImagesPath = imagepath,
                 ImagesName = imagename,
                 CostCalculationGarment = new CostCalculationGarment() { },
@@ -490,8 +490,8 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
                 Id = 20,
                 Active = true,
                 Code = "code test",
-                _CreatedAgent = "created agen",
-                _CreatedBy = "ade",
+                CreatedAgent = "created agen",
+                CreatedBy = "ade",
                 CostCalculationGarment = new CostCalculationGarment() { },
                 RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown> { new RO_Garment_SizeBreakdown() {
                     Id=20,

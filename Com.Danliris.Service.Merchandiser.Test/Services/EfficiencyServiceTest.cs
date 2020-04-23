@@ -58,7 +58,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
 
             var dbContext = _dbContext(testName);
 
-            dbContext.Efficiencies.Add(new Efficiency() { Id = 1, Active = true, Name = "Name Test" ,Code= "code test",Value=20, FinalRange =10, InitialRange=10, _CreatedAgent="created agen",_CreatedBy="ade"});
+            dbContext.Efficiencies.Add(new Efficiency() { Id = 1, Active = true, Name = "Name Test" ,Code= "code test",Value=20, FinalRange =10, InitialRange=10, CreatedAgent="created agen",CreatedBy="ade"});
             dbContext.SaveChanges();
 
             EfficiencyService EfficiencyServiceObj = new EfficiencyService(GetServiceProvider(testName).Object);
@@ -122,7 +122,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
 
             var dbContext = _dbContext(testName);
 
-            dbContext.Efficiencies.Add(new Efficiency() { Id = 1, Active = true, Name = "Name Test", Code = "code test", Value = 20, FinalRange = 50, InitialRange = 10, _CreatedAgent = "created agen", _CreatedBy = "ade", _IsDeleted=false });
+            dbContext.Efficiencies.Add(new Efficiency() { Id = 1, Active = true, Name = "Name Test", Code = "code test", Value = 20, FinalRange = 50, InitialRange = 10, CreatedAgent = "created agen", CreatedBy = "ade", IsDeleted=false });
             dbContext.SaveChanges();
 
             EfficiencyService EfficiencyServiceObj = new EfficiencyService(GetServiceProvider(testName).Object);

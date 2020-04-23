@@ -76,7 +76,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
         }
 
         [HttpGet("{Id}")]
-        public virtual async Task<IActionResult> GetById([FromRoute] int id)
+        public virtual async Task<IActionResult> GetById([FromRoute] int Id)
         {
             if (!ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
 
             try
             {
-                TModel model = await Facade.ReadByIdAsync(id);
+                TModel model = await Facade.ReadByIdAsync(Id);
 
                 if (model == null)
                 {
@@ -96,7 +96,21 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
                 }
                 else
                 {
-                    throw new NotImplementedException();
+
+                    //return Ok(new
+                    //{
+                    //    apiVersion = ApiVersion,
+                    //    statusCode = General.OK_STATUS_CODE,
+                    //    message = General.OK_MESSAGE,
+                    //    data = model,
+                    //});
+
+                    TViewModel viewModel = Mapper.Map<TViewModel>(model);
+                    Dictionary<string, object> Result =
+                        new ResultFormatter(ApiVersion, General.OK_STATUS_CODE, General.OK_MESSAGE)
+                        .Ok<TViewModel>(Mapper, viewModel);
+                    return Ok(Result);
+
                 }
             }
             catch (Exception e)

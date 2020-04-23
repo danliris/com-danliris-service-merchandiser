@@ -31,11 +31,11 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.BasicControllers.
         }
 
         [HttpGet("pdf/{id}")]
-        public async Task<IActionResult> GetPDFAsync([FromRoute]int Id)
+        public async Task<IActionResult> GetPDFAsync([FromRoute]int id)
         {
             try
             {
-                RO_Garment model = await Facade.ReadByIdAsync(Id);
+                RO_Garment model = await Facade.ReadByIdAsync(id);
                 RO_GarmentViewModel viewModel = Mapper.Map<RO_GarmentViewModel>(model);
 
                 int timeoffsset = Convert.ToInt32(Request.Headers["x-timezone-offset"]);

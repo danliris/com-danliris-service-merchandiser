@@ -12,8 +12,13 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Models
     {
         public string Code { get; set; }
         public string RO_Number { get; set; }
-        public string RO { get; set; }
+        //public string RO { get; set; }
         public string Article { get; set; }
+
+        //comodity
+        //public string ComodityCode { get; set; }
+        //public string ComodityName { get; set; }
+
         public string ComodityID { get; set; }
         public string Commodity { get; set; }
         public string CommodityDescription { get; set; }

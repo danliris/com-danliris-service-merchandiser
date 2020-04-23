@@ -79,7 +79,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Models
             {
                 Code = Code,
                 RO_Number = RO_Number,
-                RO = RO,
+                //RO = RO,
                 Article = Article,
                 ComodityID = ComodityID,
                 Commodity = Commodity,
@@ -138,7 +138,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Models
 
             Assert.Equal(Code, ccg.Code);
             Assert.Equal(RO_Number, ccg.RO_Number);
-            Assert.Equal(RO, ccg.RO);
+            //Assert.Equal(RO, ccg.RO);
             Assert.Equal(Article, ccg.Article);
             Assert.Equal(ComodityID, ccg.ComodityID);
             Assert.Equal(Commodity, ccg.Commodity);

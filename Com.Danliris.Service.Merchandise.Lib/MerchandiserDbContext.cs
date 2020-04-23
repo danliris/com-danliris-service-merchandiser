@@ -2,11 +2,16 @@
 using Microsoft.EntityFrameworkCore;
 using Com.Danliris.Service.Merchandiser.Lib.Models;
 using Com.Danliris.Service.Merchandiser.Lib.Configs;
+using Com.Moonlay.Data.EntityFrameworkCore;
 
 namespace Com.Danliris.Service.Merchandiser.Lib
 {
-    public class MerchandiserDbContext : BaseDbContext
+    
+       //  public class MerchandiserDbContext : BaseDbContext
+    public class MerchandiserDbContext : StandardDbContext
     {
+     
+
         public MerchandiserDbContext(DbContextOptions<MerchandiserDbContext> options) : base(options)
         {
         }

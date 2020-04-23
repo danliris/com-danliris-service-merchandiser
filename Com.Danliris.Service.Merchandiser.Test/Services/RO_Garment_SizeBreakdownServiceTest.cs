@@ -65,7 +65,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
 
             RO_Garment_SizeBreakdownService RO_Garment_SizeBreakdownServiceObj = new RO_Garment_SizeBreakdownService(GetServiceProvider(testName).Object);
 
-            dbContext.RO_Garment_SizeBreakdowns.Add(new RO_Garment_SizeBreakdown() { Code = "test", _CreatedAgent = "ade", _CreatedBy = "ade", _LastModifiedAgent = "ade", _LastModifiedBy = "ade" });
+            dbContext.RO_Garment_SizeBreakdowns.Add(new RO_Garment_SizeBreakdown() { Code = "test", CreatedAgent = "ade", CreatedBy = "ade", LastModifiedAgent = "ade", LastModifiedBy = "ade" });
             dbContext.SaveChanges();
             var result = RO_Garment_SizeBreakdownServiceObj.ReadModel(1, 25, "{}", new List<string>() { "test ade" }, "test ", "{}");
             Assert.NotNull(result);
@@ -150,10 +150,10 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
             dbContext.RO_Garment_SizeBreakdowns.Add(new RO_Garment_SizeBreakdown() { 
                 Id= 24,
                 Code = "codeSizeBreakdown", 
-                _CreatedAgent = "ade", 
-                _CreatedBy = "ade", 
-                _LastModifiedAgent = "ade",
-                _LastModifiedBy = "ade",
+                CreatedAgent = "ade", 
+                CreatedBy = "ade", 
+                LastModifiedAgent = "ade",
+                LastModifiedBy = "ade",
                 RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>() {
                     new RO_Garment_SizeBreakdown_Detail() {
                         Id= 24,

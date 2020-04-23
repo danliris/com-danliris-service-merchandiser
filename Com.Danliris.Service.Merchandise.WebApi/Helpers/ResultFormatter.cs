@@ -124,6 +124,13 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Helpers
             return Result;
         }
 
+        public Dictionary<string, object> Ok<TViewModel>(IMapper mapper, TViewModel Data)
+        {
+            Result.Add("data", Data);
+
+            return Result;
+        }
+
         public Dictionary<string, object> Fail(ServiceValidationExeption e)
         {
             Dictionary<string, object> Errors = new Dictionary<string, object>();
