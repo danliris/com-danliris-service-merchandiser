@@ -17,14 +17,21 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 {
     public class RO_GarmentService : BasicService<MerchandiserDbContext, RO_Garment>, IMap<RO_Garment, RO_GarmentViewModel>
     {
+        private readonly IAzureImageService _azureImageService;
+        private readonly ICostCalculationGarments _costCalculationGarmentService;
+        private readonly ICostCalculationGarment_MaterialService _costCalculationGarment_MaterialService;
+
         public RO_GarmentService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
+            _azureImageService = serviceProvider.GetService<IAzureImageService>();
+            _costCalculationGarmentService = serviceProvider.GetService<ICostCalculationGarments>();
+            _costCalculationGarment_MaterialService = serviceProvider.GetService<ICostCalculationGarment_MaterialService>();
         }
 
-        private AzureImageService AzureImageService
-        {
-            get { return this.ServiceProvider.GetService<AzureImageService>(); }
-        }
+        //private AzureImageService AzureImageService
+        //{
+        //    get { return this.ServiceProvider.GetService<AzureImageService>(); }
+        //}
 
         private RO_Garment_SizeBreakdownService RO_Garment_SizeBreakdownService
         {
@@ -36,25 +43,25 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             }
         }
 
-        private CostCalculationGarmentService CostCalculationGarmentService
-        {
-            get
-            {
-                CostCalculationGarmentService service = this.ServiceProvider.GetService<CostCalculationGarmentService>();
-                service.Username = this.Username;
-                return service;
-            }
-        }
+        //private CostCalculationGarmentService CostCalculationGarmentService
+        //{
+        //    get
+        //    {
+        //        CostCalculationGarmentService service = this.ServiceProvider.GetService<ICostCalculationGarments>();
+        //        service.Username = this.Username;
+        //        return service;
+        //    }
+        //}
 
-        private CostCalculationGarment_MaterialService CostCalculationGarment_MaterialService
-        {
-            get
-            {
-                CostCalculationGarment_MaterialService service = this.ServiceProvider.GetService<CostCalculationGarment_MaterialService>();
-                service.Username = this.Username;
-                return service;
-            }
-        }
+        //private CostCalculationGarment_MaterialService CostCalculationGarment_MaterialService
+        //{
+        //    get
+        //    {
+        //        CostCalculationGarment_MaterialService service = this.ServiceProvider.GetService<CostCalculationGarment_MaterialService>();
+        //        service.Username = this.Username;
+        //        return service;
+        //    }
+        //}
 
         public override Tuple<List<RO_Garment>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null, string Filter = "{}")
         {
@@ -109,12 +116,12 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
             int created = await this.CreateAsync(Model);
 
-            Model.ImagesPath = await this.AzureImageService.UploadMultipleImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImagesFile, Model.ImagesPath);
+            Model.ImagesPath = await _azureImageService.UploadMultipleImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImagesFile, Model.ImagesPath);
 
             await this.UpdateAsync(Model.Id, Model);
 
             costCalculationGarment.RO_GarmentId = Model.Id;
-            await this.CostCalculationGarmentService.UpdateModel(costCalculationGarment.Id, costCalculationGarment);
+            await _costCalculationGarmentService.UpdateAsync(costCalculationGarment.Id, costCalculationGarment);
 
             return created;
         }
@@ -148,8 +155,8 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
                     .ThenInclude(ccg => ccg.CostCalculationGarment_Materials)
                 .FirstOrDefaultAsync();
 
-            read.CostCalculationGarment.ImageFile = await this.AzureImageService.DownloadImage(read.CostCalculationGarment.GetType().Name, read.CostCalculationGarment.ImagePath);
-            read.ImagesFile = await this.AzureImageService.DownloadMultipleImages(read.GetType().Name, read.ImagesPath);
+            read.CostCalculationGarment.ImageFile = await _azureImageService.DownloadImage(read.CostCalculationGarment.GetType().Name, read.CostCalculationGarment.ImagePath);
+            read.ImagesFile = await _azureImageService.DownloadMultipleImages(read.GetType().Name, read.ImagesPath);
 
             return read;
         }
@@ -159,12 +166,12 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             CostCalculationGarment costCalculationGarment = Model.CostCalculationGarment;
             Model.CostCalculationGarment = null;
 
-            Model.ImagesPath = await this.AzureImageService.UploadMultipleImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImagesFile, Model.ImagesPath);
+            Model.ImagesPath = await _azureImageService.UploadMultipleImage(Model.GetType().Name, Model.Id, Model._CreatedUtc, Model.ImagesFile, Model.ImagesPath);
 
             int updated = await this.UpdateAsync(Id, Model);
 
             costCalculationGarment.RO_GarmentId = Model.Id;
-            await this.CostCalculationGarmentService.UpdateModel(costCalculationGarment.Id, costCalculationGarment);
+            await _costCalculationGarmentService.UpdateAsync(costCalculationGarment.Id, costCalculationGarment);
 
             return updated;
         }
@@ -203,20 +210,20 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
         public override async Task<int> DeleteModel(int Id)
         {
             RO_Garment deletedImage = await this.GetAsync(Id);
-            await this.AzureImageService.RemoveMultipleImage(deletedImage.GetType().Name, deletedImage.ImagesPath);
+            await _azureImageService.RemoveMultipleImage(deletedImage.GetType().Name, deletedImage.ImagesPath);
 
             int deleted = await this.DeleteAsync(Id);
 
-            CostCalculationGarment costCalculationGarment = await this.CostCalculationGarmentService.ReadModelById(deletedImage.CostCalculationGarmentId);
+            CostCalculationGarment costCalculationGarment = await _costCalculationGarmentService.ReadModelById(deletedImage.CostCalculationGarmentId);
             costCalculationGarment.RO_GarmentId = null;
             costCalculationGarment.ImageFile = string.IsNullOrWhiteSpace(costCalculationGarment.ImageFile) ? "#" : costCalculationGarment.ImageFile;
-            await this.CostCalculationGarmentService.UpdateModel(costCalculationGarment.Id, costCalculationGarment);
+            await _costCalculationGarmentService.UpdateAsync(costCalculationGarment.Id, costCalculationGarment);
 
-            List<CostCalculationGarment_Material> costCalculationGarment_Materials = this.CostCalculationGarment_MaterialService.DbSet.Where(p => p.CostCalculationGarmentId.Equals(costCalculationGarment.Id)).ToList();
+            List<CostCalculationGarment_Material> costCalculationGarment_Materials = _costCalculationGarment_MaterialService.DbSet.Where(p => p.CostCalculationGarmentId.Equals(costCalculationGarment.Id)).ToList();
             foreach (CostCalculationGarment_Material costCalculationGarment_Material in costCalculationGarment_Materials)
             {
                 costCalculationGarment_Material.Information = null;
-                await this.CostCalculationGarment_MaterialService.UpdateModel(costCalculationGarment_Material.Id, costCalculationGarment_Material);
+                await _costCalculationGarment_MaterialService.UpdateModel(costCalculationGarment_Material.Id, costCalculationGarment_Material);
             }
 
             return deleted;
@@ -242,7 +249,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             PropertyCopier<RO_Garment, RO_GarmentViewModel>.Copy(model, viewModel);
             viewModel.ImagesPath = model.ImagesPath != null ? JsonConvert.DeserializeObject<List<string>>(model.ImagesPath) : null;
 
-            viewModel.CostCalculationGarment = this.CostCalculationGarmentService.MapToViewModel(model.CostCalculationGarment);
+            viewModel.CostCalculationGarment = _costCalculationGarmentService.MapToViewModel(model.CostCalculationGarment);
             viewModel.ImagesName = model.ImagesName != null ? JsonConvert.DeserializeObject<List<string>>(model.ImagesName) : new List<string>();
 
             viewModel.RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdownViewModel>();
@@ -265,7 +272,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             model.ImagesPath = viewModel.ImagesPath != null ? JsonConvert.SerializeObject(viewModel.ImagesPath) : null;
 
            // model.CostCalculationGarmentId = viewModel.CostCalculationGarment.Id;
-            model.CostCalculationGarment = this.CostCalculationGarmentService.MapToModel(viewModel.CostCalculationGarment);
+            model.CostCalculationGarment = _costCalculationGarmentService.MapToModel(viewModel.CostCalculationGarment);
             model.ImagesName = JsonConvert.SerializeObject(viewModel.ImagesName);
 
             model.RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown>();

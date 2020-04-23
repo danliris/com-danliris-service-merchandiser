@@ -9,7 +9,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Helpers
   public  class NumberTest
     {
         [Fact]
-        public void ToRupiah_with_String_Return_Success()
+        public void ToRupiah_when_Input_String_Return_Success()
         {
 
             dynamic number = "200";
@@ -20,7 +20,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Helpers
         }
 
         [Fact]
-        public void ToRupiah_with_Number_Return_Success()
+        public void ToRupiah_When_Input_Number_Return_Success()
         {
             dynamic number = 200;
             var result = Number.ToRupiah(number);
@@ -30,7 +30,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Helpers
         }
 
         [Fact]
-        public void ToRupiahWithoutSymbol_with_number_Return_Success()
+        public void ToRupiahWithoutSymbol_when_Input_number_Return_Success()
         {
             dynamic number = 200;
             var result = Number.ToRupiahWithoutSymbol(number);
@@ -40,7 +40,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Helpers
         }
 
         [Fact]
-        public void ToRupiahWithoutSymbol_with_String_Return_Success()
+        public void ToRupiahWithoutSymbol_when_input_String_Return_Success()
         {
             dynamic number = "200";
             var result = Number.ToRupiahWithoutSymbol(number);

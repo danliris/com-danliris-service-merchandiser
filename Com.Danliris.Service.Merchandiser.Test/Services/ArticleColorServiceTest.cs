@@ -2,6 +2,7 @@
 using Com.Danliris.Service.Merchandiser.Lib.Models;
 using Com.Danliris.Service.Merchandiser.Lib.Services;
 using Com.Danliris.Service.Merchandiser.Lib.ViewModels;
+using Com.Danliris.Service.Merchandiser.Test.DataUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Moq;
@@ -51,6 +52,12 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
             return serviceProvider;
         }
 
+        private ArticleColorDataUtil _dataUtil(ArticleColorService service)
+        {
+
+            return new ArticleColorDataUtil(service);
+        }
+
         [Fact]
         public void ReadModel_Return_Success()
         {
@@ -72,8 +79,8 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         public void MapToViewModel_Return_Success()
         {
             string testName = GetCurrentMethod();
-            ArticleColor model = new ArticleColor();
             ArticleColorService ArticleColorServiceObj = new ArticleColorService(GetServiceProvider(testName).Object);
+            var model = _dataUtil(ArticleColorServiceObj).GetArticleColorModel();
             var result = ArticleColorServiceObj.MapToViewModel(model);
             Assert.NotNull(result);
         }
@@ -82,11 +89,10 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         public void MapToModel_Return_Success()
         {
             string testName = GetCurrentMethod();
-            ArticleColorViewModel viewModel = new ArticleColorViewModel()
-            {
-               
-            };
+         
             ArticleColorService ArticleColorServiceObj = new ArticleColorService(GetServiceProvider(testName).Object);
+            var viewModel = _dataUtil(ArticleColorServiceObj).GetArticleColorViewModel();
+
             var result = ArticleColorServiceObj.MapToModel(viewModel);
             Assert.NotNull(result);
         }

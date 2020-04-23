@@ -25,6 +25,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.v1.BasicControlle
         public EfficienciesController(IIdentityService identityService, IValidateService validateService, IEfficiencies facade, IMapper mapper, IServiceProvider serviceProvider) : base(identityService, validateService, facade, mapper, apiVersion)
         {
             Service = identityService;
+            _facade = facade;
         }
 
         [HttpGet("quantity/{Quantity}")]

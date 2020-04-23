@@ -27,7 +27,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.ViewModels
             Assert.Equal("construction test", defaultViewModel.construction);
             Assert.Equal("yarn test", defaultViewModel.yarn);
             Assert.Equal("width test", defaultViewModel.width);
-            Assert.Throws<NotImplementedException>(() => defaultViewModel.Validate(null));
+         
         }
 
         [Fact]

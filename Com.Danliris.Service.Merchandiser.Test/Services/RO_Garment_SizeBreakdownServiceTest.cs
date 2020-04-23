@@ -97,7 +97,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         //                Id=5,
         //                //RO_Garment_SizeBreakdownId=1
         //            },
-                    
+
         //        }
 
         //    });
@@ -138,21 +138,46 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         //}
 
 
-        //[Fact]
-        //public void OnUpdating_Return_Success()
-        //{
-        //    string testName = GetCurrentMethod();
+        [Fact]
+        public void Should_Success_OnUpdating()
+        {
+            string testName = GetCurrentMethod();
 
-        //    RO_Garment_SizeBreakdown model = new RO_Garment_SizeBreakdown()
-        //    {
-        //        Code = "Q1XT4ZG7",
-        //        RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>() { new RO_Garment_SizeBreakdown_Detail() { } }
+            var dbContext = _dbContext(testName);
 
-        //    };
-        //    RO_Garment_SizeBreakdownService RO_Garment_SizeBreakdownServiceObj = new RO_Garment_SizeBreakdownService(GetServiceProvider(testName).Object);
+            RO_Garment_SizeBreakdownService RO_Garment_SizeBreakdownServiceObj = new RO_Garment_SizeBreakdownService(GetServiceProvider(testName).Object);
 
-        //    RO_Garment_SizeBreakdownServiceObj.OnUpdating(1,model);
-        //}
+            dbContext.RO_Garment_SizeBreakdowns.Add(new RO_Garment_SizeBreakdown() { 
+                Id= 24,
+                Code = "codeSizeBreakdown", 
+                _CreatedAgent = "ade", 
+                _CreatedBy = "ade", 
+                _LastModifiedAgent = "ade",
+                _LastModifiedBy = "ade",
+                RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>() {
+                    new RO_Garment_SizeBreakdown_Detail() {
+                        Id= 24,
+                        Code ="anycode",
+                } }
+            });
+            dbContext.SaveChanges();
+
+            RO_Garment_SizeBreakdown model = new RO_Garment_SizeBreakdown()
+            {
+                Id=24,
+                Code = "codeSizeBreakdown",
+                RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>() { 
+                    new RO_Garment_SizeBreakdown_Detail() {
+
+                Id=0,
+                Code="anycode"
+                } }
+
+            };
+
+            RO_Garment_SizeBreakdownServiceObj.OnUpdating(24, model); 
+            
+        }
 
 
         //[Fact]
