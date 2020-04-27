@@ -253,7 +253,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
         }
 
         [Fact]
-        public async System.Threading.Tasks.Task Put_Throw_DbUpdateConcurrencyException_ReturnInternalServerError()
+        public async System.Threading.Tasks.Task Put_Throw_DbUpdateConcurrencyException()
         {
             var mocks = this.GetMocks();
             mocks.ValidateService.Setup(vs => vs.Validate(It.IsAny<TViewModel>())).Verifiable();
