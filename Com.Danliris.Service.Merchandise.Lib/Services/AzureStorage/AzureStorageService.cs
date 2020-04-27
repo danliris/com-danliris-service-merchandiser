@@ -23,8 +23,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services.AzureStorage
             string storageContainer = "merchandiser";
 
             //_serviceProvider = serviceProvider;
-            storageAccountName = "danlirisstoragedev";
-            storageAccountKey = "bC9VRGVKWwyP8D/XtBIE+u8jEZdmsr0qKuGLwH+fhFoXeF0SyXJErtVg/8JEqtnnetxyCu8LQvUYrAYnx+bkwQ==";
+           
             _storageAccount = new CloudStorageAccount(new StorageCredentials(storageAccountName, storageAccountKey), useHttps: true);
             _storageContainer = Configure(storageContainer).GetAwaiter().GetResult();
         }
