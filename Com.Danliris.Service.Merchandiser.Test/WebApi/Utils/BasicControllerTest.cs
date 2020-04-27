@@ -6,6 +6,7 @@ using Com.Moonlay.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Update;
 using Microsoft.Exchange.WebServices.Data;
 using Moq;
 using System;
@@ -52,10 +53,13 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
             return new ServiceValidationException();
         }
 
+     
+
         protected (Mock<IIdentityService> IdentityService, Mock<IValidateService> ValidateService, Mock<IFacade> Facade, Mock<IMapper> Mapper, Mock<IServiceProvider> ServiceProvider) GetMocks()
         {
             return (IdentityService: new Mock<IIdentityService>(), ValidateService: new Mock<IValidateService>(), Facade: new Mock<IFacade>(), Mapper: new Mock<IMapper>(), ServiceProvider: new Mock<IServiceProvider>());
         }
+
 
 
         protected virtual TController GetController((Mock<IIdentityService> IdentityService, Mock<IValidateService> ValidateService, Mock<IFacade> Facade, Mock<IMapper> Mapper, Mock<IServiceProvider> ServiceProvider) mocks)
@@ -248,22 +252,27 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
             Assert.Equal((int)HttpStatusCode.InternalServerError, statusCode);
         }
 
-        //[Fact]
-        //public async System.Threading.Tasks.Task Put_ThrowDbUpdateConcurrencyException_ReturnInternalServerError()
-        //{
-        //    var mocks = this.GetMocks();
-        //    mocks.ValidateService.Setup(vs => vs.Validate(It.IsAny<TViewModel>())).Verifiable();
-        //    var id = 1;
-        //    var viewModel = new TViewModel()
-        //    {
-        //        Id = id
-        //    };
-        //    mocks.Mapper.Setup(m => m.Map<TViewModel>(It.IsAny<TModel>())).Returns(viewModel);
-        //    mocks.Facade.Setup(f => f.UpdateAsync(It.IsAny<int>(), It.IsAny<TModel>())).ThrowsAsync(new DbUpdateConcurrencyException(""));
+        [Fact]
+        public async System.Threading.Tasks.Task Put_Throw_DbUpdateConcurrencyException_ReturnInternalServerError()
+        {
+            var mocks = this.GetMocks();
+            mocks.ValidateService.Setup(vs => vs.Validate(It.IsAny<TViewModel>())).Verifiable();
+            var id = 1;
+            var viewModel = new TViewModel()
+            {
+                Id = id
+            };
+            mocks.Mapper.Setup(m => m.Map<TViewModel>(It.IsAny<TModel>())).Returns(viewModel);
+            Mock<IUpdateEntry> UpdateEntriesMock = new Mock<IUpdateEntry>();
+            var IReadOnlyListMock = new Mock<System.Collections.Generic.IReadOnlyList<IUpdateEntry>>();
+            IReadOnlyListMock.Setup(ro => ro.Count).Returns(3);
+            mocks.Facade.Setup(f => f.UpdateAsync(It.IsAny<int>(), It.IsAny<TModel>())).ThrowsAsync(new DbUpdateConcurrencyException("DbUpdateConcurrencyException", IReadOnlyListMock.Object));
 
-        //    int statusCode = await this.GetStatusCodePut(mocks, id, viewModel);
-        //    Assert.Equal((int)HttpStatusCode.InternalServerError, statusCode);
-        //}
+         
+
+            int statusCode = await this.GetStatusCodePut(mocks, id, viewModel);
+            Assert.Equal((int)HttpStatusCode.InternalServerError, statusCode);
+        }
 
         private async Task<int> GetStatusCodeDelete((Mock<IIdentityService> IdentityService, Mock<IValidateService> ValidateService, Mock<IFacade> Facade, Mock<IMapper> Mapper, Mock<IServiceProvider> ServiceProvider) mocks)
         {
