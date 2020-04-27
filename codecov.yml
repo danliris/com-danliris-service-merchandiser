@@ -1,4 +1,6 @@
 ignore:
+	- "Com.Danliris.Service.Merchandise.Lib/Migrations"
+    - "Com.Danliris.Service.Merchandise.WebApi/Program.cs"
+    - "Com.Danliris.Service.Merchandise.WebApi/Startup.cs"
 	- "Com.Danliris.Service.Merchandiser.Test"
 	- "Com.Danliris.Service.Test"
-	- "Com.Danliris.Service.Merchandise.Lib/Migrations"
