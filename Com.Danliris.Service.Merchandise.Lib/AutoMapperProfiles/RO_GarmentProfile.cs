@@ -15,6 +15,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.AutoMapperProfiles
         {
 
           CreateMap<CostCalculationGarment, CostCalculationGarmentViewModel>()
+          .ForPath(d => d.Id, opt => opt.MapFrom(m => m.Id))
           .ForPath(d => d.Code, opt => opt.MapFrom(m => m.Code))
           .ForPath(d => d.RO_Number, opt => opt.MapFrom(m => m.RO_Number))
           .ForPath(d => d.Article, opt => opt.MapFrom(m => m.Article))
@@ -29,6 +30,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.AutoMapperProfiles
           .ForPath(d => d.CommissionRate, opt => opt.MapFrom(m => m.CommissionRate))
           .ForPath(d => d.ConfirmDate, opt => opt.MapFrom(m => m.ConfirmDate))
           .ForPath(p => p.AccessoriesAllowance, opt => opt.MapFrom(m => m.AccessoriesAllowance))
+          .ForPath(p => p.FabricAllowance, opt => opt.MapFrom(m => m.FabricAllowance))
            //Rate
            .ForPath(p => p.Rate.Id, opt => opt.MapFrom(m => m.RateId))
             .ForPath(p => p.Rate.Value, opt => opt.MapFrom(m => m.RateValue))
@@ -58,7 +60,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.AutoMapperProfiles
            .ForPath(p => p.NETFOBP, opt => opt.MapFrom(m => m.NETFOBP))
            .ForPath(p => p.Insurance, opt => opt.MapFrom(m => m.Insurance))
 
-
+             .ForPath(p => p.Convection, opt => opt.MapFrom(m => m.Convection))
             .ForPath(p => p.Section, opt => opt.MapFrom(m => m.Section))
             .ForPath(p => p.Quantity, opt => opt.MapFrom(m => m.Quantity))
             .ForPath(p => p.SizeRange, opt => opt.MapFrom(m => m.SizeRange))
@@ -71,6 +73,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.AutoMapperProfiles
             .ForPath(p => p.SMV_Total, opt => opt.MapFrom(m => m.SMV_Total))
             .ForPath(p => p.ImageFile, opt => opt.MapFrom(m => m.ImageFile))
             .ForPath(p => p.ImagePath, opt => opt.MapFrom(m => m.ImagePath))
+             .ForPath(p => p.LastModifiedUtc, opt => opt.MapFrom(m => m.LastModifiedUtc))
           .ReverseMap();
 
             CreateMap<RO_Garment_SizeBreakdown, RO_Garment_SizeBreakdownViewModel>()
@@ -80,10 +83,16 @@ namespace Com.Danliris.Service.Merchandiser.Lib.AutoMapperProfiles
 
 
             CreateMap<RO_Garment, RO_GarmentViewModel>()
-            .ForPath(p => p.CostCalculationGarment.Id, opt => opt.MapFrom(m => m.CostCalculationGarmentId))
+           // .ForPath(p => p.CostCalculationGarment.Id, opt => opt.MapFrom(m => m.CostCalculationGarmentId))
             .ForPath(p => p.Code, opt => opt.MapFrom(m => m.Code))
             .ForPath(p => p.Instruction, opt => opt.MapFrom(m => m.Instruction))
             .ForPath(p => p.Total, opt => opt.MapFrom(m => m.Total))
+            .ForPath(p => p.LastModifiedUtc, opt => opt.MapFrom(m => m.LastModifiedUtc))
+            //.ForPath(p => p.CostCalculationGarment.Id, opt => opt.MapFrom(m => m.CostCalculationGarmentId))
+            .ForPath(p => p.CostCalculationGarment.Id, opt => opt.MapFrom(m => m.CostCalculationGarment.Id))
+            .ForPath(p => p.CostCalculationGarment.Code, opt => opt.MapFrom(m => m.CostCalculationGarment.Code))
+            .ForPath(p => p.CostCalculationGarment.Article, opt => opt.MapFrom(m => m.CostCalculationGarment.Article))
+            .ForPath(p => p.CostCalculationGarment.CreatedUtc, opt => opt.MapFrom(m => m.CostCalculationGarment.CreatedUtc))
             .ForPath(p => p.CostCalculationGarment.Buyer.name, opt => opt.MapFrom(m => m.CostCalculationGarment.BuyerName))
             .ForPath(p => p.CostCalculationGarment.Buyer._id, opt => opt.MapFrom(m => m.CostCalculationGarment.BuyerId))
             .ForPath(p => p.CostCalculationGarment.ImageFile, opt => opt.MapFrom(m => m.CostCalculationGarment.ImageFile))
@@ -98,7 +107,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.AutoMapperProfiles
              .ForPath(p => p.CostCalculationGarment.SizeRange, opt => opt.MapFrom(m => m.CostCalculationGarment.SizeRange))
 
              .ForPath(p => p.ImagesFile, opt => opt.MapFrom(m => m.ImagesFile))
-            .ForPath(p => p.CostCalculationGarment.Id, opt => opt.MapFrom(m => m.CostCalculationGarmentId))
+            
             .ReverseMap();
 
             CreateMap<RO_GarmentViewModel, RO_Garment>()

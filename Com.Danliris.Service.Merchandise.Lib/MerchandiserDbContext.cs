@@ -7,7 +7,7 @@ using Com.Moonlay.Data.EntityFrameworkCore;
 namespace Com.Danliris.Service.Merchandiser.Lib
 {
     
-       //  public class MerchandiserDbContext : BaseDbContext
+    //     public class MerchandiserDbContext : BaseDbContext
     public class MerchandiserDbContext : StandardDbContext
     {
      

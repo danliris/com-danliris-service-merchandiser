@@ -3,6 +3,7 @@ using Com.Danliris.Service.Merchandiser.Lib.Interfaces;
 using Com.Danliris.Service.Merchandiser.Lib.Models;
 using Com.Danliris.Service.Merchandiser.Lib.Services;
 using Com.Danliris.Service.Merchandiser.Lib.Services.AzureStorage;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities;
 using Com.Danliris.Service.Merchandiser.Lib.ViewModels;
 using Com.Danliris.Service.Merchandiser.Test.DataUtilities;
 using Microsoft.EntityFrameworkCore;
@@ -74,8 +75,12 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
             serviceProvider.Setup(s => s.GetService(typeof(ICostCalculationGarments)))
              .Returns(ICostCalculationGarmentsMock.Object);
 
-            var ICostCalculationGarment_MaterialServiceMock = new Mock<ICostCalculationGarment_MaterialService>();
-            serviceProvider.Setup(s => s.GetService(typeof(ICostCalculationGarment_MaterialService)))
+            serviceProvider
+               .Setup(x => x.GetService(typeof(IIdentityService)))
+               .Returns(new IdentityService() { Token = "Token", Username = "username" });
+
+            var ICostCalculationGarment_MaterialServiceMock = new Mock<ICostCalculationGarment_Material>();
+            serviceProvider.Setup(s => s.GetService(typeof(ICostCalculationGarment_Material)))
             .Returns(ICostCalculationGarment_MaterialServiceMock.Object);
             
 
@@ -117,47 +122,70 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
             Assert.NotEqual(0, dbContext.RO_Garments.Count());
         }
 
-
         [Fact]
-        public void Should_Success_OnCreating()
+        public void Read_Return_Succes()
         {
             string testName = GetCurrentMethod();
             var dbContext = _dbContext(testName);
 
-
-            dbContext.RO_Garments.Add(new RO_Garment() { 
-                Id = 15, 
-                Active = true, 
-                Code = "code test", 
+            RO_GarmentService RO_GarmentServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
+            dbContext.RO_Garments.Add(new RO_Garment()
+            {
+                Id = 14,
+                Active = true,
+                Code = "code test",
                 CreatedAgent = "created agen",
-                CreatedBy = "ade" 
+                CreatedBy = "ade"
             });
             dbContext.SaveChanges();
 
-            RO_Garment model = new RO_Garment()
-            {
-                CostCalculationGarmentId = 1,
-                RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown>() { new RO_Garment_SizeBreakdown() {
-                    Active=true,
-                    ColorName ="Red",
-                    RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>()
-                    {
-                        new RO_Garment_SizeBreakdown_Detail(){
-                            Active = true, 
-                            Code ="CodeTest", 
-                            Id=15}
-                    }
-
-                } },
-            };
-            RO_GarmentService RO_GarmentServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
-            RO_GarmentServiceObj.OnCreating(model);
-
+            var result = RO_GarmentServiceObj.Read(14, 25, "{}", new List<string>() { "select test" }, "keywors", "{}");
+            Assert.NotNull(result);
+            Assert.NotEqual(0, dbContext.RO_Garments.Count());
 
         }
 
+        // Method not found
+        //[Fact]
+        //public void Should_Success_OnCreating()
+        //{
+        //    string testName = GetCurrentMethod();
+        //    var dbContext = _dbContext(testName);
 
-        //validate not implement
+
+        //    dbContext.RO_Garments.Add(new RO_Garment() { 
+        //        Id = 15, 
+        //        Active = true, 
+        //        Code = "code test", 
+        //        CreatedAgent = "created agen",
+        //        CreatedBy = "ade" 
+        //    });
+        //    dbContext.SaveChanges();
+
+        //    RO_Garment model = new RO_Garment()
+        //    {
+        //        CostCalculationGarmentId = 1,
+        //        RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown>() { new RO_Garment_SizeBreakdown() {
+        //            Active=true,
+        //            ColorName ="Red",
+        //            RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>()
+        //            {
+        //                new RO_Garment_SizeBreakdown_Detail(){
+        //                    Active = true, 
+        //                    Code ="CodeTest", 
+        //                    Id=15}
+        //            }
+
+        //        } },
+        //    };
+        //    RO_GarmentService RO_GarmentServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
+        //    RO_GarmentServiceObj.OnCreating(model);
+
+
+        //}
+
+
+        //not implement correctly
         [Fact]
         public async Task Should_Success_CreateModel()
         {
@@ -167,10 +195,10 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
 
 
             var model = _dataUtil(RO_GarmentServiceObj).GetDataFor_CreateModel();
-            dbContext.RO_Garments.Add(model);
-            dbContext.SaveChanges();
+        
 
-            await Assert.ThrowsAsync<NotImplementedException>(() => RO_GarmentServiceObj.CreateModel(model));
+            var result = await RO_GarmentServiceObj.CreateModel(model);
+
 
 
         }
@@ -212,8 +240,8 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
 
 
 
-            //var result = await RO_GarmentServiceObj.UpdateModel(10, model);
-            await Assert.ThrowsAsync<NotImplementedException>(() => RO_GarmentServiceObj.UpdateModel(10, model));
+            var result = await RO_GarmentServiceObj.UpdateModel(1, model);
+           // await Assert.ThrowsAsync<NotImplementedException>(() => RO_GarmentServiceObj.UpdateModel(10, model));
 
 
         }
@@ -239,175 +267,437 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         }
 
 
+        // Method not found
+        //[Fact]
+        //public void OnUpdating_Success()
+        //{
+        //    string testName = GetCurrentMethod();
+        //    var dbContext = _dbContext(testName);
+
+
+        //    dbContext.RO_Garments.Add(new RO_Garment()
+        //    {
+        //        Id = 23,
+        //        Active = true,
+        //        Code = "code test",
+        //        CreatedAgent = "created agen",
+        //        CreatedBy = "ade",
+        //        RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown> { new RO_Garment_SizeBreakdown() {
+        //            Id=23,
+        //            Active=true,
+        //            Code="code test",
+        //            RO_Garment_SizeBreakdown_Details= new List<RO_Garment_SizeBreakdown_Detail>()
+        //            {
+        //                new RO_Garment_SizeBreakdown_Detail()
+        //                {
+        //                    Id=23,
+        //                    Code="code detail",
+        //                    Active=true
+        //                }
+        //            }
+        //        }
+        //        }
+        //    });
+        //    dbContext.SaveChanges();
+
+        //    RO_Garment model = new RO_Garment()
+        //    {
+        //        CostCalculationGarmentId = 23,
+
+        //        RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown>() { new RO_Garment_SizeBreakdown() {
+        //            Id=23,
+        //            Active=true,
+        //            ColorName ="Red",
+        //            RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>()
+        //            {
+        //                new RO_Garment_SizeBreakdown_Detail(){
+        //                     Id=23,
+        //                    Active = true, 
+        //                    Code ="code detail",
+        //                },
+
+        //            }
+
+        //        } },
+        //    };
+        //    RO_GarmentService RO_GarmentServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
+        //    RO_GarmentServiceObj.OnUpdating(23, model);
+
+        //}
+
+
+
+        // Method not found
+        //[Fact]
+        //public void Should_Success_OnUpdating_When_ChildModel_Null()
+        //{
+        //    string testName = GetCurrentMethod();
+        //    var dbContext = _dbContext(testName);
+
+
+        //    dbContext.RO_Garments.Add(new RO_Garment()
+        //    {
+        //        Id = 17,
+        //        Active = true,
+        //        Code = "code test",
+        //        CreatedAgent = "created agen",
+        //        CreatedBy = "ade",
+        //        RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown> { new RO_Garment_SizeBreakdown() {
+        //            Id=17,
+        //            Active=true,
+        //            Code="code test",
+        //            RO_Garment_SizeBreakdown_Details= new List<RO_Garment_SizeBreakdown_Detail>()
+        //            {
+        //                new RO_Garment_SizeBreakdown_Detail()
+        //                {
+        //                  //  Id=17,
+        //                    Code="code detail",
+        //                    Active=true
+        //                }
+        //            }
+        //        }
+        //        }
+        //    });
+        //    dbContext.SaveChanges();
+
+        //    RO_Garment model = new RO_Garment()
+        //    {
+        //        CostCalculationGarmentId = 17,
+
+        //        RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown>() { new RO_Garment_SizeBreakdown() {
+        //            Id=0,
+        //            Active=true,
+        //            ColorName ="Red",
+        //            RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>()
+        //            {
+        //                new RO_Garment_SizeBreakdown_Detail(){
+        //                 //   Id=17,
+        //                    Active = true, 
+        //                    Code ="code detail",
+        //                },
+
+        //            }
+
+        //        } },
+        //    };
+        //    RO_GarmentService RO_GarmentServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
+        //    RO_GarmentServiceObj.OnUpdating(17, model);
+
+
+        //}
+
+
+
+
+        // Method not found
+        //[Fact]
+        //public void Should_Success_OnDeleting()
+        //{
+        //    string testName = GetCurrentMethod();
+        //    var dbContext = _dbContext(testName);
+
+
+        //    dbContext.RO_Garments.Add(new RO_Garment()
+        //    {
+        //        Id = 18,
+
+        //        //RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown> { new RO_Garment_SizeBreakdown() {
+        //        //      Id=18,
+        //        //    RO_Garment_SizeBreakdown_Details= new List<RO_Garment_SizeBreakdown_Detail>()
+        //        //    {
+        //        //        new RO_Garment_SizeBreakdown_Detail()
+        //        //        {
+        //        //            Id=18,
+        //        //            Code="code detail",
+        //        //            Active=true
+        //        //        }
+        //        //    }
+        //        //}
+        //        // }
+        //    });
+        //    dbContext.SaveChanges();
+
+        //    RO_Garment model = new RO_Garment()
+        //    {
+        //        Id = 18,
+
+        //        RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown>() { new RO_Garment_SizeBreakdown() {
+        //           Id=18,
+        //            RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>()
+        //            {
+        //                new RO_Garment_SizeBreakdown_Detail(){
+        //                    Id=18,
+        //                    Active = true, 
+        //                    Code ="code detail"},
+
+        //            }
+
+        //        } },
+        //    };
+        //    RO_GarmentService RO_GarmentServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
+        //    RO_GarmentServiceObj.OnDeleting(model);
+
+
+        //}
+
+
 
         [Fact]
-        public void OnUpdating_Success()
+        public async void DeleteAsync_Return_Success()
         {
+
             string testName = GetCurrentMethod();
             var dbContext = _dbContext(testName);
+         
+            string[] imagepaths = new string[] { "https://via.placeholder.com/300/09f/fff.png" };
+            string imagepath = JsonConvert.SerializeObject(imagepaths);
 
-
-            dbContext.RO_Garments.Add(new RO_Garment()
-            {
-                Id = 23,
-                Active = true,
-                Code = "code test",
-                CreatedAgent = "created agen",
-                CreatedBy = "ade",
-                RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown> { new RO_Garment_SizeBreakdown() {
-                    Id=23,
+            string[] imagenames = new string[] { "https://via.placeholder.com/300/09f/fff.png" };
+            string imagename = JsonConvert.SerializeObject(imagenames);
+         
+            dbContext.RO_Garments.Add(
+                new RO_Garment()
+                {
+                    Id = 19,
+                    Active = true,
+                    Code = "code test",
+                    CreatedAgent = "created agen",
+                    CreatedBy = "ade",
+                    ImagesPath = imagepath,
+                    ImagesName = imagename,
+                    CostCalculationGarment = new CostCalculationGarment() {
+                        Id=19,
+                    CostCalculationGarment_Materials=new List<CostCalculationGarment_Material>()
+                    {
+                        new CostCalculationGarment_Material()
+                        {
+                            CostCalculationGarmentId=19,
+                            Code="code",
+                        },
+                        new CostCalculationGarment_Material()
+                        {
+                            CostCalculationGarmentId=19,
+                            Code="code",
+                        }
+                    }
+                    },
+                    RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown> { new RO_Garment_SizeBreakdown() {
+                    Id=19,
                     Active=true,
                     Code="code test",
+                    
                     RO_Garment_SizeBreakdown_Details= new List<RO_Garment_SizeBreakdown_Detail>()
                     {
                         new RO_Garment_SizeBreakdown_Detail()
                         {
-                            Id=23,
+                            Id=19,
                             Code="code detail",
                             Active=true
                         }
                     }
+                    
                 }
                 }
-            });
+                });
             dbContext.SaveChanges();
-
-            RO_Garment model = new RO_Garment()
-            {
-                CostCalculationGarmentId = 23,
-
-                RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown>() { new RO_Garment_SizeBreakdown() {
-                    Id=23,
-                    Active=true,
-                    ColorName ="Red",
-                    RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>()
-                    {
-                        new RO_Garment_SizeBreakdown_Detail(){
-                             Id=23,
-                            Active = true, 
-                            Code ="code detail",
-                        },
-
-                    }
-
-                } },
-            };
-            RO_GarmentService RO_GarmentServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
-            RO_GarmentServiceObj.OnUpdating(23, model);
-
+            RO_GarmentService RO_GarmentsServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
+            var result = await RO_GarmentsServiceObj.DeleteAsync(19);
+            Assert.NotNull(result);
         }
 
         [Fact]
-        public void Should_Success_OnUpdating_When_ChildModel_Null()
+        public async void CreateAsync_Return_Success()
         {
+
             string testName = GetCurrentMethod();
             var dbContext = _dbContext(testName);
 
+            string[] imagepaths = new string[] { "https://via.placeholder.com/300/09f/fff.png" };
+            string imagepath = JsonConvert.SerializeObject(imagepaths);
 
-            dbContext.RO_Garments.Add(new RO_Garment()
+            string[] imagenames = new string[] { "https://via.placeholder.com/300/09f/fff.png" };
+            string imagename = JsonConvert.SerializeObject(imagenames);
+
+            RO_Garment model = new RO_Garment()
             {
-                Id = 17,
+                Id = 34,
                 Active = true,
                 Code = "code test",
                 CreatedAgent = "created agen",
                 CreatedBy = "ade",
+                ImagesPath = imagepath,
+                ImagesName = imagename,
+                CostCalculationGarment = new CostCalculationGarment()
+                {
+                    Id = 34,
+                    CostCalculationGarment_Materials = new List<CostCalculationGarment_Material>()
+                    {
+                        new CostCalculationGarment_Material()
+                        {
+                            CostCalculationGarmentId = 34,
+                            Code = "code",
+                        },
+                        new CostCalculationGarment_Material()
+                        {
+                            CostCalculationGarmentId = 34,
+                            Code = "code",
+                        }
+                    }
+                },
                 RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown> { new RO_Garment_SizeBreakdown() {
-                    Id=17,
-                    Active=true,
-                    Code="code test",
-                    RO_Garment_SizeBreakdown_Details= new List<RO_Garment_SizeBreakdown_Detail>()
+                    Id = 34,
+                    Active = true,
+                    Code = "code test",
+
+                    RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>()
                     {
                         new RO_Garment_SizeBreakdown_Detail()
                         {
-                          //  Id=17,
-                            Code="code detail",
-                            Active=true
+                            Id = 34,
+                            Code = "code detail",
+                            Active = true
                         }
                     }
+
                 }
                 }
-            });
-            dbContext.SaveChanges();
-
-            RO_Garment model = new RO_Garment()
-            {
-                CostCalculationGarmentId = 17,
-
-                RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown>() { new RO_Garment_SizeBreakdown() {
-                    Id=0,
-                    Active=true,
-                    ColorName ="Red",
-                    RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>()
-                    {
-                        new RO_Garment_SizeBreakdown_Detail(){
-                         //   Id=17,
-                            Active = true, 
-                            Code ="code detail",
-                        },
-
-                    }
-
-                } },
             };
-            RO_GarmentService RO_GarmentServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
-            RO_GarmentServiceObj.OnUpdating(17, model);
-
-
+          
+          RO_GarmentService RO_GarmentsServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
+            var result = await RO_GarmentsServiceObj.CreateAsync(model);
+            Assert.NotNull(result);
         }
-
 
 
         [Fact]
-        public void Should_Success_OnDeleting()
+        public async void UpdateAsync_Return_Success()
         {
+
             string testName = GetCurrentMethod();
             var dbContext = _dbContext(testName);
 
+            string[] imagepaths = new string[] { "https://via.placeholder.com/300/09f/fff.png" };
+            string imagepath = JsonConvert.SerializeObject(imagepaths);
 
-            dbContext.RO_Garments.Add(new RO_Garment()
-            {
-                Id = 18,
-
-                //RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown> { new RO_Garment_SizeBreakdown() {
-                //      Id=18,
-                //    RO_Garment_SizeBreakdown_Details= new List<RO_Garment_SizeBreakdown_Detail>()
-                //    {
-                //        new RO_Garment_SizeBreakdown_Detail()
-                //        {
-                //            Id=18,
-                //            Code="code detail",
-                //            Active=true
-                //        }
-                //    }
-                //}
-                // }
-            });
-            dbContext.SaveChanges();
+            string[] imagenames = new string[] { "https://via.placeholder.com/300/09f/fff.png" };
+            string imagename = JsonConvert.SerializeObject(imagenames);
 
             RO_Garment model = new RO_Garment()
             {
-                Id = 18,
+                Id = 33,
+                Active = true,
+                Code = "code test",
+                CreatedAgent = "created agen",
+                CreatedBy = "ade",
+                ImagesPath = imagepath,
+                ImagesName = imagename,
+                CostCalculationGarment = new CostCalculationGarment()
+                {
+                    Id = 33,
+                    CostCalculationGarment_Materials = new List<CostCalculationGarment_Material>()
+                    {
+                        new CostCalculationGarment_Material()
+                        {
+                            CostCalculationGarmentId = 33,
+                            Code = "code",
+                        },
+                        new CostCalculationGarment_Material()
+                        {
+                            CostCalculationGarmentId = 33,
+                            Code = "code",
+                        }
+                    }
+                },
+                RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown> { new RO_Garment_SizeBreakdown() {
+                    Id = 33,
+                    Active = true,
+                    Code = "code test",
 
-                RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown>() { new RO_Garment_SizeBreakdown() {
-                   Id=18,
                     RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>()
                     {
-                        new RO_Garment_SizeBreakdown_Detail(){
-                            Id=18,
-                            Active = true, 
-                            Code ="code detail"},
-
+                        new RO_Garment_SizeBreakdown_Detail()
+                        {
+                            Id = 33,
+                            Code = "code detail",
+                            Active = true
+                        }
                     }
 
-                } },
+                }
+                }
             };
-            RO_GarmentService RO_GarmentServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
-            RO_GarmentServiceObj.OnDeleting(model);
-
-
+            dbContext.RO_Garments.Add(model);
+            dbContext.SaveChanges();
+            RO_GarmentService RO_GarmentsServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
+            var result = await RO_GarmentsServiceObj.UpdateAsync(33, model);
+            Assert.NotNull(result);
         }
 
+        
 
+            [Fact]
+        public async void ReadByIdAsync_Return_Success()
+        {
+
+            string testName = GetCurrentMethod();
+            var dbContext = _dbContext(testName);
+
+            string[] imagepaths = new string[] { "https://via.placeholder.com/300/09f/fff.png" };
+            string imagepath = JsonConvert.SerializeObject(imagepaths);
+
+            string[] imagenames = new string[] { "https://via.placeholder.com/300/09f/fff.png" };
+            string imagename = JsonConvert.SerializeObject(imagenames);
+
+            RO_Garment model = new RO_Garment()
+            {
+                Id = 35,
+                Active = true,
+                Code = "code test",
+                CreatedAgent = "created agen",
+                CreatedBy = "ade",
+                ImagesPath = imagepath,
+                ImagesName = imagename,
+                CostCalculationGarment = new CostCalculationGarment()
+                {
+                    Id = 35,
+                    CostCalculationGarment_Materials = new List<CostCalculationGarment_Material>()
+                    {
+                        new CostCalculationGarment_Material()
+                        {
+                            CostCalculationGarmentId = 35,
+                            Code = "code",
+                        },
+                        new CostCalculationGarment_Material()
+                        {
+                            CostCalculationGarmentId = 35,
+                            Code = "code",
+                        }
+                    }
+                },
+                RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown> { new RO_Garment_SizeBreakdown() {
+                    Id = 35,
+                    Active = true,
+                    Code = "code test",
+
+                    RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>()
+                    {
+                        new RO_Garment_SizeBreakdown_Detail()
+                        {
+                            Id = 35,
+                            Code = "code detail",
+                            Active = true
+                        }
+                    }
+
+                }
+                }
+            };
+            dbContext.RO_Garments.Add(model);
+            dbContext.SaveChanges();
+            RO_GarmentService RO_GarmentsServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
+            var result = await RO_GarmentsServiceObj.ReadByIdAsync(35);
+            Assert.NotNull(result);
+        }
 
         [Fact]
         public void MapToViewModel_Return_Success()
@@ -557,5 +847,31 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
             var result = RO_GarmentServiceObj.MapToModel(model);
             Assert.NotNull(result);
         }
+
+        [Fact]
+        public async Task UnpostRO_Return_NotImplementedException()
+        {
+
+            string testName = GetCurrentMethod();
+            var dbContext = _dbContext(testName);
+
+            RO_GarmentService RO_GarmentServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
+
+            await Assert.ThrowsAsync<NotImplementedException>(() => RO_GarmentServiceObj.UnpostRO(1));
+        }
+
+        [Fact]
+        public async Task PostRO_Return_NotImplementedException()
+        {
+
+            string testName = GetCurrentMethod();
+            var dbContext = _dbContext(testName);
+
+            RO_GarmentService RO_GarmentServiceObj = new RO_GarmentService(GetServiceProvider(testName).Object);
+            List<long> listId = new List<long>() { 1, 2 };
+            await Assert.ThrowsAsync<NotImplementedException>(() => RO_GarmentServiceObj.PostRO(listId));
+        }
     }
+
+   
 }

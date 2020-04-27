@@ -106,13 +106,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
 
         public new async Task<int> CreateAsync(ArticleColor model)
         {
-            //do
-            //{
-            //    model.Id = Code.Generate();
-            //}
-            // while (this.DbSet.Any(d => d.Code.Equals(model.Code)));
-           
-
+            
             EntityExtension.FlagForCreate(model, IdentityService.Username, UserAgent);
             this.DbSet.Add(model);
             return await this.DbContext.SaveChangesAsync();

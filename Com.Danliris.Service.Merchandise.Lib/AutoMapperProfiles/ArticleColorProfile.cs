@@ -12,8 +12,6 @@ namespace Com.Danliris.Service.Merchandiser.Lib.AutoMapperProfiles
        public ArticleColorProfile()
         {
             CreateMap<ArticleColor, ArticleColorViewModel>()
-            //.ForPath(p => p.Name, opt => opt.MapFrom(m => m.Name))
-            //.ForPath(p => p.Description, opt => opt.MapFrom(m => m.Description))
             .ReverseMap();
         }
     }

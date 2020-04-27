@@ -9,10 +9,12 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using Newtonsoft.Json;
 using Com.Moonlay.NetCore.Lib;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities;
+using System.Threading.Tasks;
 
 namespace Com.Danliris.Service.Merchandiser.Lib.Services
 {
-    public class RO_Garment_SizeBreakdownService : BasicService<MerchandiserDbContext, RO_Garment_SizeBreakdown>, IMap<RO_Garment_SizeBreakdown, RO_Garment_SizeBreakdownViewModel>
+    public class RO_Garment_SizeBreakdownService : BasicService<MerchandiserDbContext, RO_Garment_SizeBreakdown>, IMap<RO_Garment_SizeBreakdown, RO_Garment_SizeBreakdownViewModel>, IRO_Garment_SizeBreakdown
     {
         public RO_Garment_SizeBreakdownService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -168,6 +170,16 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             }
 
             return model;
+        }
+
+        public ReadResponse<RO_Garment_SizeBreakdown> Read(int page, int size, string order, List<string> select, string keyword, string filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RO_Garment_SizeBreakdown> ReadByIdAsync(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

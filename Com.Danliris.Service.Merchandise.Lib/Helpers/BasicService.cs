@@ -153,6 +153,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Helpers
                 Query = Query.OrderByDescending(b => b.LastModifiedUtc);
             }
             /* Custom Order */
+           
             else
             {
                 string Key = OrderDictionary.Keys.First();

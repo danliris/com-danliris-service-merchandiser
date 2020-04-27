@@ -5,6 +5,7 @@ using Com.Danliris.Service.Merchandiser.WebApi.Helpers;
 using Com.Moonlay.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Exchange.WebServices.Data;
 using Moq;
 using System;
@@ -155,6 +156,17 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
             return this.GetStatusCode(response);
         }
 
+       
+        [Fact]
+        public virtual async System.Threading.Tasks.Task GetById_NotNullModel_ReturnOK()
+        {
+            var mocks = this.GetMocks();
+            mocks.Mapper.Setup(f => f.Map<TViewModel>(It.IsAny<TModel>())).Returns(this.ViewModel);
+            mocks.Facade.Setup(f => f.ReadByIdAsync(It.IsAny<int>())).ReturnsAsync(Model);
+
+            int statusCode = await this.GetStatusCodeGetById(mocks);
+            Assert.Equal((int)HttpStatusCode.OK, statusCode);
+        }
 
         [Fact]
         public virtual async System.Threading.Tasks.Task GetById_NullModel_ReturnNotFound()
@@ -166,6 +178,8 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
             int statusCode = await this.GetStatusCodeGetById(mocks);
             Assert.Equal((int)HttpStatusCode.NotFound, statusCode);
         }
+
+
 
         [Fact]
         public virtual async System.Threading.Tasks.Task GetById_ThrowException_ReturnInternalServerError()
@@ -233,6 +247,23 @@ namespace Com.Danliris.Service.Merchandiser.Test.WebApi.Utils
             int statusCode = await this.GetStatusCodePut(mocks, id, viewModel);
             Assert.Equal((int)HttpStatusCode.InternalServerError, statusCode);
         }
+
+        //[Fact]
+        //public async System.Threading.Tasks.Task Put_ThrowDbUpdateConcurrencyException_ReturnInternalServerError()
+        //{
+        //    var mocks = this.GetMocks();
+        //    mocks.ValidateService.Setup(vs => vs.Validate(It.IsAny<TViewModel>())).Verifiable();
+        //    var id = 1;
+        //    var viewModel = new TViewModel()
+        //    {
+        //        Id = id
+        //    };
+        //    mocks.Mapper.Setup(m => m.Map<TViewModel>(It.IsAny<TModel>())).Returns(viewModel);
+        //    mocks.Facade.Setup(f => f.UpdateAsync(It.IsAny<int>(), It.IsAny<TModel>())).ThrowsAsync(new DbUpdateConcurrencyException(""));
+
+        //    int statusCode = await this.GetStatusCodePut(mocks, id, viewModel);
+        //    Assert.Equal((int)HttpStatusCode.InternalServerError, statusCode);
+        //}
 
         private async Task<int> GetStatusCodeDelete((Mock<IIdentityService> IdentityService, Mock<IValidateService> ValidateService, Mock<IFacade> Facade, Mock<IMapper> Mapper, Mock<IServiceProvider> ServiceProvider) mocks)
         {

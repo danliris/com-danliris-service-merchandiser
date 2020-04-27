@@ -50,8 +50,6 @@ namespace Com.Danliris.Service.Merchandiser.WebApi
 
         }
 
-
-        //Ini modify dari copy paste
         private void RegisterBusinessServices(IServiceCollection services)
         {
             services
@@ -61,6 +59,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi
                  .AddTransient<IArticleColor, ArticleColorService>()
                  .AddTransient<IRates, RateService>()
                  .AddTransient<ICostCalculationGarments, CostCalculationGarmentService>()
+                 .AddTransient<ICostCalculationGarment_Material, CostCalculationGarment_MaterialService>()
                  .AddTransient<IROGarment, RO_GarmentService>();
 
             services
@@ -91,8 +90,6 @@ namespace Com.Danliris.Service.Merchandiser.WebApi
                     options.AssumeDefaultVersionWhenUnspecified = true;
                     options.DefaultApiVersion = new ApiVersion(1, 0);
                 });
-
-
 
             
             #region Register

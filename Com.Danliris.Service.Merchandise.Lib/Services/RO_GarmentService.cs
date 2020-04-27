@@ -21,14 +21,14 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
     {
         private readonly IAzureImageService _azureImageService;
         private readonly ICostCalculationGarments _costCalculationGarmentService;
-        private readonly ICostCalculationGarment_MaterialService _costCalculationGarment_MaterialService;
+        private readonly ICostCalculationGarment_Material _costCalculationGarment_MaterialService;
         protected IIdentityService IdentityService;
 
         public RO_GarmentService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _azureImageService = serviceProvider.GetService<IAzureImageService>();
             _costCalculationGarmentService = serviceProvider.GetService<ICostCalculationGarments>();
-            _costCalculationGarment_MaterialService = serviceProvider.GetService<ICostCalculationGarment_MaterialService>();
+            _costCalculationGarment_MaterialService = serviceProvider.GetService<ICostCalculationGarment_Material>();
             IdentityService = serviceProvider.GetService<IIdentityService>();
         }
 
@@ -95,13 +95,15 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
                     Code = ro.CostCalculationGarment.Code,
                     RO_Number = ro.CostCalculationGarment.RO_Number,
                     Article = ro.CostCalculationGarment.Article,
-                    Convection = ro.CostCalculationGarment.Convection
+                    Convection = ro.CostCalculationGarment.Convection,
+                    
                     //LineId = ro.CostCalculationGarment.LineId,
                     //LineName = ro.CostCalculationGarment.LineName,
                 },
+
                 Total = ro.Total,
                 LastModifiedUtc = ro.LastModifiedUtc
-            });
+            });;
 
             Dictionary<string, string> OrderDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Order);
             Query = ConfigureOrder(Query, OrderDictionary);
@@ -116,7 +118,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
         public override async Task<int> CreateModel(RO_Garment Model)
         {
             CostCalculationGarment costCalculationGarment = Model.CostCalculationGarment;
-            Model.CostCalculationGarment = null;
+           // Model.CostCalculationGarment = null;
 
             int created = await this.CreateAsync(Model);
 
@@ -168,7 +170,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
         public override async Task<int> UpdateModel(int Id, RO_Garment Model)
         {
             CostCalculationGarment costCalculationGarment = Model.CostCalculationGarment;
-            Model.CostCalculationGarment = null;
+           // Model.CostCalculationGarment = null;
 
             Model.ImagesPath = await _azureImageService.UploadMultipleImage(Model.GetType().Name, Model.Id, Model.CreatedUtc, Model.ImagesFile, Model.ImagesPath);
 
@@ -334,11 +336,11 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
         
             model.ImagesPath =await _azureImageService.UploadMultipleImage(model.GetType().Name, model.Id, model.CreatedUtc, model.ImagesFile, model.ImagesPath);
 
-            var costCalculationGarment_Materials = model.CostCalculationGarment.CostCalculationGarment_Materials;
+          
 
-            if (costCalculationGarment_Materials.Count > 0)
+            if (model.CostCalculationGarment.CostCalculationGarment_Materials.Count > 0)
             {
-                foreach (var costCalculationGarment_Material in costCalculationGarment_Materials)
+                foreach (var costCalculationGarment_Material in model.CostCalculationGarment.CostCalculationGarment_Materials)
                 {
                     
                     EntityExtension.FlagForCreate(costCalculationGarment_Material, IdentityService.Username, UserAgent);
