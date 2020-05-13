@@ -10,13 +10,18 @@ using Com.Danliris.Service.Merchandiser.Lib.ViewModels;
 using Com.Danliris.Service.Merchandiser.Lib.Interfaces;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities;
+using Com.Moonlay.Models;
 
 namespace Com.Danliris.Service.Merchandiser.Lib.Services
 {
-    public class EfficiencyService : BasicService<MerchandiserDbContext, Efficiency>, IMap<Efficiency, EfficiencyViewModel>
+    public class EfficiencyService : BasicService<MerchandiserDbContext, Efficiency>, IMap<Efficiency, EfficiencyViewModel>, IEfficiencies
     {
+        protected IIdentityService IdentityService;
         public EfficiencyService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
+            IdentityService = serviceProvider.GetService<IIdentityService>();
         }
 
         public override Tuple<List<Efficiency>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int Size = 25, string Order = "{}", List<string> Select = null, string Keyword = null, string Filter = "{}")
@@ -59,7 +64,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
         public async Task<Efficiency> ReadModelByQuantity(int Quantity)
         {
             Efficiency result = await this.DbSet
-                .FirstOrDefaultAsync(eff => Quantity > 0 && eff.InitialRange <= Quantity && eff.FinalRange >= Quantity && eff._IsDeleted == false);
+                .FirstOrDefaultAsync(eff => Quantity > 0 && eff.InitialRange <= Quantity && eff.FinalRange >= Quantity && eff.IsDeleted == false);
             if (result == null)
             {
                 return new Efficiency()
@@ -108,6 +113,58 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             model.FinalRange = (int)viewModel.FinalRange;
             model.Value = (double)viewModel.Value / 100;
             return model;
+        }
+
+        public ReadResponse<Efficiency> Read(int page, int size, string order, List<string> select, string keyword, string filter)
+        {
+            var dataModel = ReadModel(page, size, order, select, keyword, filter);
+
+
+            return new ReadResponse<Efficiency>(dataModel.Item1, dataModel.Item2, dataModel.Item3, dataModel.Item4);
+        }
+
+        public Task<Efficiency> ReadByIdAsync(int id)
+        {
+            return  this.DbSet
+                .Where(eff => eff.Id.Equals(id))
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<int> CreateAsync(Efficiency model)
+        {
+            do
+            {
+                model.Code = Code.Generate();
+            }
+            while (this.DbSet.Any(d => d.Code.Equals(model.Code)));
+          
+            EntityExtension.FlagForCreate(model, IdentityService.Username, UserAgent);
+            this.DbSet.Add(model);
+            return await this.DbContext.SaveChangesAsync();
+        }
+
+
+        public override Task<Efficiency> ReadModelById(int id)
+        {
+            return this.DbSet.Where(eff => eff.Id.Equals(id) && eff.IsDeleted.Equals(false))
+               .FirstOrDefaultAsync();
+        }
+
+        public async Task<int> DeleteAsync(int id)
+        {
+           
+            var model = await this.ReadModelById(id);
+            EntityExtension.FlagForDelete(model, IdentityService.Username, UserAgent, true);
+            DbSet.Update(model);
+            return await DbContext.SaveChangesAsync();
+        }
+        public async Task<int> UpdateAsync(int id, Efficiency model)
+        {
+          
+
+            EntityExtension.FlagForUpdate(model, IdentityService.Username, UserAgent);
+            DbSet.Update(model);
+            return await DbContext.SaveChangesAsync();
         }
     }
 }

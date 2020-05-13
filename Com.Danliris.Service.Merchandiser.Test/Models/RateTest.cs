@@ -31,11 +31,6 @@ namespace Com.Danliris.Service.Merchandiser.Test.Models
         }
 
 
-        [Fact]
-        public void Validate_Return_Exception()
-        {
-            Rate defaultViewModel = new Rate();
-            Assert.Throws<NotImplementedException>(() => defaultViewModel.Validate(null));
-        }
+       
     }
 }

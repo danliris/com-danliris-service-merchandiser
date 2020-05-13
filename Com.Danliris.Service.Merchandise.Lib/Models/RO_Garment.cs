@@ -20,7 +20,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Models
         public int Total { get; set; }
         [NotMapped]
         public List<string> ImagesFile { get; set; }
-        public string ImagesPath { get; set; }
+         public string ImagesPath { get; set; }
         public string ImagesName { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

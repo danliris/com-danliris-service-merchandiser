@@ -29,7 +29,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.v1.BasicControlle
             Service = identityService;
         }
 
-        [HttpGet("pdf/{id}")]
+        [HttpGet("pdf/{Id}")]
         public async Task<IActionResult> GetPDF([FromRoute]int Id)
         {
             try
@@ -56,7 +56,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.v1.BasicControlle
             }
         }
 
-        [HttpGet("budget/{id}")]
+        [HttpGet("budget/{Id}")]
         public async Task<IActionResult> GetBudget([FromRoute]int Id)
         {
             try

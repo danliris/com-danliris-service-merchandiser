@@ -8,13 +8,22 @@ using System.Linq.Dynamic.Core;
 using Com.Moonlay.NetCore.Lib;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities;
+using Com.Danliris.Service.Merchandiser.Lib.ViewModels;
+using Com.Danliris.Service.Merchandiser.Lib.Interfaces;
 
 namespace Com.Danliris.Service.Merchandiser.Lib.Services
 {
-    public class CostCalculationGarment_MaterialService : BasicService<MerchandiserDbContext, CostCalculationGarment_Material>
+    public class CostCalculationGarment_MaterialService : BasicService<MerchandiserDbContext, CostCalculationGarment_Material>, IMap<CostCalculationGarment_Material, CostCalculationGarment_MaterialViewModel>, ICostCalculationGarment_Material
     {
+        protected IIdentityService IdentityService;
+
+        IEnumerable<CostCalculationGarment_Material> ICostCalculationGarment_Material.DbSet => throw new NotImplementedException();
+
         public CostCalculationGarment_MaterialService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
+            IdentityService = serviceProvider.GetService<IIdentityService>();
         }
 
         public override Tuple<List<CostCalculationGarment_Material>, int, Dictionary<string, string>, List<string>> ReadModel(int Page = 1, int CostCalculationGarment_Material = 25, string Order = "{}", List<string> Select = null, string Keyword = null, string Filter = "{}")
@@ -69,6 +78,36 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             while (this.DbSet.Any(d => d.Code.Equals(model.Code)));
 
             base.OnCreating(model);
+        }
+
+        public CostCalculationGarment_MaterialViewModel MapToViewModel(CostCalculationGarment_Material model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CostCalculationGarment_Material MapToModel(CostCalculationGarment_MaterialViewModel viewModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task ICostCalculationGarment_Material.UpdateModel(int id, CostCalculationGarment_Material costCalculationGarment_Material)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ReadResponse<CostCalculationGarment_Material> Read(int page, int size, string order, List<string> select, string keyword, string filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<CostCalculationGarment_Material> ReadByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<int> CreateAsync(CostCalculationGarment_Material model)
+        {
+            throw new NotImplementedException();
         }
     }
 }

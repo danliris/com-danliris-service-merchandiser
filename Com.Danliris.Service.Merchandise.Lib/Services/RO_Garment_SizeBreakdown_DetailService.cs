@@ -1,6 +1,7 @@
 ﻿using Com.Danliris.Service.Merchandiser.Lib.Helpers;
 using Com.Danliris.Service.Merchandiser.Lib.Interfaces;
 using Com.Danliris.Service.Merchandiser.Lib.Models;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities;
 using Com.Danliris.Service.Merchandiser.Lib.ViewModels;
 using Com.Moonlay.NetCore.Lib;
 using Newtonsoft.Json;
@@ -8,10 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Com.Danliris.Service.Merchandiser.Lib.Services
 {
-    public class RO_Garment_SizeBreakdown_DetailService : BasicService<MerchandiserDbContext, RO_Garment_SizeBreakdown_Detail>, IMap<RO_Garment_SizeBreakdown_Detail, RO_Garment_SizeBreakdown_DetailViewModel>
+    public class RO_Garment_SizeBreakdown_DetailService : BasicService<MerchandiserDbContext, RO_Garment_SizeBreakdown_Detail>, IMap<RO_Garment_SizeBreakdown_Detail, RO_Garment_SizeBreakdown_DetailViewModel> , IRO_Garment_SizeBreakdown_Detail
     {
         public RO_Garment_SizeBreakdown_DetailService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -76,6 +78,16 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services
             PropertyCopier<RO_Garment_SizeBreakdown_DetailViewModel, RO_Garment_SizeBreakdown_Detail>.Copy(viewModel, model);
 
             return model;
+        }
+
+        public ReadResponse<RO_Garment_SizeBreakdown_Detail> Read(int page, int size, string order, List<string> select, string keyword, string filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RO_Garment_SizeBreakdown_Detail> ReadByIdAsync(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

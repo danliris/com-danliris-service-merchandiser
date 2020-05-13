@@ -1,6 +1,7 @@
 ﻿using Com.Danliris.Service.Merchandiser.Lib;
 using Com.Danliris.Service.Merchandiser.Lib.Models;
 using Com.Danliris.Service.Merchandiser.Lib.Services;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities;
 using Com.Danliris.Service.Merchandiser.Lib.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -17,7 +18,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
 {
     public class RO_Garment_SizeBreakdownServiceTest
     {
-        private const string ENTITY = "LineService";
+        private const string ENTITY = "RO_Garment_SizeBreakdownService";
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         public string GetCurrentMethod()
@@ -51,6 +52,10 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
             serviceProvider.Setup(s => s.GetService(typeof(RO_Garment_SizeBreakdown_DetailService)))
                .Returns(new RO_Garment_SizeBreakdown_DetailService(serviceProvider.Object));
 
+            serviceProvider
+              .Setup(x => x.GetService(typeof(IIdentityService)))
+              .Returns(new IdentityService() { Token = "Token", Username = "username" });
+
             return serviceProvider;
 
 
@@ -65,7 +70,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
 
             RO_Garment_SizeBreakdownService RO_Garment_SizeBreakdownServiceObj = new RO_Garment_SizeBreakdownService(GetServiceProvider(testName).Object);
 
-            dbContext.RO_Garment_SizeBreakdowns.Add(new RO_Garment_SizeBreakdown() { Code = "test", _CreatedAgent = "ade", _CreatedBy = "ade", _LastModifiedAgent = "ade", _LastModifiedBy = "ade" });
+            dbContext.RO_Garment_SizeBreakdowns.Add(new RO_Garment_SizeBreakdown() { Code = "test", CreatedAgent = "ade", CreatedBy = "ade", LastModifiedAgent = "ade", LastModifiedBy = "ade" });
             dbContext.SaveChanges();
             var result = RO_Garment_SizeBreakdownServiceObj.ReadModel(1, 25, "{}", new List<string>() { "test ade" }, "test ", "{}");
             Assert.NotNull(result);
@@ -137,78 +142,90 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
         //    RO_Garment_SizeBreakdownServiceObj.OnCreating(model);
         //}
 
+        // Method not found
+        //[Fact]
+        //public void Should_Success_OnUpdating()
+        //{
+        //    string testName = GetCurrentMethod();
+
+        //    var dbContext = _dbContext(testName);
+
+        //    RO_Garment_SizeBreakdownService RO_Garment_SizeBreakdownServiceObj = new RO_Garment_SizeBreakdownService(GetServiceProvider(testName).Object);
+
+        //    dbContext.RO_Garment_SizeBreakdowns.Add(new RO_Garment_SizeBreakdown() { 
+        //        Id= 24,
+        //        Code = "codeSizeBreakdown", 
+        //        CreatedAgent = "ade", 
+        //        CreatedBy = "ade", 
+        //        LastModifiedAgent = "ade",
+        //        LastModifiedBy = "ade",
+        //        RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>() {
+        //            new RO_Garment_SizeBreakdown_Detail() {
+        //                Id= 24,
+        //                Code ="anycode",
+        //        } }
+        //    });
+        //    dbContext.SaveChanges();
+
+        //    RO_Garment_SizeBreakdown model = new RO_Garment_SizeBreakdown()
+        //    {
+        //        Id=24,
+        //        Code = "codeSizeBreakdown",
+        //        RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>() { 
+        //            new RO_Garment_SizeBreakdown_Detail() {
+
+        //        Id=0,
+        //        Code="anycode"
+        //        } }
+
+        //    };
+
+        //    RO_Garment_SizeBreakdownServiceObj.OnUpdating(24, model); 
+            
+        //}
+
+
+       
 
         [Fact]
-        public void Should_Success_OnUpdating()
+        public async void ReadByIdAsync_Return_NotImplementedException()
         {
+
             string testName = GetCurrentMethod();
-
             var dbContext = _dbContext(testName);
-
-            RO_Garment_SizeBreakdownService RO_Garment_SizeBreakdownServiceObj = new RO_Garment_SizeBreakdownService(GetServiceProvider(testName).Object);
-
-            dbContext.RO_Garment_SizeBreakdowns.Add(new RO_Garment_SizeBreakdown() { 
-                Id= 24,
-                Code = "codeSizeBreakdown", 
-                _CreatedAgent = "ade", 
-                _CreatedBy = "ade", 
-                _LastModifiedAgent = "ade",
-                _LastModifiedBy = "ade",
-                RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>() {
-                    new RO_Garment_SizeBreakdown_Detail() {
-                        Id= 24,
-                        Code ="anycode",
-                } }
-            });
-            dbContext.SaveChanges();
-
             RO_Garment_SizeBreakdown model = new RO_Garment_SizeBreakdown()
             {
-                Id=24,
-                Code = "codeSizeBreakdown",
-                RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>() { 
-                    new RO_Garment_SizeBreakdown_Detail() {
-
-                Id=0,
-                Code="anycode"
-                } }
-
+                Id =43,
+                RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>() { new RO_Garment_SizeBreakdown_Detail() { RO_Garment_SizeBreakdownId = 1 } }
             };
 
-            RO_Garment_SizeBreakdownServiceObj.OnUpdating(24, model); 
-            
+
+            dbContext.RO_Garment_SizeBreakdowns.Add(model);
+            dbContext.SaveChanges();
+            RO_Garment_SizeBreakdownService RO_Garment_SizeBreakdownServiceObj = new RO_Garment_SizeBreakdownService(GetServiceProvider(testName).Object);
+          //  var result = await RO_Garment_SizeBreakdownServiceObj.ReadByIdAsync(43);
+            await Assert.ThrowsAsync<NotImplementedException>(() => RO_Garment_SizeBreakdownServiceObj.ReadByIdAsync(43));
         }
 
 
-        //[Fact]
-        //public void MapToViewModel_Return_Success()
-        //{
-        //    RO_Garment_SizeBreakdown model = new RO_Garment_SizeBreakdown()
-        //    {
-        //        RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>() { new RO_Garment_SizeBreakdown_Detail() { RO_Garment_SizeBreakdownId = 1 } }
-        //    };
-        //    RO_Garment_SizeBreakdownService RO_Garment_SizeBreakdownServiceObj = new RO_Garment_SizeBreakdownService(GetServiceProvider().Object);
-        //    var result = RO_Garment_SizeBreakdownServiceObj.MapToViewModel(model);
-        //    Assert.NotNull(result);
-        //}
+        [Fact]
+        public void Read_Return_NotImplementedException()
+        {
+
+            string testName = GetCurrentMethod();
+            var dbContext = _dbContext(testName);
+            RO_Garment_SizeBreakdown model = new RO_Garment_SizeBreakdown()
+            {
+                Id = 43,
+                RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_Detail>() { new RO_Garment_SizeBreakdown_Detail() { RO_Garment_SizeBreakdownId = 1 } }
+            };
 
 
-        //[Fact]
-        //public void MapToModel_Return_Success()
-        //{
-        //    RO_Garment_SizeBreakdownViewModel viewmodel = new RO_Garment_SizeBreakdownViewModel()
-        //    {
-        //        Color = new ArticleColorViewModel() {Id=1,Name="nama"},
-        //        RO_Garment_SizeBreakdown_Details = new List<RO_Garment_SizeBreakdown_DetailViewModel>() { new RO_Garment_SizeBreakdown_DetailViewModel() { } }
-        //    };
-        //    RO_Garment_SizeBreakdownService RO_Garment_SizeBreakdownServiceObj = new RO_Garment_SizeBreakdownService(GetServiceProvider().Object) {
-
-        //    };
-
-
-        //    var result = RO_Garment_SizeBreakdownServiceObj.MapToModel(viewmodel);
-        //    Assert.NotNull(result);
-        //}
-
+            dbContext.RO_Garment_SizeBreakdowns.Add(model);
+            dbContext.SaveChanges();
+            RO_Garment_SizeBreakdownService RO_Garment_SizeBreakdownServiceObj = new RO_Garment_SizeBreakdownService(GetServiceProvider(testName).Object);
+           
+            Assert.Throws<NotImplementedException>(() => RO_Garment_SizeBreakdownServiceObj.Read(1, 25, "{}", new List<string>() { "test ade" }, "test ", "{}"));
+        }
     }
 }

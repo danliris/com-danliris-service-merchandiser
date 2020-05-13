@@ -1,6 +1,7 @@
 ﻿using Com.Danliris.Service.Merchandiser.Lib;
 using Com.Danliris.Service.Merchandiser.Lib.Models;
 using Com.Danliris.Service.Merchandiser.Lib.Services;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities;
 using Com.Danliris.Service.Merchandiser.Lib.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -45,6 +46,10 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
             serviceProvider.Setup(s => s.GetService(typeof(MerchandiserDbContext)))
                 .Returns(_dbContext(testname));
 
+            serviceProvider
+              .Setup(x => x.GetService(typeof(IIdentityService)))
+              .Returns(new IdentityService() { Token = "Token", Username = "username" });
+
             return serviceProvider;
         }
 
@@ -61,19 +66,20 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
 
         }
 
-        [Fact]
-        public void Should_Success_OnCreating()
-        {
-            string testName = GetCurrentMethod();
+        // Method not found
+        //[Fact]
+        //public void Should_Success_OnCreating()
+        //{
+        //    string testName = GetCurrentMethod();
 
-            RO_Garment_SizeBreakdown_Detail model = new RO_Garment_SizeBreakdown_Detail()
-            {
-                Code = "anycode"
-            };
-            RO_Garment_SizeBreakdown_DetailService RO_Garment_Size_Detail_ServiceObj = new RO_Garment_SizeBreakdown_DetailService(GetServiceProvider(testName).Object);
+        //    RO_Garment_SizeBreakdown_Detail model = new RO_Garment_SizeBreakdown_Detail()
+        //    {
+        //        Code = "anycode"
+        //    };
+        //    RO_Garment_SizeBreakdown_DetailService RO_Garment_Size_Detail_ServiceObj = new RO_Garment_SizeBreakdown_DetailService(GetServiceProvider(testName).Object);
 
-            RO_Garment_Size_Detail_ServiceObj.OnCreating(model);
-        }
+        //    RO_Garment_Size_Detail_ServiceObj.OnCreating(model);
+        //}
 
         [Fact]
         public void MapToViewModel_Return_Success()
@@ -95,5 +101,48 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
             Assert.NotNull(result);
         }
 
+
+        [Fact]
+        public async void ReadByIdAsync_Return_Success()
+        {
+
+            string testName = GetCurrentMethod();
+            var dbContext = _dbContext(testName);
+
+            RO_Garment_SizeBreakdown_Detail model = new RO_Garment_SizeBreakdown_Detail()
+            {
+                Id = 41,
+               
+            };
+            dbContext.RO_Garment_SizeBreakdown_Details.Add(model);
+            dbContext.SaveChanges();
+
+            RO_Garment_SizeBreakdown_DetailService RO_Garment_SizeBreakdown_DetailServiceObj = new RO_Garment_SizeBreakdown_DetailService(GetServiceProvider(testName).Object);
+          //  var result = await RO_Garment_SizeBreakdown_DetailServiceObj.ReadByIdAsync(41);
+            await Assert.ThrowsAsync<NotImplementedException>(() => RO_Garment_SizeBreakdown_DetailServiceObj.ReadByIdAsync(41));
+
+        }
+
+
+        [Fact]
+        public void Read_Return_NotImplementedException()
+        {
+
+            string testName = GetCurrentMethod();
+            var dbContext = _dbContext(testName);
+
+            RO_Garment_SizeBreakdown_Detail model = new RO_Garment_SizeBreakdown_Detail()
+            {
+                Id = 41,
+
+            };
+            dbContext.RO_Garment_SizeBreakdown_Details.Add(model);
+            dbContext.SaveChanges();
+
+            RO_Garment_SizeBreakdown_DetailService RO_Garment_SizeBreakdown_DetailServiceObj = new RO_Garment_SizeBreakdown_DetailService(GetServiceProvider(testName).Object);
+             
+           Assert.Throws<NotImplementedException>(() => RO_Garment_SizeBreakdown_DetailServiceObj.Read(1, 25, "{}", new List<string>() { "select test" }, "keyword test", "{}"));
+
+        }
     }
 }

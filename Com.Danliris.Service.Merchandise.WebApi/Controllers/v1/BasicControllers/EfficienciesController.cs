@@ -39,6 +39,7 @@ namespace Com.Danliris.Service.Merchandiser.WebApi.Controllers.v1.BasicControlle
             try
             {
                 var model = await _facade.ReadModelByQuantity(Quantity);
+              
 
                 if (model == null)
                 {

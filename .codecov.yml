@@ -1,4 +1,0 @@
-ignore:
-	- "Com.Danliris.Service.Merchandiser.Test"
-	- "Com.Danliris.Service.Test"
-	- "Com.Danliris.Service.Merchandise.Lib/Migrations"

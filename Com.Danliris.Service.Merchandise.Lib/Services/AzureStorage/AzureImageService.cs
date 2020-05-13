@@ -5,6 +5,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -130,6 +131,8 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services.AzureStorage
 
             if (beforeImagePaths != null)
             {
+               
+
                 List<string> beforePaths = JsonConvert.DeserializeObject<List<string>>(beforeImagePaths);
                 string imagesPath = JsonConvert.SerializeObject(await this.RemoveLeftoverImage(moduleName, beforePaths, afterPaths.ToList<string>()));
                 return imagesPath;
@@ -137,6 +140,7 @@ namespace Com.Danliris.Service.Merchandiser.Lib.Services.AzureStorage
 
             return JsonConvert.SerializeObject(afterPaths.ToList<string>());
         }
+
 
         private async Task<List<string>> RemoveLeftoverImage(string moduleName, List<string> before, List<string> after)
         {

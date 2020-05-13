@@ -1,6 +1,7 @@
 ﻿using Com.Danliris.Service.Merchandiser.Lib;
 using Com.Danliris.Service.Merchandiser.Lib.Models;
 using Com.Danliris.Service.Merchandiser.Lib.Services;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities;
 using Com.Danliris.Service.Merchandiser.Lib.ViewModels;
 using Com.Danliris.Service.Merchandiser.Test.DataUtilities;
 using Microsoft.EntityFrameworkCore;
@@ -49,7 +50,12 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
             serviceProvider.Setup(s => s.GetService(typeof(MerchandiserDbContext)))
                 .Returns(_dbContext(testname));
 
+            serviceProvider
+              .Setup(x => x.GetService(typeof(IIdentityService)))
+              .Returns(new IdentityService() { Token = "Token", Username = "username" });
+
             return serviceProvider;
+
         }
 
         private ArticleColorDataUtil _dataUtil(ArticleColorService service)
@@ -96,5 +102,105 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
             var result = ArticleColorServiceObj.MapToModel(viewModel);
             Assert.NotNull(result);
         }
+
+        [Fact]
+        public void Read_Return_Succes()
+        {
+            string testName = GetCurrentMethod();
+            var dbContext = _dbContext(testName);
+            ArticleColorService ArticleColorServiceObj = new ArticleColorService(GetServiceProvider(testName).Object);
+            dbContext.ArticleColors.Add(new ArticleColor() { Id = 1, Active = true, Name = "Name Test" });
+            dbContext.SaveChanges();
+
+            var result = ArticleColorServiceObj.Read(1, 25, "{}", new List<string>() { "select test" }, "keyword test", "{}");
+            Assert.NotNull(result);
+
+        }
+
+        [Fact]
+        public async void CreateAsync_Return_Succes()
+        {
+            string testName = GetCurrentMethod();
+            var dbContext = _dbContext(testName);
+            ArticleColorService ArticleColorServiceObj = new ArticleColorService(GetServiceProvider(testName).Object);
+            ArticleColor model = new ArticleColor() { Id = 43, Active = true, Name = "Name Test" };
+            var result =await ArticleColorServiceObj.CreateAsync(model);
+            Assert.NotNull(result);
+
+        }
+
+        [Fact]
+        public async void UpdateAsync_Return_Succes()
+        {
+            string testName = GetCurrentMethod();
+            var dbContext = _dbContext(testName);
+            ArticleColorService ArticleColorServiceObj = new ArticleColorService(GetServiceProvider(testName).Object);
+            
+            ArticleColor model = new ArticleColor() { 
+                Id = 42, 
+                Active = true,
+                Name = "Name Test" 
+            };
+
+            dbContext.ArticleColors.Add(model);
+            dbContext.SaveChanges();
+
+
+            ArticleColor new_model = new ArticleColor()
+            {
+                Id = 42,
+                Active = true,
+                Name = "Name Test"
+            };
+
+            var result =await  ArticleColorServiceObj.UpdateAsync(42, new_model);
+            Assert.NotNull(result);
+
+        }
+
+        [Fact]
+        public async void DeleteAsync_Return_Succes()
+        {
+            string testName = GetCurrentMethod();
+            var dbContext = _dbContext(testName);
+            ArticleColorService ArticleColorServiceObj = new ArticleColorService(GetServiceProvider(testName).Object);
+
+            ArticleColor model = new ArticleColor()
+            {
+                Id = 44,
+                Active = true,
+                Name = "Name Test"
+            };
+
+            dbContext.ArticleColors.Add(model);
+            dbContext.SaveChanges();
+
+            var result = await ArticleColorServiceObj.DeleteAsync(44);
+            Assert.NotNull(result);
+
+        }
+
+        [Fact]
+        public async void ReadByIdAsync_Return_Succes()
+        {
+            string testName = GetCurrentMethod();
+            var dbContext = _dbContext(testName);
+            ArticleColorService ArticleColorServiceObj = new ArticleColorService(GetServiceProvider(testName).Object);
+
+            ArticleColor model = new ArticleColor()
+            {
+                Id = 45,
+                Active = true,
+                Name = "Name Test"
+            };
+
+            dbContext.ArticleColors.Add(model);
+            dbContext.SaveChanges();
+
+            var result = await ArticleColorServiceObj.ReadByIdAsync(45);
+            Assert.NotNull(result);
+
+        }
+
     }
 }

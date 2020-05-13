@@ -13,6 +13,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
+using Com.Danliris.Service.Merchandiser.Lib.Ultilities;
 
 namespace Com.Danliris.Service.Merchandiser.Test.Services
 {
@@ -49,6 +50,10 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
            
             serviceProvider.Setup(s => s.GetService(typeof(MerchandiserDbContext)))
                 .Returns(_dbContext(testname));
+
+            serviceProvider
+              .Setup(x => x.GetService(typeof(IIdentityService)))
+              .Returns(new IdentityService() { Token = "Token", Username = "username" });
             return serviceProvider;
         }
 
@@ -60,7 +65,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.Services
 
             LineService LineServiceObj = new LineService(GetServiceProvider(testName).Object);
 
-            dbContext.Lines.Add(new Line() { Code = "test", Name = "test ", _CreatedAgent = "ade", _CreatedBy = "ade", _LastModifiedAgent = "ade", _LastModifiedBy = "ade" });
+            dbContext.Lines.Add(new Line() { Code = "test", Name = "test ", CreatedAgent = "ade", CreatedBy = "ade", LastModifiedAgent = "ade", LastModifiedBy = "ade" });
             dbContext.SaveChanges();
 
             var result = LineServiceObj.ReadModel(1, 25, "{}", new List<string>() { "test ade" }, "test ", "{}");

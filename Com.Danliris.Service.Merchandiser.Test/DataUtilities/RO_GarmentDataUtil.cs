@@ -35,14 +35,25 @@ namespace Com.Danliris.Service.Merchandiser.Test.DataUtilities
                 ImagesPath = imagepath,
                 Active = true,
                 Code = "code test",
-                _CreatedAgent = "created agen",
-                _CreatedBy = "ade",
+                CreatedAgent = "created agen",
+                CreatedBy = "ade",
               
                 CostCalculationGarment = new CostCalculationGarment() { 
                     
                     ImagePath= imagepath,
                     Id =1,
-                    Active =true,BuyerId="buyer_id",_IsDeleted=false},
+                    Active =true,
+                    BuyerId="buyer_id",
+                    IsDeleted=false,
+                    CostCalculationGarment_Materials = new List<CostCalculationGarment_Material>()
+                    {
+                        new CostCalculationGarment_Material()
+                        {
+                            CreatedAgent="create agent",
+                            CreatedBy = "someone",
+                        }
+                    }
+                },
                 CostCalculationGarmentId = 1,
                 RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown>() { new RO_Garment_SizeBreakdown() {
                     Code="code RO_Garment_SizeBreakdowns",
@@ -74,8 +85,8 @@ namespace Com.Danliris.Service.Merchandiser.Test.DataUtilities
                 ImagesPath = imagepath,
                 Active = true,
                 Code = "code test",
-                _CreatedAgent = "created agen",
-                _CreatedBy = "ade",
+                CreatedAgent = "created agen",
+                CreatedBy = "ade",
                 
 
                 CostCalculationGarment = new CostCalculationGarment()
@@ -85,7 +96,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.DataUtilities
                     Id = 2,
                     Active = true,
                     BuyerId = "buyer_id",
-                    _IsDeleted = false,
+                    IsDeleted = false,
 
                 },
                 CostCalculationGarmentId = 1,
@@ -125,8 +136,8 @@ namespace Com.Danliris.Service.Merchandiser.Test.DataUtilities
                 ImagesPath = imagepath,
                 Active = true,
                 Code = "code test",
-                _CreatedAgent = "created agen",
-                _CreatedBy = "ade",
+                CreatedAgent = "created agen",
+                CreatedBy = "ade",
 
                 CostCalculationGarment = new CostCalculationGarment()
                 {
@@ -135,7 +146,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.DataUtilities
                     Id = 21,
                     Active = true,
                     BuyerId = "buyer_id",
-                    _IsDeleted = false
+                    IsDeleted = false
                 },
                 CostCalculationGarmentId = 21,
                 RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown>() { new RO_Garment_SizeBreakdown() {
@@ -169,17 +180,22 @@ namespace Com.Danliris.Service.Merchandiser.Test.DataUtilities
                 ImagesPath = imagepath,
                 Active = true,
                 Code = "code test",
-                _CreatedAgent = "created agen",
-                _CreatedBy = "ade",
+                CreatedAgent = "created agen",
+                CreatedBy = "ade",
 
                 CostCalculationGarment = new CostCalculationGarment()
                 {
-
+                    CostCalculationGarment_Materials = new List<CostCalculationGarment_Material>() {
+                    new CostCalculationGarment_Material()
+                    {
+                        Id=22,
+                    }
+                    },
                     ImagePath = imagepath,
                     Id = 22,
                     Active = true,
                     BuyerId = "buyer_id",
-                    _IsDeleted = false
+                    IsDeleted = false
                 },
                 CostCalculationGarmentId = 22,
                 RO_Garment_SizeBreakdowns = new List<RO_Garment_SizeBreakdown>() { new RO_Garment_SizeBreakdown() {
@@ -192,6 +208,7 @@ namespace Com.Danliris.Service.Merchandiser.Test.DataUtilities
                     }
 
                 } },
+                
             };
             return TestData;
         }
